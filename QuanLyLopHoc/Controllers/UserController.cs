@@ -11,22 +11,22 @@ namespace QuanLyLopHoc.Controllers
             return View();
         }
 
-        // GET: UserController/Details/5
-        public ActionResult Details(int id)
+        // GET: UserController/Login
+        public ActionResult Login(int id)
         {
             return View();
         }
 
-        // GET: UserController/Create
-        public ActionResult Create()
+        // GET: UserController/Register
+        public ActionResult Register()
         {
             return View();
         }
 
-        // POST: UserController/Create
+        // POST: UserController/Register
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Register(IFormCollection collection)
         {
             try
             {
@@ -38,16 +38,16 @@ namespace QuanLyLopHoc.Controllers
             }
         }
 
-        // GET: UserController/Edit/5
-        public ActionResult Edit(int id)
+        // GET: UserController/ResetPassword
+        public ActionResult ResetPassword(int id)
         {
             return View();
         }
 
-        // POST: UserController/Edit/5
+        // POST: UserController/ResetPassword
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult ResetPassword(int id, IFormCollection collection)
         {
             try
             {
