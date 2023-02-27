@@ -2,16 +2,16 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace QuanLyLopHoc.Models
+namespace QuanLyLopHoc.Models.Entities
 {
     [Table("TeacherTranscript")]
     public class TeacherTranscript
     {
-        [Key]
         [Column(TypeName = "CHAR(32)")]
-        public string UserId;
-        [Key]
+        public string UserId { get; set; }
+        public virtual UserClass User { get;set; }
         [Column(TypeName = "CHAR(32)")]
-        public string TranscriptId;
+        public string TranscriptId { get; set; }
+        public virtual Transcript Transcript { get;set; }
     }
 }

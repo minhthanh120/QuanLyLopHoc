@@ -2,16 +2,16 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace QuanLyLopHoc.Models
+namespace QuanLyLopHoc.Models.Entities
 {
     [Table("TeacherSubject")]
     public class TeacherSubject
     {
-        [Key]
         [Column(TypeName = "CHAR(32)")]
-        public string UserId;
-        [Key]
+        public string UserId { get; set; }
+        public virtual UserClass User { get; set; }
         [Column(TypeName = "CHAR(32)")]
-        public string SubjectId;
+        public string SubjectId { get; set; }
+        public virtual Subject Subject { get; set; }
     }
 }
