@@ -12,12 +12,14 @@ namespace QuanLyLopHoc.Models.Entities
         [Column(TypeName = " CHAR(32)")]
         public string Id { get; set; }// PRIMARY KEY,
         [Column(TypeName = "NVARCHAR(20)")]
-        public string FirstName;// NOT NULL,
+        public string FirstName { get; set; }// NOT NULL,
         [Column(TypeName = "NVARCHAR(20)")]
         public string LastName { get; set; }// NOT NULL
         [Column(TypeName = "NVARCHAR(20)")]
         public string City { get; set; }
-        public DateTime BirthDay;
+        public DateTime BirthDay { get; set; }
+        [Column(TypeName = "Char(12)")]
+        public string Phone { get; set; }
         public bool Gender { get; set; }// BINARY;
         [Column(TypeName = "NVARCHAR(100)")]
         public string School { get; set; }// NVARCHAR(100);
