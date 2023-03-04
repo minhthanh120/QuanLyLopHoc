@@ -19,7 +19,8 @@ namespace QuanLyLopHoc.Models
         public virtual DbSet<UserClass> Users { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=.\\SQLEXPRESS;Initial Catalog=SUBJECTCLASS;Integrated Security=True;TrustServerCertificate=True");
+            optionsBuilder.UseSqlServer("Data Source=DESKTOP-L67U4QK;Initial Catalog=SUBJECTCLASS;Integrated Security=True;TrustServerCertificate=True");
+            //Data Source=DESKTOP-L67U4QK;Initial Catalog=tempdb;Integrated Security=True
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
