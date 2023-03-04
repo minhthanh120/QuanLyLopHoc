@@ -19,7 +19,7 @@ namespace QuanLyLopHoc.Models.Entities
         [Required]
         [Column(TypeName = "NTEXT")]
         public string Content { get; set; }
-        public virtual UserClass Sender { get; set; }
-        public virtual UserClass Receiver { get;set; }
+        public virtual User Sender { get; set; }
+        public virtual User Receiver { get;set; }
     }
 }

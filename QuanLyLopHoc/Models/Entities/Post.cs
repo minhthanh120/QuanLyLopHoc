@@ -20,7 +20,7 @@ namespace QuanLyLopHoc.Models.Entities
         public string Content { get; set; }
         [Required]
         public DateTime PostTime { get; set; }
-        public virtual UserClass User { get; set; }
+        public virtual User User { get; set; }
         [Required]
         [Column(TypeName = "CHAR(32)")]
         public string SubjectId { get; set; }

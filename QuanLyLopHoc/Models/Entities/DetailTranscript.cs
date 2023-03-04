@@ -16,6 +16,6 @@ namespace QuanLyLopHoc.Models.Entities
         public decimal DiemTX { get; set; }
         public decimal DiemCK { get; set; }
         public virtual Transcript Transcript { get; set; }
-        public virtual UserClass Student { get; set; }
+        public virtual User Student { get; set; }
     }
 }

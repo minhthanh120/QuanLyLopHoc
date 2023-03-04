@@ -5,8 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QuanLyLopHoc.Models.Entities
 {
-    [Table("UserClass")]
-    public class UserClass
+    [Table("UserInfo")]
+    public class User
     {
         [Key]
         [Column(TypeName = " CHAR(32)")]
