@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using QuanLyLopHoc.Models.Entities;
 
 namespace QuanLyLopHoc.Models
 {
-    public class SMContext : DbContext
+    public class SMContext : IdentityDbContext<ApplicationUser>
     {
         //public SMContext() { }
         public virtual DbSet<DetailTranscript> Details { get; set; }
@@ -16,13 +17,14 @@ namespace QuanLyLopHoc.Models
         public virtual DbSet<TeacherSubject> TeacherSubjects { get; set; }
         public virtual DbSet<TeacherTranscript> TeacherTranscripts { get; set; }
         public virtual DbSet<Transcript> Transcripts { get; set; }
-        public virtual DbSet<UserClass> Users { get; set; }
+        public virtual DbSet<User> Users { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Data Source=.\\SQLEXPRESS;Initial Catalog=SUBJECTCLASS;Integrated Security=True;TrustServerCertificate=True");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<DetailTranscript>().HasKey(pk => new { pk.UserId, pk.TranscriptId });
             modelBuilder.Entity<DetailTranscript>()
                 .HasOne(pk => pk.Student)
@@ -100,7 +102,7 @@ namespace QuanLyLopHoc.Models
             modelBuilder.Entity<PostType>().HasKey(pk => new { pk.Id });
             modelBuilder.Entity<Subject>().HasKey(pk => new { pk.Id });
             
-            modelBuilder.Entity<UserClass>().HasKey(pk => new { pk.Id });
+            modelBuilder.Entity<User>().HasKey(pk => new { pk.Id });
 
 
         }
