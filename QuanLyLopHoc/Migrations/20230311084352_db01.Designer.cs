@@ -12,8 +12,8 @@ using QuanLyLopHoc.Models;
 namespace QuanLyLopHoc.Migrations
 {
     [DbContext(typeof(SMContext))]
-    [Migration("20230304165241_db-03")]
-    partial class db03
+    [Migration("20230311084352_db01")]
+    partial class db01
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

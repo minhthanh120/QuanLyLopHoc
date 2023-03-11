@@ -234,6 +234,9 @@ namespace QuanLyLopHoc.Migrations
                     b.Property<decimal>("DiemCK")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<decimal>("DiemTB")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<decimal>("DiemTX")
                         .HasColumnType("decimal(18,2)");
 
@@ -282,6 +285,10 @@ namespace QuanLyLopHoc.Migrations
                         .IsRequired()
                         .HasColumnType("NTEXT");
 
+                    b.Property<string>("CreatorId")
+                        .IsRequired()
+                        .HasColumnType("CHAR(32)");
+
                     b.Property<DateTime>("PostTime")
                         .HasColumnType("datetime2");
 
@@ -294,39 +301,20 @@ namespace QuanLyLopHoc.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("TypeId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("CHAR(32)");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
 
                     b.HasIndex("SubjectId");
 
-                    b.HasIndex("TypeId");
-
-                    b.HasIndex("UserId");
-
                     b.ToTable("Post");
-                });
-
-            modelBuilder.Entity("QuanLyLopHoc.Models.Entities.PostType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("TypeName")
-                        .IsRequired()
-                        .HasColumnType("NVARCHAR(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PostType");
                 });
 
             modelBuilder.Entity("QuanLyLopHoc.Models.Entities.StudentSubject", b =>
@@ -349,6 +337,10 @@ namespace QuanLyLopHoc.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("CHAR(32)");
 
+                    b.Property<string>("CreatorId")
+                        .IsRequired()
+                        .HasColumnType(" CHAR(32)");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("NTEXT");
@@ -358,6 +350,8 @@ namespace QuanLyLopHoc.Migrations
                         .HasColumnType("NVARCHAR(50)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
 
                     b.ToTable("Subject");
                 });
@@ -397,11 +391,17 @@ namespace QuanLyLopHoc.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("CHAR(32)");
 
+                    b.Property<string>("CreatorId")
+                        .IsRequired()
+                        .HasColumnType(" CHAR(32)");
+
                     b.Property<string>("SubjectId")
                         .IsRequired()
                         .HasColumnType("CHAR(32)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
 
                     b.HasIndex("SubjectId");
 
@@ -549,27 +549,19 @@ namespace QuanLyLopHoc.Migrations
 
             modelBuilder.Entity("QuanLyLopHoc.Models.Entities.Post", b =>
                 {
+                    b.HasOne("QuanLyLopHoc.Models.Entities.User", "User")
+                        .WithMany("Posts")
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("QuanLyLopHoc.Models.Entities.Subject", "Subject")
                         .WithMany("Posts")
                         .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("QuanLyLopHoc.Models.Entities.PostType", "Type")
-                        .WithMany("Posts")
-                        .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("QuanLyLopHoc.Models.Entities.User", "User")
-                        .WithMany("Posts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Subject");
-
-                    b.Navigation("Type");
 
                     b.Navigation("User");
                 });
@@ -591,6 +583,16 @@ namespace QuanLyLopHoc.Migrations
                     b.Navigation("Subject");
 
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("QuanLyLopHoc.Models.Entities.Subject", b =>
+                {
+                    b.HasOne("QuanLyLopHoc.Models.Entities.User", "Creator")
+                        .WithMany("CreatedSubject")
+                        .HasForeignKey("CreatorId")
+                        .IsRequired();
+
+                    b.Navigation("Creator");
                 });
 
             modelBuilder.Entity("QuanLyLopHoc.Models.Entities.TeacherSubject", b =>
@@ -633,18 +635,20 @@ namespace QuanLyLopHoc.Migrations
 
             modelBuilder.Entity("QuanLyLopHoc.Models.Entities.Transcript", b =>
                 {
+                    b.HasOne("QuanLyLopHoc.Models.Entities.User", "Creator")
+                        .WithMany("CreatedTranscript")
+                        .HasForeignKey("CreatorId")
+                        .IsRequired();
+
                     b.HasOne("QuanLyLopHoc.Models.Entities.Subject", "Subject")
                         .WithMany("Transcripts")
                         .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Subject");
-                });
+                    b.Navigation("Creator");
 
-            modelBuilder.Entity("QuanLyLopHoc.Models.Entities.PostType", b =>
-                {
-                    b.Navigation("Posts");
+                    b.Navigation("Subject");
                 });
 
             modelBuilder.Entity("QuanLyLopHoc.Models.Entities.Subject", b =>
@@ -667,6 +671,10 @@ namespace QuanLyLopHoc.Migrations
 
             modelBuilder.Entity("QuanLyLopHoc.Models.Entities.User", b =>
                 {
+                    b.Navigation("CreatedSubject");
+
+                    b.Navigation("CreatedTranscript");
+
                     b.Navigation("Details");
 
                     b.Navigation("Posts");

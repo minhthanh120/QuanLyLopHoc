@@ -12,8 +12,8 @@ using QuanLyLopHoc.Models;
 namespace QuanLyLopHoc.Migrations
 {
     [DbContext(typeof(SMContext))]
-    [Migration("20230228084304_db02")]
-    partial class db02
+    [Migration("20230311135939_db03")]
+    partial class db03
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,204 @@ namespace QuanLyLopHoc.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("QuanLyLopHoc.Models.Entities.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
+                });
 
             modelBuilder.Entity("QuanLyLopHoc.Models.Entities.DetailTranscript", b =>
                 {
@@ -37,6 +235,9 @@ namespace QuanLyLopHoc.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("DiemCK")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("DiemTB")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("DiemTX")
@@ -87,6 +288,10 @@ namespace QuanLyLopHoc.Migrations
                         .IsRequired()
                         .HasColumnType("NTEXT");
 
+                    b.Property<string>("CreatorId")
+                        .IsRequired()
+                        .HasColumnType("CHAR(32)");
+
                     b.Property<DateTime>("PostTime")
                         .HasColumnType("datetime2");
 
@@ -99,39 +304,20 @@ namespace QuanLyLopHoc.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("TypeId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("CHAR(32)");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
 
                     b.HasIndex("SubjectId");
 
-                    b.HasIndex("TypeId");
-
-                    b.HasIndex("UserId");
-
                     b.ToTable("Post");
-                });
-
-            modelBuilder.Entity("QuanLyLopHoc.Models.Entities.PostType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("TypeName")
-                        .IsRequired()
-                        .HasColumnType("NVARCHAR(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PostType");
                 });
 
             modelBuilder.Entity("QuanLyLopHoc.Models.Entities.StudentSubject", b =>
@@ -154,6 +340,10 @@ namespace QuanLyLopHoc.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("CHAR(32)");
 
+                    b.Property<string>("CreatorId")
+                        .IsRequired()
+                        .HasColumnType(" CHAR(32)");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("NTEXT");
@@ -163,6 +353,8 @@ namespace QuanLyLopHoc.Migrations
                         .HasColumnType("NVARCHAR(50)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
 
                     b.ToTable("Subject");
                 });
@@ -202,18 +394,24 @@ namespace QuanLyLopHoc.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("CHAR(32)");
 
+                    b.Property<string>("CreatorId")
+                        .IsRequired()
+                        .HasColumnType(" CHAR(32)");
+
                     b.Property<string>("SubjectId")
                         .IsRequired()
                         .HasColumnType("CHAR(32)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CreatorId");
+
                     b.HasIndex("SubjectId");
 
                     b.ToTable("Transcript");
                 });
 
-            modelBuilder.Entity("QuanLyLopHoc.Models.Entities.UserClass", b =>
+            modelBuilder.Entity("QuanLyLopHoc.Models.Entities.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType(" CHAR(32)");
@@ -262,7 +460,58 @@ namespace QuanLyLopHoc.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserClass");
+                    b.ToTable("UserInfo");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("QuanLyLopHoc.Models.Entities.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("QuanLyLopHoc.Models.Entities.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("QuanLyLopHoc.Models.Entities.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("QuanLyLopHoc.Models.Entities.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("QuanLyLopHoc.Models.Entities.DetailTranscript", b =>
@@ -273,7 +522,7 @@ namespace QuanLyLopHoc.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("QuanLyLopHoc.Models.Entities.UserClass", "Student")
+                    b.HasOne("QuanLyLopHoc.Models.Entities.User", "Student")
                         .WithMany("Details")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -286,12 +535,12 @@ namespace QuanLyLopHoc.Migrations
 
             modelBuilder.Entity("QuanLyLopHoc.Models.Entities.Message", b =>
                 {
-                    b.HasOne("QuanLyLopHoc.Models.Entities.UserClass", "Receiver")
+                    b.HasOne("QuanLyLopHoc.Models.Entities.User", "Receiver")
                         .WithMany("Received")
                         .HasForeignKey("ReceiverId")
                         .IsRequired();
 
-                    b.HasOne("QuanLyLopHoc.Models.Entities.UserClass", "Sender")
+                    b.HasOne("QuanLyLopHoc.Models.Entities.User", "Sender")
                         .WithMany("Sent")
                         .HasForeignKey("SenderId")
                         .IsRequired();
@@ -303,27 +552,19 @@ namespace QuanLyLopHoc.Migrations
 
             modelBuilder.Entity("QuanLyLopHoc.Models.Entities.Post", b =>
                 {
+                    b.HasOne("QuanLyLopHoc.Models.Entities.User", "User")
+                        .WithMany("Posts")
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("QuanLyLopHoc.Models.Entities.Subject", "Subject")
                         .WithMany("Posts")
                         .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("QuanLyLopHoc.Models.Entities.PostType", "Type")
-                        .WithMany("Posts")
-                        .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("QuanLyLopHoc.Models.Entities.UserClass", "User")
-                        .WithMany("Posts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Subject");
-
-                    b.Navigation("Type");
 
                     b.Navigation("User");
                 });
@@ -336,7 +577,7 @@ namespace QuanLyLopHoc.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("QuanLyLopHoc.Models.Entities.UserClass", "Users")
+                    b.HasOne("QuanLyLopHoc.Models.Entities.User", "Users")
                         .WithMany("StudentSubjects")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -347,6 +588,16 @@ namespace QuanLyLopHoc.Migrations
                     b.Navigation("Users");
                 });
 
+            modelBuilder.Entity("QuanLyLopHoc.Models.Entities.Subject", b =>
+                {
+                    b.HasOne("QuanLyLopHoc.Models.Entities.User", "Creator")
+                        .WithMany("CreatedSubject")
+                        .HasForeignKey("CreatorId")
+                        .IsRequired();
+
+                    b.Navigation("Creator");
+                });
+
             modelBuilder.Entity("QuanLyLopHoc.Models.Entities.TeacherSubject", b =>
                 {
                     b.HasOne("QuanLyLopHoc.Models.Entities.Subject", "Subject")
@@ -355,7 +606,7 @@ namespace QuanLyLopHoc.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("QuanLyLopHoc.Models.Entities.UserClass", "User")
+                    b.HasOne("QuanLyLopHoc.Models.Entities.User", "User")
                         .WithMany("TeacherSubjects")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -374,7 +625,7 @@ namespace QuanLyLopHoc.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("QuanLyLopHoc.Models.Entities.UserClass", "User")
+                    b.HasOne("QuanLyLopHoc.Models.Entities.User", "User")
                         .WithMany("TeacherTranscripts")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -387,18 +638,20 @@ namespace QuanLyLopHoc.Migrations
 
             modelBuilder.Entity("QuanLyLopHoc.Models.Entities.Transcript", b =>
                 {
+                    b.HasOne("QuanLyLopHoc.Models.Entities.User", "Creator")
+                        .WithMany("CreatedTranscript")
+                        .HasForeignKey("CreatorId")
+                        .IsRequired();
+
                     b.HasOne("QuanLyLopHoc.Models.Entities.Subject", "Subject")
                         .WithMany("Transcripts")
                         .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Subject");
-                });
+                    b.Navigation("Creator");
 
-            modelBuilder.Entity("QuanLyLopHoc.Models.Entities.PostType", b =>
-                {
-                    b.Navigation("Posts");
+                    b.Navigation("Subject");
                 });
 
             modelBuilder.Entity("QuanLyLopHoc.Models.Entities.Subject", b =>
@@ -419,8 +672,12 @@ namespace QuanLyLopHoc.Migrations
                     b.Navigation("TeacherTranscripts");
                 });
 
-            modelBuilder.Entity("QuanLyLopHoc.Models.Entities.UserClass", b =>
+            modelBuilder.Entity("QuanLyLopHoc.Models.Entities.User", b =>
                 {
+                    b.Navigation("CreatedSubject");
+
+                    b.Navigation("CreatedTranscript");
+
                     b.Navigation("Details");
 
                     b.Navigation("Posts");

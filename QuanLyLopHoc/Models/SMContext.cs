@@ -10,7 +10,7 @@ namespace QuanLyLopHoc.Models
         public virtual DbSet<DetailTranscript> Details { get; set; }
         public virtual DbSet<Message> Messages { get; set; }
         public virtual DbSet<Post> Posts { get; set; }
-        public virtual DbSet<PostType> Types { get; set; }
+        //public virtual DbSet<PostType> Types { get; set; }
         public virtual DbSet<Subject> Subjects { get; set; }
         public virtual DbSet<StudentSubject> StudentSubjects { get; set; }
 
@@ -70,11 +70,11 @@ namespace QuanLyLopHoc.Models
             modelBuilder.Entity<Post>()
                 .HasOne(pk => pk.User)
                 .WithMany(pk => pk.Posts)
-                .HasForeignKey(pk => pk.UserId);
-            modelBuilder.Entity<Post>()
-                .HasOne(pk => pk.Type)
-                .WithMany(pk => pk.Posts)
-                .HasForeignKey(pk => pk.TypeId);
+                .HasForeignKey(pk => pk.CreatorId);
+            //modelBuilder.Entity<Post>()
+            //    .HasOne(pk => pk.Type)
+            //    .WithMany(pk => pk.Posts)
+            //    .HasForeignKey(pk => pk.TypeId);
             modelBuilder.Entity<Post>()
                 .HasOne(pk => pk.Subject)
                 .WithMany(pk => pk.Posts)
@@ -95,13 +95,22 @@ namespace QuanLyLopHoc.Models
 
             modelBuilder.Entity<Transcript>().HasKey(pk => new { pk.Id });
             modelBuilder.Entity<Transcript>()
-                .HasOne(s=>s.Subject)
-                .WithMany(g=>g.Transcripts)
-                .HasForeignKey(s => s.SubjectId);
+                .HasOne(pk=>pk.Subject)
+                .WithMany(pk=>pk.Transcripts)
+                .HasForeignKey(pk => pk.SubjectId);
+            modelBuilder.Entity<Transcript>()
+                .HasOne(s => s.Creator)
+                .WithMany(g => g.CreatedTranscript)
+                .HasForeignKey(s => s.CreatorId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
-            modelBuilder.Entity<PostType>().HasKey(pk => new { pk.Id });
+            //modelBuilder.Entity<PostType>().HasKey(pk => new { pk.Id });
             modelBuilder.Entity<Subject>().HasKey(pk => new { pk.Id });
-            
+            modelBuilder.Entity<Subject>()
+                .HasOne(pk => pk.Creator)
+                .WithMany(pk => pk.CreatedSubject)
+                .HasForeignKey(pk => pk.CreatorId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
             modelBuilder.Entity<User>().HasKey(pk => new { pk.Id });
 
 
