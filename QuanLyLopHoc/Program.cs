@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using QuanLyLopHoc.Models;
 using QuanLyLopHoc.Models.Entities;
+using QuanLyLopHoc.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("SMContextConnection") ?? throw new InvalidOperationException("Connection string 'SMContextConnection' not found.");
@@ -29,6 +31,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+//app.UseEndpoints(enpo);
 app.UseAuthentication();;
 
 app.UseAuthorization();
@@ -36,5 +39,5 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
+app.MapRazorPages();
 app.Run();

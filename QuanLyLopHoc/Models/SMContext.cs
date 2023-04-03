@@ -6,7 +6,11 @@ namespace QuanLyLopHoc.Models
 {
     public class SMContext : IdentityDbContext<ApplicationUser>
     {
-        //public SMContext() { }
+        public SMContext() { }
+        public SMContext(DbContextOptions<SMContext> options):base(options)
+        {
+            
+        }
         public virtual DbSet<DetailTranscript> Details { get; set; }
         public virtual DbSet<Message> Messages { get; set; }
         public virtual DbSet<Post> Posts { get; set; }
@@ -18,6 +22,10 @@ namespace QuanLyLopHoc.Models
         public virtual DbSet<TeacherTranscript> TeacherTranscripts { get; set; }
         public virtual DbSet<Transcript> Transcripts { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Notification> Notifications { get; set; }
+        public virtual DbSet<RollCall> RollCalls { get; set; }
+        public virtual DbSet<DetailRollCall> DetailRollCalls { get; set; }
+        public virtual DbSet<Reply> Replies { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Data Source=.\\SQLEXPRESS;Initial Catalog=SUBJECTCLASS;Integrated Security=True;TrustServerCertificate=True");
@@ -34,6 +42,14 @@ namespace QuanLyLopHoc.Models
                 .HasOne(pk => pk.Transcript)
                 .WithMany(pk => pk.Details)
                 .HasForeignKey(pk => pk.TranscriptId);
+            modelBuilder.Entity<DetailRollCall>()
+                .HasOne(pk => pk.RollCall)
+                .WithMany(pk => pk.Details)
+                .HasForeignKey(pk => pk.RollCallId);
+            modelBuilder.Entity<Reply>()
+                .HasOne(pk => pk.OriginPost)
+                .WithMany(pk => pk.Replies)
+                .HasForeignKey(pk => pk.PostId);
 
             modelBuilder.Entity<TeacherTranscript>().HasKey(pk => new { pk.UserId, pk.TranscriptId });
             modelBuilder.Entity<TeacherTranscript>()

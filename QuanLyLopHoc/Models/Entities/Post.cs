@@ -27,5 +27,6 @@ namespace QuanLyLopHoc.Models.Entities
         [Column(TypeName = "CHAR(32)")]
         public string SubjectId { get; set; }
         public virtual Subject Subject { get; set; }
+        public virtual ICollection<Reply> Replies { get; set; }
     }
 }

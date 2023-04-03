@@ -40,5 +40,8 @@ namespace QuanLyLopHoc.Models.Entities
         public virtual ICollection<StudentSubject> StudentSubjects { get;set; }
         public virtual ICollection<Subject> CreatedSubject { get;set; }
         public virtual ICollection<Transcript> CreatedTranscript { get; set; }
+        public virtual ICollection<Notification> Notifications { get; set; }
+        public virtual ICollection<Reply> Replies { get; set; }
+
     }
 }
