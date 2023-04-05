@@ -7,10 +7,8 @@ namespace QuanLyLopHoc.Models.Entities
     public class Post
     {
         [Key]
-        [Column(TypeName = "CHAR(32)")]
         public string Id { get; set; }
         [Required]
-        [Column(TypeName = "CHAR(32)")]
         public string CreatorId { get; set; }
         public int TypeId { get; set; }
         [StringLength(255)]
@@ -24,7 +22,6 @@ namespace QuanLyLopHoc.Models.Entities
         public string Type { get;set; }
         public virtual User User { get; set; }
         [Required]
-        [Column(TypeName = "CHAR(32)")]
         public string SubjectId { get; set; }
         public virtual Subject Subject { get; set; }
         public virtual ICollection<Reply> Replies { get; set; }

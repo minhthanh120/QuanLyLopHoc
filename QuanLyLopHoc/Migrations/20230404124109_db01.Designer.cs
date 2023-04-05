@@ -12,8 +12,8 @@ using QuanLyLopHoc.Models;
 namespace QuanLyLopHoc.Migrations
 {
     [DbContext(typeof(SMContext))]
-    [Migration("20230311135939_db03")]
-    partial class db03
+    [Migration("20230404124109_db01")]
+    partial class db01
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,211 +25,35 @@ namespace QuanLyLopHoc.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+            modelBuilder.Entity("QuanLyLopHoc.Models.Entities.DetailRollCall", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<string>("StudentId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("RollCallId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                    b.Property<DateTime>("RollCallTime")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
-
-                    b.ToTable("AspNetRoles", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RoleId")
+                    b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("AspNetRoleClaims", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
+                    b.HasKey("StudentId", "RollCallId");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.HasIndex("RollCallId");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AspNetUserClaims", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
-                {
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("LoginProvider", "ProviderKey");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AspNetUserLogins", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("UserId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("AspNetUserRoles", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("UserId", "LoginProvider", "Name");
-
-                    b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("QuanLyLopHoc.Models.Entities.ApplicationUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers", (string)null);
+                    b.ToTable("DetailRollCall");
                 });
 
             modelBuilder.Entity("QuanLyLopHoc.Models.Entities.DetailTranscript", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("CHAR(32)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("TranscriptId")
-                        .HasColumnType("CHAR(32)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("DiemCC")
                         .HasColumnType("decimal(18,2)");
@@ -253,7 +77,7 @@ namespace QuanLyLopHoc.Migrations
             modelBuilder.Entity("QuanLyLopHoc.Models.Entities.Message", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("CHAR(32)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -261,14 +85,14 @@ namespace QuanLyLopHoc.Migrations
 
                     b.Property<string>("ReceiverId")
                         .IsRequired()
-                        .HasColumnType("CHAR(32)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("SendTime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("SenderId")
                         .IsRequired()
-                        .HasColumnType("CHAR(32)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -279,10 +103,37 @@ namespace QuanLyLopHoc.Migrations
                     b.ToTable("Message");
                 });
 
+            modelBuilder.Entity("QuanLyLopHoc.Models.Entities.Notification", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SubjectId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SubjectId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Notifications");
+                });
+
             modelBuilder.Entity("QuanLyLopHoc.Models.Entities.Post", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("CHAR(32)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -290,14 +141,14 @@ namespace QuanLyLopHoc.Migrations
 
                     b.Property<string>("CreatorId")
                         .IsRequired()
-                        .HasColumnType("CHAR(32)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("PostTime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("SubjectId")
                         .IsRequired()
-                        .HasColumnType("CHAR(32)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -320,13 +171,64 @@ namespace QuanLyLopHoc.Migrations
                     b.ToTable("Post");
                 });
 
+            modelBuilder.Entity("QuanLyLopHoc.Models.Entities.Reply", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PostId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("StudentId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StudentRepId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.HasIndex("StudentRepId");
+
+                    b.ToTable("Replies");
+                });
+
+            modelBuilder.Entity("QuanLyLopHoc.Models.Entities.RollCall", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CreatorId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SubjectId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
+
+                    b.HasIndex("SubjectId");
+
+                    b.ToTable("RollCall");
+                });
+
             modelBuilder.Entity("QuanLyLopHoc.Models.Entities.StudentSubject", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("CHAR(32)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("SubjectId")
-                        .HasColumnType("CHAR(32)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("UserId", "SubjectId");
 
@@ -338,11 +240,11 @@ namespace QuanLyLopHoc.Migrations
             modelBuilder.Entity("QuanLyLopHoc.Models.Entities.Subject", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("CHAR(32)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CreatorId")
                         .IsRequired()
-                        .HasColumnType(" CHAR(32)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -362,10 +264,10 @@ namespace QuanLyLopHoc.Migrations
             modelBuilder.Entity("QuanLyLopHoc.Models.Entities.TeacherSubject", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("CHAR(32)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("SubjectId")
-                        .HasColumnType("CHAR(32)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("UserId", "SubjectId");
 
@@ -377,10 +279,10 @@ namespace QuanLyLopHoc.Migrations
             modelBuilder.Entity("QuanLyLopHoc.Models.Entities.TeacherTranscript", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("CHAR(32)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("TranscriptId")
-                        .HasColumnType("CHAR(32)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("UserId", "TranscriptId");
 
@@ -392,15 +294,15 @@ namespace QuanLyLopHoc.Migrations
             modelBuilder.Entity("QuanLyLopHoc.Models.Entities.Transcript", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("CHAR(32)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CreatorId")
                         .IsRequired()
-                        .HasColumnType(" CHAR(32)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("SubjectId")
                         .IsRequired()
-                        .HasColumnType("CHAR(32)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -414,7 +316,7 @@ namespace QuanLyLopHoc.Migrations
             modelBuilder.Entity("QuanLyLopHoc.Models.Entities.User", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType(" CHAR(32)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("About")
                         .IsRequired()
@@ -463,55 +365,23 @@ namespace QuanLyLopHoc.Migrations
                     b.ToTable("UserInfo");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("QuanLyLopHoc.Models.Entities.DetailRollCall", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
-                {
-                    b.HasOne("QuanLyLopHoc.Models.Entities.ApplicationUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
-                {
-                    b.HasOne("QuanLyLopHoc.Models.Entities.ApplicationUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.HasOne("QuanLyLopHoc.Models.Entities.RollCall", "RollCall")
+                        .WithMany("Details")
+                        .HasForeignKey("RollCallId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("QuanLyLopHoc.Models.Entities.ApplicationUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.HasOne("QuanLyLopHoc.Models.Entities.User", "Student")
+                        .WithMany("Rollcalls")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-                });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
-                {
-                    b.HasOne("QuanLyLopHoc.Models.Entities.ApplicationUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("RollCall");
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("QuanLyLopHoc.Models.Entities.DetailTranscript", b =>
@@ -550,6 +420,21 @@ namespace QuanLyLopHoc.Migrations
                     b.Navigation("Sender");
                 });
 
+            modelBuilder.Entity("QuanLyLopHoc.Models.Entities.Notification", b =>
+                {
+                    b.HasOne("QuanLyLopHoc.Models.Entities.Subject", "Subject")
+                        .WithMany()
+                        .HasForeignKey("SubjectId");
+
+                    b.HasOne("QuanLyLopHoc.Models.Entities.User", "User")
+                        .WithMany("Notifications")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Subject");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("QuanLyLopHoc.Models.Entities.Post", b =>
                 {
                     b.HasOne("QuanLyLopHoc.Models.Entities.User", "User")
@@ -567,6 +452,42 @@ namespace QuanLyLopHoc.Migrations
                     b.Navigation("Subject");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("QuanLyLopHoc.Models.Entities.Reply", b =>
+                {
+                    b.HasOne("QuanLyLopHoc.Models.Entities.Post", "OriginPost")
+                        .WithMany("Replies")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("QuanLyLopHoc.Models.Entities.User", "StudentRep")
+                        .WithMany("Replies")
+                        .HasForeignKey("StudentRepId");
+
+                    b.Navigation("OriginPost");
+
+                    b.Navigation("StudentRep");
+                });
+
+            modelBuilder.Entity("QuanLyLopHoc.Models.Entities.RollCall", b =>
+                {
+                    b.HasOne("QuanLyLopHoc.Models.Entities.User", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("QuanLyLopHoc.Models.Entities.Subject", "Subject")
+                        .WithMany()
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Creator");
+
+                    b.Navigation("Subject");
                 });
 
             modelBuilder.Entity("QuanLyLopHoc.Models.Entities.StudentSubject", b =>
@@ -654,6 +575,16 @@ namespace QuanLyLopHoc.Migrations
                     b.Navigation("Subject");
                 });
 
+            modelBuilder.Entity("QuanLyLopHoc.Models.Entities.Post", b =>
+                {
+                    b.Navigation("Replies");
+                });
+
+            modelBuilder.Entity("QuanLyLopHoc.Models.Entities.RollCall", b =>
+                {
+                    b.Navigation("Details");
+                });
+
             modelBuilder.Entity("QuanLyLopHoc.Models.Entities.Subject", b =>
                 {
                     b.Navigation("Posts");
@@ -680,9 +611,15 @@ namespace QuanLyLopHoc.Migrations
 
                     b.Navigation("Details");
 
+                    b.Navigation("Notifications");
+
                     b.Navigation("Posts");
 
                     b.Navigation("Received");
+
+                    b.Navigation("Replies");
+
+                    b.Navigation("Rollcalls");
 
                     b.Navigation("Sent");
 

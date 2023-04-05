@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using QuanLyLopHoc.Models.Entities;
+using QuanLyLopHoc.Areas.Identity.Data;
 
 namespace QuanLyLopHoc.Areas.Identity.Pages.Account.Manage
 {

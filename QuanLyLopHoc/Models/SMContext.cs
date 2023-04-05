@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using QuanLyLopHoc.Areas.Identity.Data;
 using QuanLyLopHoc.Models.Entities;
 
 namespace QuanLyLopHoc.Models
@@ -42,10 +43,8 @@ namespace QuanLyLopHoc.Models
                 .HasOne(pk => pk.Transcript)
                 .WithMany(pk => pk.Details)
                 .HasForeignKey(pk => pk.TranscriptId);
-            modelBuilder.Entity<DetailRollCall>()
-                .HasOne(pk => pk.RollCall)
-                .WithMany(pk => pk.Details)
-                .HasForeignKey(pk => pk.RollCallId);
+            
+
             modelBuilder.Entity<Reply>()
                 .HasOne(pk => pk.OriginPost)
                 .WithMany(pk => pk.Replies)
@@ -128,8 +127,18 @@ namespace QuanLyLopHoc.Models
                 .HasForeignKey(pk => pk.CreatorId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
             modelBuilder.Entity<User>().HasKey(pk => new { pk.Id });
-
-
+            
+            modelBuilder.Entity<DetailRollCall>().HasKey(pk => new { pk.StudentId, pk.RollCallId });
+            modelBuilder.Entity<DetailRollCall>()
+                .HasOne(pk => pk.RollCall)
+                .WithMany(pk => pk.Details)
+                .HasForeignKey(pk => pk.RollCallId)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<DetailRollCall>()
+                .HasOne(fk => fk.Student)
+                .WithMany(fk => fk.Rollcalls)
+                .HasForeignKey(fk => fk.StudentId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

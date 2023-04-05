@@ -7,10 +7,8 @@ namespace QuanLyLopHoc.Models.Entities
     [Table("TeacherSubject")]
     public class TeacherSubject
     {
-        [Column(TypeName = "CHAR(32)")]
         public string UserId { get; set; }
         public virtual User User { get; set; }
-        [Column(TypeName = "CHAR(32)")]
         public string SubjectId { get; set; }
         public virtual Subject Subject { get; set; }
     }

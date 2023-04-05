@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using QuanLyLopHoc.Models.Entities;
+using QuanLyLopHoc.Areas.Identity.Data;
 
 namespace QuanLyLopHoc.Areas.Identity.Pages.Account
 {

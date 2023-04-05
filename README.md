@@ -1,5 +1,9 @@
 # QuanLyLopHoc
 <div>
+<div><span style="font-style: italic;font-weight: 900;">#BIG UPDATE on 4/4</span>
+        <p>Run: <span style="background-color: rgb(213, 212, 221); color: rgb(219, 58, 0);">drop-database</span></p>
+        <p>Run: <span style="background-color: rgb(213, 212, 221); color: rgb(219, 58, 0);">update-database</span></p>
+    </div>
     <div><span style="font-style: italic;font-weight: 900;">#BIG UPDATE on 11/3</span>
         <p>Run: <span style="background-color: rgb(213, 212, 221); color: rgb(219, 58, 0);">update-database</span></p>
     </div>

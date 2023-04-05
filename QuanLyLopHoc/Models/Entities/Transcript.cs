@@ -6,10 +6,8 @@ namespace QuanLyLopHoc.Models.Entities
     [Table("Transcript")]
     public class Transcript
     {
-        [Column(TypeName = "CHAR(32)")]
         public string Id { get; set; }
         [Required]
-        [Column(TypeName = "CHAR(32)")]
         public string SubjectId { get; set; }
         public string? CreatorId{get; set;}
         public virtual User Creator { get; set; }

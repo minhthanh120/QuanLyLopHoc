@@ -9,7 +9,6 @@ namespace QuanLyLopHoc.Models.Entities
     public class User
     {
         [Key]
-        [Column(TypeName = " CHAR(32)")]
         public string Id { get; set; }// PRIMARY KEY,
         [Column(TypeName = "NVARCHAR(20)")]
         public string FirstName { get; set; }// NOT NULL,
@@ -34,6 +33,7 @@ namespace QuanLyLopHoc.Models.Entities
         public virtual ICollection<Message> Sent { get;set; }
         public virtual ICollection<Message> Received { get; set; }
         public virtual ICollection<DetailTranscript> Details { get;set; }
+        public virtual ICollection<DetailRollCall> Rollcalls { get; set; }
         public virtual ICollection<TeacherTranscript> TeacherTranscripts { get;set; }
         public virtual ICollection<TeacherSubject> TeacherSubjects { get;set;}
         public virtual ICollection<Post> Posts { get;set; }

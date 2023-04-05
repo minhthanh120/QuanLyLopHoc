@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QuanLyLopHoc.Models.Entities
 {
+    [Table("RollCall")]
     public class RollCall
     {
         [Key]

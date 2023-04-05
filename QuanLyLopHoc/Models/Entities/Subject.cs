@@ -8,7 +8,6 @@ namespace QuanLyLopHoc.Models.Entities
     public class Subject
     {
         [Key]
-        [Column(TypeName = "CHAR(32)")]
         public string Id { get; set; }
         [Required]
         [Column(TypeName = "NVARCHAR(50)")]

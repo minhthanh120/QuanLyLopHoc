@@ -8,9 +8,7 @@ namespace QuanLyLopHoc.Models.Entities
     [Table("DetailTranscript")]
     public class DetailTranscript
     {
-        [Column(TypeName = "CHAR(32)")]
         public string UserId { get; set; }
-        [Column(TypeName = "CHAR(32)")]
         public string TranscriptId { get; set; }
         public decimal DiemCC { get; set; }
         public decimal DiemTX { get; set; }

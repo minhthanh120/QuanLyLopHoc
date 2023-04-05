@@ -1,6 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace QuanLyLopHoc.Models.Entities
 {
+    [Table("DetailRollCall")]
     public class DetailRollCall
     {
         public string StudentId { get; set; }
