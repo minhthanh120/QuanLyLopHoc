@@ -43,28 +43,26 @@
                     </button>
                 </div>
                 <div>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
                     <form id="account" method="post">
                         <div class="mb-6">
-                            <label asp-for="Input.Email" for="success" class="block mb-2 text-sm font-medium text-gray-700"></label>
-                            <input asp-for="Input.Email" type="email" id="success"
-                                   class="bg-green-50 border border-green-500 text-green-900 dark:text-green-400 placeholder-green-700 dark:placeholder-green-500 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:border-green-500"
-                                   placeholder="abc@mta.edu.vn"/>
+                            <label asp-for="Input.Email" for="email" class="block mb-2 text-sm font-medium text-gray-700"></label>
+                            <input asp-for="Input.Email" type="email" id="email"
+                                   class="bg-green-50 border border-dark-500 text-dark-900 placeholder-dark-700 text-sm rounded-lg focus:ring-dark-500 focus:border-dark-500 block w-full p-2.5"
+                                   placeholder=""/>
                                    
-                            <p class="mt-2 text-sm text-green-600 dark:text-green-500">
-                                <span class="font-medium">Well done!</span>
-                                Some
-                                success message.
+                            <p class="mt-2 text-sm text-dark-600 dark:text-dark-500">
+                                <span class="font-medium" asp-validation-for="Input.Email"></span>
                             </p>
                         </div>
                         <div class="">
-                            <label asp-for="Input.Password" for="error" class="block mb-2 text-sm font-medium text-gray-700 dark:text-red-500"></label>
-                            <input asp-for="Input.Password" type="password" id="error"
-                                   class="bg-red-50 border border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500"
+                            <label asp-for="Input.Password" for="password" class="block mb-2 text-sm font-medium text-gray-700"></label>
+                            <input asp-for="Input.Password" type="password" id="password"
+                                   class="bg-green-50 border border-dark-500 text-dark-900 placeholder-dark-700 text-sm rounded-lg focus:ring-dark-500 focus:border-dark-500 block w-full p-2.5"
                                    placeholder=""/>
-                            <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-                                <span class="font-medium">Oh, snapp!</span>
-                                Some
-                                error message.
+                            <p class="mt-2 text-sm text-dark-600">
+                                <span class="font-medium" asp-validation-for="Input.Password"></span>
                             </p>
                         </div>
                         <div>
@@ -94,7 +92,7 @@
     </div>
 </div>
 
-<div class="row">
+@*<div class="row">
     <div class="col-md-4">
         <section>
             <form id="account" method="post">
@@ -161,7 +159,7 @@
             }
         </section>
     </div>
-</div>
+</div>*@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

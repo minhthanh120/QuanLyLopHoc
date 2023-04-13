@@ -11,25 +11,26 @@ namespace QuanLyLopHoc.Models.Entities
         [Key]
         public string Id { get; set; }// PRIMARY KEY,
         [Column(TypeName = "NVARCHAR(20)")]
-        public string FirstName { get; set; }// NOT NULL,
+        public string? FirstName { get; set; }// NOT NULL,
         [Column(TypeName = "NVARCHAR(20)")]
-        public string LastName { get; set; }// NOT NULL
+        public string? LastName { get; set; }// NOT NULL
         [Column(TypeName = "NVARCHAR(20)")]
-        public string City { get; set; }
-        public DateTime BirthDay { get; set; }
+        public string? City { get; set; }
+        public DateTime? BirthDay { get; set; }
         [Column(TypeName = "Char(12)")]
-        public string Phone { get; set; }
-        public bool Gender { get; set; }// BINARY;
+        public string? Phone { get; set; }
+        public bool? Gender { get; set; }// BINARY;
         [Column(TypeName = "NVARCHAR(100)")]
-        public string School { get; set; }// NVARCHAR(100);
+        public string? School { get; set; }// NVARCHAR(100);
         [Column(TypeName = "NVARCHAR(100)")]
-        public string Class { get; set; }//, -- Lớp chủ nhiệm
+        public string? Class { get; set; }//, -- Lớp chủ nhiệm
         [Column(TypeName = "NCHAR(255)")]
-        public string Avatar { get; set; }
+        public string? Avatar { get; set; }
         [Column(TypeName = "NVARCHAR(255)")]
-        public string About { get; set; }// -- Mô tả bản thân
+        public string? About { get; set; }// -- Mô tả bản thân
         [Column(TypeName = "NVARCHAR(320)")]
-        public string Email { get; set; }// UNIQUE -- Không đc trùng email
+        public string? Email { get; set; }// UNIQUE -- Không đc trùng email
+        //public string FullName { get; set; }
         public virtual ICollection<Message> Sent { get;set; }
         public virtual ICollection<Message> Received { get; set; }
         public virtual ICollection<DetailTranscript> Details { get;set; }
@@ -42,6 +43,10 @@ namespace QuanLyLopHoc.Models.Entities
         public virtual ICollection<Transcript> CreatedTranscript { get; set; }
         public virtual ICollection<Notification> Notifications { get; set; }
         public virtual ICollection<Reply> Replies { get; set; }
+        public string FullName()
+        {
+            return this.FirstName+this.LastName;
+        }
 
     }
 }

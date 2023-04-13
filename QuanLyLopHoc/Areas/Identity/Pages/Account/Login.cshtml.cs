@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using QuanLyLopHoc.Areas.Identity.Data;
+using QuanLyLopHoc.Utilities;
 
 namespace QuanLyLopHoc.Areas.Identity.Pages.Account
 {
@@ -65,16 +66,20 @@ namespace QuanLyLopHoc.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessage = "{0} không được để trống")]
+            [EmailAddress(ErrorMessage = "Thông tin {0} của bạn chưa hợp lệ")]
+            [Display(Name = "Email")]
+            //[MailValidator(ErrorMessage = "Thông tin Email của bạn chưa hợp lệ")]
+            [RegularExpression("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", ErrorMessage = "Thông tin {0} của bạn chưa hợp lệ")]
             public string Email { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required(ErrorMessage = "{0} không được để trống")]
             [DataType(DataType.Password)]
+            [Display(Name = "Mặt khẩu")]
             public string Password { get; set; }
 
             /// <summary>

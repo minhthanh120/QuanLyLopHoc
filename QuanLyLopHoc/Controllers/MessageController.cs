@@ -4,32 +4,32 @@ using QuanLyLopHoc.Services;
 
 namespace QuanLyLopHoc.Controllers
 {
-    public class UserController : Controller
+    public class MessageController : Controller
     {
-        private readonly IUserService _userService;
-        // GET: UserController
-        public UserController(IUserService userService)
+        // GET: MessageController
+        private readonly IMessageSevice _messageSevice;
+        public MessageController(IMessageSevice messageSevice)
         {
-            _userService = userService;
+            _messageSevice = messageSevice;
         }
         public ActionResult Index()
         {
             return View();
         }
 
-        // GET: UserController/Details/5
+        // GET: MessageController/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: UserController/Create
+        // GET: MessageController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: UserController/Create
+        // POST: MessageController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
@@ -44,21 +44,13 @@ namespace QuanLyLopHoc.Controllers
             }
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Search(string searchKey)
-        {
-            ViewData["listUser"] = _userService.SearchByName(searchKey);
-            return View();
-        }
-
-        // GET: UserController/Edit/5
+        // GET: MessageController/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: UserController/Edit/5
+        // POST: MessageController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -73,13 +65,13 @@ namespace QuanLyLopHoc.Controllers
             }
         }
 
-        // GET: UserController/Delete/5
+        // GET: MessageController/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: UserController/Delete/5
+        // POST: MessageController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
