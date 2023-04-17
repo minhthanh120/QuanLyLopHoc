@@ -1,72 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
-
     <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Document</title>
-        <link rel="stylesheet" href="/dist/output.css">
+        <link rel="stylesheet" href="../dist/output.css" />
     </head>
 
     <body>
-
         <div class="px-2 pt-2">
             <form>
-
                 <div class="grid place-content-center mb-2">
-                    <img id="avatar" class="rounded-full w-40 h-40" src="https://flowbite.com/docs/images/examples/image-4@2x.jpg"
-                    alt="image description">
-                    <label class="grid place-content-center" for="avatar">Ảnh đại diện</label>
+                    <img
+                        id="avatar"
+                        class="rounded-full w-40 h-40"
+                        src="https://flowbite.com/docs/images/examples/image-4@2x.jpg"
+                        alt="image description"
+                    />
+                    <label class="grid place-content-center" for="avatar"
+                        >Ảnh đại diện</label
+                    >
                 </div>
 
                 <div class="grid gap-6 mb-6 md:grid-cols-2">
                     <div>
-                        <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900">Họ</label>
-                        <input type="text" id="first_name"
+                        <label
+                            for="first_name"
+                            class="block mb-2 text-sm font-medium text-gray-900"
+                            >Họ</label
+                        >
+                        <input
+                            type="text"
+                            id="first_name"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Thanh" required>
+                            placeholder="Thanh"
+                            required
+                        />
                     </div>
                     <div>
-                        <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900">Tên </label>
-                        <input type="text" id="last_name"
+                        <label
+                            for="last_name"
+                            class="block mb-2 text-sm font-medium text-gray-900"
+                            >Tên
+                        </label>
+                        <input
+                            type="text"
+                            id="last_name"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Le" required>
+                            placeholder="Le"
+                            required
+                        />
                     </div>
                     <div>
-                        <label for="date" class="block mb-2 text-sm font-medium text-gray-900">Ngày sinh</label>
-                        <input type="date" id="date"
+                        <label
+                            for="date"
+                            class="block mb-2 text-sm font-medium text-gray-900"
+                            >Ngày sinh</label
+                        >
+                        <input
+                            type="date"
+                            id="date"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="thanhminh.le@mta.edu.com" required>
+                            placeholder="thanhminh.le@mta.edu.com"
+                            required
+                        />
                     </div>
                     <div>
-                        <label for="phone" class="block mb-2 text-sm font-medium text-gray-900">Số điện thoại</label>
-                        <input type="tel" id="phone"
+                        <label
+                            for="phone"
+                            class="block mb-2 text-sm font-medium text-gray-900"
+                            >Số điện thoại</label
+                        >
+                        <input
+                            type="tel"
+                            id="phone"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="123-45-678" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" required>
+                            placeholder="123-45-678"
+                            pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
+                            required
+                        />
                     </div>
                     <div>
-                        <label for="city" class="block mb-2 text-sm font-medium text-gray-900">Thành phố</label>
-                        <input type="text" id="city"
+                        <label
+                            for="city"
+                            class="block mb-2 text-sm font-medium text-gray-900"
+                            >Thành phố</label
+                        >
+                        <input
+                            type="text"
+                            id="city"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Hà Nội" required>
+                            placeholder="Hà Nội"
+                            required
+                        />
                     </div>
                     <div>
-                        <label for="visitors" class="block mb-2 text-sm font-medium text-gray-900">Lớp</label>
-                        <input type="text" id="visitors"
+                        <label
+                            for="visitors"
+                            class="block mb-2 text-sm font-medium text-gray-900"
+                            >Lớp</label
+                        >
+                        <input
+                            type="text"
+                            id="visitors"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="" required>
+                            placeholder=""
+                            required
+                        />
                     </div>
                     <div class="">
-                        <label for="school" class="block mb-2 text-sm font-medium text-gray-900">Trường</label>
-                        <input type="text" id="school"
+                        <label
+                            for="school"
+                            class="block mb-2 text-sm font-medium text-gray-900"
+                            >Trường</label
+                        >
+                        <input
+                            type="text"
+                            id="school"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="CloudClass Project" required>
+                            placeholder="CloudClass Project"
+                            required
+                        />
                     </div>
                     <div>
-                        <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 ">Giới tính</label>
-                        <select id="countries"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <label
+                            for="countries"
+                            class="block mb-2 text-sm font-medium text-gray-900"
+                            >Giới tính</label
+                        >
+                        <select
+                            id="countries"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        >
                             <option selected>Chọn giới tính</option>
                             <option value="Male">Nam</option>
                             <option value="Female">Nữ</option>
@@ -75,17 +141,26 @@
                 </div>
 
                 <div class="mb-6">
-                    <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Địa chỉ Email</label>
-                    <input type="email" id="email"
+                    <label
+                        for="email"
+                        class="block mb-2 text-sm font-medium text-gray-900"
+                        >Địa chỉ Email</label
+                    >
+                    <input
+                        type="email"
+                        id="email"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="thanhminh.le@mta.edu.com" required>
+                        placeholder="thanhminh.le@mta.edu.com"
+                        required
+                    />
                 </div>
-                <button type="submit"
-                    class="ml-auto grid place-items-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Cập
-                    nhật thông tin</button>
+                <button
+                    type="submit"
+                    class="ml-auto grid place-items-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                >
+                    Cập nhật thông tin
+                </button>
             </form>
         </div>
-
     </body>
-
 </html>
