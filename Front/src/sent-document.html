@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="stylesheet" href="../dist/output.css" />
+    </head>
+    <body>
+        <form>
+            <fieldset
+                class="max-w-2xl mx-4 sm:mx-auto my-4 border-solid p-3 border-2 shadow"
+            >
+                <div class="mx-6 my-6">
+                    <label
+                        for="username-success"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                        Chủ đề
+                    </label>
+                    <input
+                        type="text"
+                        id="username-success"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-300 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-100 dark:border-green-400"
+                        placeholder="Chủ đề của tài liệu"
+                    />
+                </div>
+
+                <div class="mx-6 my-6">
+                    <label
+                        for="message"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                        >Mô tả tài liệu</label
+                    >
+                    <textarea
+                        id="message"
+                        rows="4"
+                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder=""
+                    ></textarea>
+                </div>
+                <div class="mx-6 my-6">
+                    <label
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                        for="file_upload"
+                        >Upload file</label
+                    >
+                    <input
+                        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none file:bg-gray-900 file:text-gray-300 file:px-3 file:py-1"
+                        id="file_upload"
+                        type="file"
+                    />
+                </div>
+                <div class="mx-auto max-w-sm sm:w-full sm:mx-0 my-10">
+                    <button
+                        type="submit"
+                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 sm:ml-6 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    >
+                        Xác nhận
+                    </button>
+                </div>
+            </fieldset>
+        </form>
+    </body>
+</html>
