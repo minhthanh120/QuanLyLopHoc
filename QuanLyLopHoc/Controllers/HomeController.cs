@@ -7,15 +7,21 @@ namespace QuanLyLopHoc.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        //private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
+        //public HomeController(ILogger<HomeController> logger)
+        //{
+        //    _logger = logger;
+        //}
         [Authorize]
         public IActionResult Index()
         {
+            return View("Index", "Student");
+        }
+        [HttpPost]
+        public IActionResult Index(string key)
+        {
+            var k = key;
             return View();
         }
 

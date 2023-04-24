@@ -7,6 +7,8 @@ namespace QuanLyLopHoc.Models.Entities
     public class Message
     {
         //[Column(TypeName = "CHAR(32)")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
         public string Id { get; set; }
         [Required]
         //[Column(TypeName = "CHAR(32)")]

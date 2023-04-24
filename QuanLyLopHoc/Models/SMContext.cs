@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using QuanLyLopHoc.Areas.Identity.Data;
 using QuanLyLopHoc.Models.Entities;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QuanLyLopHoc.Models
 {
@@ -34,6 +35,7 @@ namespace QuanLyLopHoc.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            //modelBuilder.Entity<Message>().Property(e => e.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<DetailTranscript>().HasKey(pk => new { pk.UserId, pk.TranscriptId });
             modelBuilder.Entity<DetailTranscript>()
                 .HasOne(pk => pk.Student)

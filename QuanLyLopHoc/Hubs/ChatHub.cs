@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
+using QuanLyLopHoc.Areas.Identity.Data;
 using QuanLyLopHoc.Models;
 using QuanLyLopHoc.Services;
 
@@ -8,10 +10,22 @@ namespace QuanLyLopHoc.Hubs
     {
         private readonly SMContext _context;
         private readonly ILogger _logger;
-        private IMessageSevice _messageSevice;
-        public ChatHub()
+        private readonly IMessageSevice _messageSevice;
+        private readonly UserManager<ApplicationUser> _userManager;
+        public ChatHub(SMContext context, ILogger<ChatHub> logger, IMessageSevice messageSevice)
         {
-            
+            _context = context;
+            _logger = logger;
+            _messageSevice = messageSevice;
         }
+        public async Task SendMessage(string user, string receiver, string message)
+        {
+            //var currentUser = _userManager.Users.FirstOrDefault(s => s.Email == user);
+            //var receiveUser = _userManager.Users.FirstOrDefault(s => s.Email == receiver);
+            _messageSevice.Create(user, receiver, message);
+            await Clients.User(receiver).SendAsync("ReceiveMessage", user, message);
+            //return Clients.Group(receiver).SendAsync("ReceiveMessage", user, message);
+        }
+
     }
 }

@@ -1,9 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using QuanLyLopHoc.Models.Entities;
 using QuanLyLopHoc.Services;
+using System.Security.Claims;
 
 namespace QuanLyLopHoc.Controllers
 {
+
     public class UserController : Controller
     {
         private readonly IUserService _userService;
@@ -16,9 +20,17 @@ namespace QuanLyLopHoc.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public ActionResult Index(string search)
+        {
+            //var key = search["key"];
+            //search = "ok";
+            ViewData["listUser"] = _userService.Search(search);
+            return View("Search");
+        }
 
         // GET: UserController/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(string id)
         {
             return View();
         }
@@ -45,27 +57,33 @@ namespace QuanLyLopHoc.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Search(string searchKey)
+        //[ValidateAntiForgeryToken]
+        public ActionResult Search(string search)
         {
-            ViewData["listUser"] = _userService.SearchByName(searchKey);
+            var model = _userService.Search(search);
+            ViewData["listUser"] = model;
             return View();
         }
 
         // GET: UserController/Edit/5
-        public ActionResult Edit(int id)
+        [Authorize]
+        public async Task<ActionResult> Edit()
         {
-            return View();
+            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userService.GetUserbyId(id);
+
+            return View(user);
         }
 
         // POST: UserController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, [Bind("Id,FirstName, LastName,Class,School,Phone,Email, BirthDay, City")] User user)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                _userService.Edit(user);
+                return View(user);
             }
             catch
             {

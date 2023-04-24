@@ -12,27 +12,117 @@
     <body style="height: 440px" class="m-5 bg-white antialiased overflow-hidden">
 
         <!-- drawer init and toggle -->
-        <div class="text-center">
+        <div class="text-left">
             <button
-                class="text-white bg-cyan-300 hover:bg-cyan-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                class="flex flex-row text-white bg-cyan-300 hover:bg-cyan-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                 type="button" data-drawer-target="drawer-swipe" data-drawer-show="drawer-swipe"
                 data-drawer-placement="bottom" data-drawer-edge="true" data-drawer-edge-offset="bottom-[60px]"
-                aria-controls="drawer-swipe">Tác vụ</button>
+                aria-controls="drawer-swipe"><svg class="w-5 h-5 mr-2" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM14 11a1 1 0 011 1v1h1a1 1 0 110 2h-1v1a1 1 0 11-2 0v-1h-1a1 1 0 110-2h1v-1a1 1 0 011-1z">
+                </path>
+            </svg>Tác vụ</button>
         </div>
 
-        <div id="posts" class="ml-10">
-            <div id="id-1">
-                <a href="#"
-                class="block max-w-4xl p-6 bg-white border border-gray-900 rounded-lg shadow hover:bg-gray-100">
-                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">Thông báo về buổi học ngày
-                    20/03</h5>
-                <p class="font-normal text-gray-700 dark:text-gray-400">Buổi học ngày 20/03 các bạn đến lớp học bình thường</p>
-            </a>
+        <div>
+            <div id="posts" class="max-w-6xl overflow-y-auto">
+                <div id="id-1" class="pb-2 ">
+                    <a href="#" class=" block p-2 bg-white border border-gray-900 rounded-lg shadow hover:bg-gray-100 h-32">
+                        <div class="flex flex-row">
+                            <div>
+                                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">Thông tin buổi học ngày 20/03</h5>
+                                <p class="font-normal text-gray-700 dark:text-gray-400">Các bạn ơi! Ngày 20/03 cả lớp đi học bình thường nè!</p>
+                            </div>
+                            <div class=" ml-auto">
+                                <svg fill="none" class="w-10 h-10" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0M3.124 7.5A8.969 8.969 0 015.292 3m13.416 0a8.969 8.969 0 012.168 4.5"></path>
+                                  </svg>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div id="id-2" class="pb-2">
+                    <div class="border border-gray-900 rounded-lg shadow p-2">
+                        <div class="flex flex-row">
+                            <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+                            <div>
+                                <h3 class="mb-4 font-semibold text-gray-900 ">Biểu quyết</h3>
+                                <ul
+                                    class="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-300 rounded-lg ">
+                                    <li class="w-full border-b border-gray-400 rounded-t-lg ">
+                                        <div class="flex items-center pl-3">
+                                            <input id="list-radio-license" type="radio" value="" name="list-radio"
+                                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-2">
+                                            <label for="list-radio-license"
+                                                class="w-full py-3 ml-2 text-sm font-medium text-gray-900">Sáng 23/03
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+                                        <div class="flex items-center pl-3">
+                                            <input id="list-radio-id" type="radio" value="" name="list-radio"
+                                                class="w-4 h-4 text-blue-600 bg-gray-400 border-gray-300 focus:ring-blue-500 focus:ring-2">
+                                            <label for="list-radio-id"
+                                                class="w-full py-3 ml-2 text-sm font-medium text-gray-900">Chiều
+                                                23/03</label>
+                                        </div>
+                                    </li>
+                                    <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+                                        <div class="flex items-center pl-3">
+                                            <input id="list-radio-millitary" type="radio" value="" name="list-radio"
+                                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500  focus:ring-2">
+                                            <label for="list-radio-millitary"
+                                                class="w-full py-3 ml-2 text-sm font-medium text-gray-900 ">Sáng
+                                                24/03</label>
+                                        </div>
+                                    </li>
+                                    <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+                                        <div class="flex items-center pl-3">
+                                            <input id="list-radio-passport" type="radio" value="" name="list-radio"
+                                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500  focus:ring-2">
+                                            <label for="list-radio-passport"
+                                                class="w-full py-3 ml-2 text-sm font-medium text-gray-900">Chiều
+                                                24/03</label>
+                                        </div>
+                                    </li>
+                                    <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+                                        <div class="flex items-center pl-3">
+                                            <input id="list-radio-5" type="radio" value="" name="list-radio"
+                                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500  focus:ring-2">
+                                            <label for="list-radio-5"
+                                                class="w-full py-3 ml-2 text-sm font-medium text-gray-900">Nghỉ luôn</label>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="id-3" class="pb-2">
+                    <a href="#" class="block p-2 bg-white border border-gray-900 rounded-lg shadow hover:bg-gray-100 h-32">
+                        <div class="flex flex-row">
+                            <div>
+                                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">Thông tin bài giảng ngày 24/03</h5>
+                                <p class="font-normal text-gray-700 dark:text-gray-400">Các bạn chuẩn bị bài cho ngày 24/03 với tài liệu đã được giáo viên upload</p>
+                            </div>
+                            <div class=" ml-auto">
+                                <svg fill="none" class="h-10 w-10" stroke="currentColor" stroke-width="1.5"
+                                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13">
+                                    </path>
+                                </svg>
+                            </div>
+                        </div>
+                    </a>
+                </div>
             </div>
         </div>
+
         <!-- drawer component -->
         <div id="drawer-swipe"
-            class="fixed z-40 w-full overflow-y-auto bg-white border-t border-gray-700 rounded-t-lg transition-transform bottom-0 left-0 right-0 translate-y-full bottom-[60px]"
+            class="fixed z-40 w-full overflow-y-auto bg-white border-t border-gray-700 rounded-t-lg transition-transform left-0 right-0 translate-y-full bottom-[60px]"
             tabindex="-1" aria-labelledby="drawer-swipe-label" aria-hidden="true">
             <div class="p-4 cursor-pointer hover:bg-gray-50" data-drawer-toggle="drawer-swipe">
                 <span
@@ -47,12 +137,11 @@
                 </h5>
             </div>
             <div class="grid grid-cols-3 gap-4 p-4 lg:grid-cols-4">
-                <div
-                    class="p-4 rounded-lg border border-blue-900 cursor-pointer bg-blue-100 hover:bg-blue-300">
+                <div class="p-4 rounded-lg border border-blue-900 cursor-pointer bg-blue-100 hover:bg-blue-300">
                     <div
                         class="flex justify-center items-center p-2 mx-auto mb-2 max-w-[48px] bg-blue-200 dark:bg-blue-500 rounded-full w-18 h-18">
-                        <svg class="inline w-8 h-8 text-blue-400" aria-hidden="true"
-                            fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <svg class="inline w-8 h-8 text-blue-400" aria-hidden="true" fill="currentColor"
+                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
                             <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
                         </svg>
@@ -72,7 +161,7 @@
                     </div>
                     <div class="font-medium text-center text-gray-500 dark:text-gray-400">Bảng điểm</div>
                 </div>
-                
+
                 <div
                     class="p-4 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 dark:hover:bg-gray-600 dark:bg-gray-700">
                     <div
@@ -87,7 +176,7 @@
                     </div>
                     <div class="font-medium text-center text-gray-500 dark:text-gray-400">Điểm danh</div>
                 </div>
-                
+
                 <div
                     class="p-4 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 dark:hover:bg-gray-600 dark:bg-gray-700">
                     <div
@@ -142,6 +231,31 @@
                 if (drawerEl) { drawerEl.click(); }
             }
         </script> -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+        <script>
+            var xValues = ["Sáng 23/03", "Chiều 23/03", "Sáng 24/03", "Chiều 24/03", "Nghỉ luôn"];
+            var selected
+            var yValues = [50, 49, 44, 24, 15];
+            var barColors = ["red", "green", "blue", "orange", "brown"];
+
+            new Chart("myChart", {
+                type: "bar",
+                data: {
+                    labels: xValues,
+                    datasets: [{
+                        backgroundColor: barColors,
+                        data: yValues
+                    }]
+                },
+                options: {
+                    legend: { display: false },
+                    title: {
+                        display: true,
+                        text: "Biểu quyết về việc học bù ngày 22/2"
+                    }
+                }
+            });
+        </script>
 
     </body>
 

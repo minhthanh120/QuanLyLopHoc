@@ -19,9 +19,24 @@ namespace QuanLyLopHoc.Repositories
         {
             try
             {
-                var listUser = await _context.Users.FirstAsync(c=>(c.LastName.ToLower()+c.FirstName.ToLower()).Contains(name.ToLower()));
+                //var listUser = await _context.Users.FindAsync(c=>(c.LastName.ToLower() +c.FirstName.ToLower()).Contains(name.ToLower())).ToList();
             }
-            catch(Exception ex) {
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, ex);
+            }
+            return null;
+        }
+        public ICollection<User> FindListUser(string name)
+        {
+            try
+            {
+                name = name.ToLower();
+                var listUser = _context.Users.Where(c => (c.FirstName.ToLower() + " " + c.LastName.ToLower()).Contains(name)).ToList();
+                return listUser;
+            }
+            catch (Exception ex)
+            {
                 _logger.LogError(ex.Message, ex);
             }
             return null;
@@ -34,7 +49,7 @@ namespace QuanLyLopHoc.Repositories
                 var user = await _context.Users.FirstOrDefaultAsync(c => c.Email == email);
                 return user;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex.Message, ex);
             }
@@ -64,6 +79,22 @@ namespace QuanLyLopHoc.Repositories
                 user.Email = email;
                 _context.Users.Add(user);
                 await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, ex);
+            }
+        }
+        public void Update(User userInfo)
+        {
+            try
+            {
+                var currentUser = _context.Find<User>(userInfo.Id);
+                if (currentUser != null)
+                {
+                    currentUser = userInfo;
+                    _context.SaveChanges();
+                }
             }
             catch (Exception ex)
             {
