@@ -6,7 +6,7 @@ namespace QuanLyLopHoc.Models.DAO
     {
         public User currentUser { get; set; }
         public User oppositeUser { get; set; }
-        public ICollection<Message> messages { get; set; }
+        public IEnumerable<Message> messages { get; set; }
         public MessageHistory()
         {
             

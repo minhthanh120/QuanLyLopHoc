@@ -66,8 +66,8 @@ namespace QuanLyLopHoc.Repositories
                 var lst1 = _context.Messages.Where(c => c.SenderId == currentUser.Id && c.ReceiverId == oppositeUser.Id).ToList();
                 var lst2 = _context.Messages.Where(c => c.SenderId == oppositeUser.Id && c.ReceiverId == currentUser.Id).ToList();
                 lst1.AddRange(lst2);
-                lst1.OrderBy(c => c.SendTime);
-                result.messages = lst1;
+                var ls = lst1.OrderBy(c => c.SendTime);
+                result.messages = ls;
                 return result;
             }
             catch (Exception ex)

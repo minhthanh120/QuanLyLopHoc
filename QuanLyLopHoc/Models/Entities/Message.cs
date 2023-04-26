@@ -17,7 +17,7 @@ namespace QuanLyLopHoc.Models.Entities
         //[Column(TypeName = "CHAR(32)")]
         public string? ReceiverId { get; set; }
         [Required]
-        public DateTime SendTime { get; set; }
+        public DateTime SendTime { get; set; } = DateTime.Now;
         [Required]
         [Column(TypeName = "NTEXT")]
         public string Content { get; set; }
