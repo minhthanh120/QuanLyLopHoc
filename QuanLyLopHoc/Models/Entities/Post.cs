@@ -6,6 +6,7 @@ namespace QuanLyLopHoc.Models.Entities
     [Table("Post")]
     public class Post
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public string Id { get; set; }
         [Required]

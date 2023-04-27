@@ -6,6 +6,7 @@ namespace QuanLyLopHoc.Models.Entities
     [Table("Transcript")]
     public class Transcript
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Id { get; set; }
         [Required]
         public string SubjectId { get; set; }
