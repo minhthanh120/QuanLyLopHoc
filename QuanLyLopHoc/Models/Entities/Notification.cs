@@ -1,7 +1,10 @@
-﻿namespace QuanLyLopHoc.Models.Entities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace QuanLyLopHoc.Models.Entities
 {
     public class Notification
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Id { get; set; }
         public DateTime CreatedTime { get; set; }
         public string Content { get; set; }

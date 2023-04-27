@@ -7,6 +7,7 @@ namespace QuanLyLopHoc.Models.Entities
     [Table("Subject")]
     public class Subject
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public string Id { get; set; }
         [Required]

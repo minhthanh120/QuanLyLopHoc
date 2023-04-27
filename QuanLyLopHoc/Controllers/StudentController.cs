@@ -1,14 +1,28 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using QuanLyLopHoc.Areas.Identity.Data;
+using QuanLyLopHoc.Services;
+using System.Security.Claims;
 
 namespace QuanLyLopHoc.Controllers
 {
     public class StudentController : Controller
     {
         // GET: StudentController
+        private readonly IStudentService _studentService;
+        private readonly UserManager<ApplicationUser> _userManager;
+        public StudentController(IStudentService studentService)
+        {
+            _studentService = studentService;
+        }
+        [Authorize]
         public ActionResult Index()
         {
-            return View();
+            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var subjects = _studentService.GetListSubject(id);
+            return View(subjects);
         }
 
         // GET: StudentController/Details/5

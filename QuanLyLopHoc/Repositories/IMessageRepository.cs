@@ -1,4 +1,5 @@
-﻿using QuanLyLopHoc.Models.Entities;
+﻿using QuanLyLopHoc.Models.DAO;
+using QuanLyLopHoc.Models.Entities;
 
 namespace QuanLyLopHoc.Repository
 {
@@ -7,7 +8,9 @@ namespace QuanLyLopHoc.Repository
         public Task Create(Message message);
         public Task Edit(string messageId, Message newMessage);
         public Task Delete(string messageId);
-        public Task<ICollection<Message>> GetAll(string currentUserId, string otherUserId);
+        public Task<MessageHistory> GetAll(User currentUser, User oppositeUser);
+        //public Task<MessageHistory> GetAll(string currentUserId, string oppositeUserId);
+
 
     }
 }

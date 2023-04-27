@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using QuanLyLopHoc.Areas.Identity.Data;
 using QuanLyLopHoc.Services;
+using System.Security.Claims;
 
 namespace QuanLyLopHoc.Controllers
 {
@@ -8,17 +12,20 @@ namespace QuanLyLopHoc.Controllers
     {
         // GET: MessageController
         private readonly IMessageSevice _messageSevice;
+        private readonly UserManager<ApplicationUser> userManager;
         public MessageController(IMessageSevice messageSevice)
         {
             _messageSevice = messageSevice;
         }
+        [Authorize]
         public ActionResult Index()
         {
+            
             return View();
         }
 
         // GET: MessageController/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(string Id)
         {
             return View();
         }
@@ -45,8 +52,16 @@ namespace QuanLyLopHoc.Controllers
         }
 
         // GET: MessageController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<IActionResult> PartialChatting(string userId = null)
         {
+            if (userId != null)
+            {
+                var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var historyChat = await _messageSevice.GetHistoryChat(id, userId);
+                ViewData["currentUser"] = id;
+                ViewData["receiver"] = userId;
+                return View(historyChat);
+            }
             return View();
         }
 

@@ -1,6 +1,8 @@
 ﻿using QuanLyLopHoc.Models;
+using QuanLyLopHoc.Models.DAO;
 using QuanLyLopHoc.Models.Entities;
 using QuanLyLopHoc.Repository;
+using QuanLyLopHoc.Services;
 
 namespace QuanLyLopHoc.Repositories
 {
@@ -8,10 +10,12 @@ namespace QuanLyLopHoc.Repositories
     {
         private readonly SMContext _context;
         private readonly ILogger _logger;
-        public MessageRepository(SMContext context, ILogger<MessageRepository> logger)
+        private readonly IUserService _userService;
+        public MessageRepository(SMContext context, ILogger<MessageRepository> logger, IUserService userService)
         {
             _context = context;
             _logger = logger;
+            _userService = userService;
         }
         public async Task Create(Message message)
         {
@@ -52,18 +56,30 @@ namespace QuanLyLopHoc.Repositories
                 _logger.LogError(ex.Message, ex);
             }
         }
-        public async Task<ICollection<Message>> GetAll(string currentUserId, string otherUserId)
+        public async Task<MessageHistory> GetAll(User currentUser, User oppositeUser)
         {
+            var result = new MessageHistory();
+            result.oppositeUser = oppositeUser;
+            result.currentUser = currentUser;
             try
             {
-                var result = _context.Messages.Where(b => b.SenderId == currentUserId && b.ReceiverId == otherUserId).ToList();
+                var lst1 = _context.Messages.Where(c => c.SenderId == currentUser.Id && c.ReceiverId == oppositeUser.Id).ToList();
+                var lst2 = _context.Messages.Where(c => c.SenderId == oppositeUser.Id && c.ReceiverId == currentUser.Id).ToList();
+                lst1.AddRange(lst2);
+                var ls = lst1.OrderBy(c => c.SendTime);
+                result.messages = ls;
                 return result;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message, ex);
             }
-            return Array.Empty<Message>();
+            return result;
+        }
+
+        public Task<MessageHistory> GetAll(string currentUserId, string oppositeUserId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

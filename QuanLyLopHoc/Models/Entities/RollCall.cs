@@ -6,6 +6,7 @@ namespace QuanLyLopHoc.Models.Entities
     [Table("RollCall")]
     public class RollCall
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public string Id { get; set; }
         public string SubjectId { get; set; }
