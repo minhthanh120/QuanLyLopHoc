@@ -29,9 +29,9 @@ namespace QuanLyLopHoc.Services
             return await _userRepository.FindUserById(id);
         }
 
-        public void Edit(User user)
+        public async Task Edit(User user)
         {
-            _userRepository.Update(user);
+            await _userRepository.Update(user);
         }
     }
 }

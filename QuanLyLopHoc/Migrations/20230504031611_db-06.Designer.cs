@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QuanLyLopHoc.Models;
 
@@ -11,9 +12,11 @@ using QuanLyLopHoc.Models;
 namespace QuanLyLopHoc.Migrations
 {
     [DbContext(typeof(SMContext))]
-    partial class SMContextModelSnapshot : ModelSnapshot
+    [Migration("20230504031611_db-06")]
+    partial class db06
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -448,6 +451,7 @@ namespace QuanLyLopHoc.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CreatedDate")
+                        .IsRequired()
                         .HasColumnType("NTEXT");
 
                     b.Property<string>("CreatorId")

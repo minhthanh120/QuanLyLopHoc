@@ -85,15 +85,25 @@ namespace QuanLyLopHoc.Repositories
                 _logger.LogError(ex.Message, ex);
             }
         }
-        public void Update(User userInfo)
+        public async Task Update(User userInfo)
         {
             try
             {
                 var currentUser = _context.Find<User>(userInfo.Id);
                 if (currentUser != null)
                 {
-                    currentUser = userInfo;
-                    _context.SaveChanges();
+                    currentUser.Avatar = userInfo.Avatar;
+                    currentUser.School = userInfo.School;
+                    currentUser.Class = userInfo.Class;
+                    currentUser.City = userInfo.City;
+                    currentUser.About = userInfo.About;
+                    currentUser.BirthDay = userInfo.BirthDay;
+                    currentUser.Gender = userInfo.Gender;
+                    currentUser.LastName = userInfo.LastName;
+                    currentUser.FirstName = userInfo.FirstName;
+                    currentUser.Email = userInfo.Email;
+                    //currentUser. = userInfo.Avatar;
+                    await _context.SaveChangesAsync();
                 }
             }
             catch (Exception ex)

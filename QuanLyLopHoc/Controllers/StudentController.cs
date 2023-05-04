@@ -13,9 +13,12 @@ namespace QuanLyLopHoc.Controllers
         // GET: StudentController
         private readonly IStudentService _studentService;
         private readonly UserManager<ApplicationUser> _userManager;
-        public StudentController(IStudentService studentService)
+        private readonly IUserService _userService;
+        public StudentController(IStudentService studentService, IUserService userService)
         {
             _studentService = studentService;
+            _userService = userService;
+
         }
         [Authorize]
         public ActionResult Index()
@@ -23,6 +26,19 @@ namespace QuanLyLopHoc.Controllers
             var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var subjects = _studentService.GetListSubject(id);
             return View(subjects);
+        }
+
+        public async Task<IActionResult> MyTranscript()
+        {
+            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            
+            var subjects = await _studentService.GetListSubjectandTranscript(id);
+            var completeList = subjects.Where(d => d.Transcript.Details.FirstOrDefault().DiemTB >= 4);
+            var notcompleteList = subjects.Where(d => d.Transcript.Details.FirstOrDefault().DiemTB < 4);
+            var willcompleteList = subjects.Where(d => d.Transcript.Details.FirstOrDefault().DiemTB == null);
+
+
+            return View();
         }
 
         // GET: StudentController/Details/5
