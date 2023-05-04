@@ -14,8 +14,8 @@ namespace QuanLyLopHoc.Models.Entities
         [Column(TypeName = "NVARCHAR(50)")]
         public string SubjectName { get; set; }
         [Column(TypeName = "NTEXT")]
-        public DateTime? CreatedDate { get; set; } = DateTime.Now;
         public string Description { get; set; }
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
         public string? CreatorId { get; set; }
         public virtual User Creator { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
