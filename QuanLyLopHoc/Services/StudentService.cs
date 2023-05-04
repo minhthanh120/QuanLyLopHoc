@@ -1,4 +1,5 @@
-﻿using QuanLyLopHoc.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using QuanLyLopHoc.Models;
 using QuanLyLopHoc.Models.Entities;
 
 namespace QuanLyLopHoc.Services
@@ -25,7 +26,8 @@ namespace QuanLyLopHoc.Services
                 _context.Entry(item).Reference(p => p.Transcript).Load();
                 _context.Entry(item.Transcript).Collection(s=>s.Details)
                     .Query()
-                    .Where(sc=>sc.UserId == userId).ToList();
+                    .Where(sc=>sc.UserId == userId)
+                    .Load();
             }
             return lst;
         }
