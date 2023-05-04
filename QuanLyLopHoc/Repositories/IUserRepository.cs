@@ -9,7 +9,7 @@ namespace QuanLyLopHoc.Repositories
         public Task<ICollection<User>> FindListUserByName(string name);
         public ICollection<User> FindListUser(string name);
         public Task Create(string id, string email);
-        public void Update(User userinfo);
+        public Task Update(User userinfo);
 
     }
 }

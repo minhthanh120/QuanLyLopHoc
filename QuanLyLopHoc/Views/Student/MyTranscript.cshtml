@@ -1,0 +1,464 @@
+﻿@{
+    var complete = ViewData["complete"] as QuanLyLopHoc.Models.Entities.DetailTranscript;
+
+}
+<div class="flex flex-wrap" id="tabs-id">
+    <div class="w-full">
+        <ul class="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row">
+            <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
+                <a class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal text-white bg-sky-600" onclick="changeAtiveTab(event,'tab-profile')">
+                    Môn học đã hoàn thành
+                </a>
+            </li>
+            <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
+                <a class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal text-sky-600 bg-white" onclick="changeAtiveTab(event,'tab-settings')">
+                    Môn học chưa hoàn thành
+                </a>
+            </li>
+            <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
+                <a class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal text-sky-600 bg-white" onclick="changeAtiveTab(event,'tab-options')">
+                    Môn học chưa đạt
+                </a>
+            </li>
+        </ul>
+        <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
+            <div class="px-4 py-5 flex-auto">
+                <div class="tab-content tab-space">
+                    <div class="block" id="tab-profile">
+                        <div class="flex flex-row my-2">
+                            <button onmouseover="hoverdownload()" onmouseout="outhoverdownload()" class="hover:animate-bounce bg-white dark:bg-slate-300 p-2 w-10 h-10 ring-1 ring-slate-900/5 dark:ring-slate-200/20 shadow-lg rounded-full flex items-center justify-center">
+                                <svg class="w-6 h-6 text-violet-500" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                                </svg>
+                            </button>
+                            <div id="l-download" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 dark:bg-gray-700">
+                                Download
+                            </div>
+                            <button onmouseover="hovershare()" onmouseout="outhovershare()" class="hover:animate-bounce mx-3  bg-white dark:bg-slate-300 p-2 w-10 h-10 ring-1 ring-slate-900/5 dark:ring-slate-200/20 shadow-lg rounded-full flex items-center justify-center">
+                                <svg class="w-6 h-6 text-violet-500" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z"></path>
+                                </svg>
+                            </button>
+                            <div id="l-share" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+                                Share link
+                            </div>
+                            <input id="search" type="text" class="ml-auto border rounded-lg text-base p-2" placeholder="Tìm kiếm">
+                        </div>
+                        <div class="relative overflow-x-auto">
+                            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                <thead class="text-xs text-gray-700 font-medium uppercase bg-gray-50  border-gray-700">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3">
+                                            Tên môn học
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Số tín chỉ
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Điểm trung bình
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Điểm hệ số 4
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Xếp loại
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b  border-gray-700 bg-slate-100">
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            Giải tích 1
+                                        </th>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            4
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            10
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            4
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            A+
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b  border-gray-700 bg-slate-300">
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            Giải tích 2
+                                        </th>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            4
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            10
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            4
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            A+
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b  border-gray-700 bg-slate-100">
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            Vật lý đại cương 1
+                                        </th>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            4
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            8
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            3.5
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            A
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b  border-gray-700 bg-slate-300">
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            Vật lý đại cương 2
+                                        </th>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            4
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            9
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            4
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            A+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="m-4">
+                            <table class="font-medium text-sm text-left text-gray-900">
+                                <tbody>
+                                    <tr>
+                                        <th>Tổng tín chỉ tích lũy:</th>
+                                        <td class="text-right">16</td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Điểm trung bình:
+                                        </th>
+                                        <td class="text-right">9.75</td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Điểm hệ số 4:
+                                        </th>
+                                        <td class="text-right">3.6</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="hidden" id="tab-settings">
+                        <div class="relative overflow-x-auto">
+                            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                <thead class="text-xs text-gray-700 font-medium uppercase bg-gray-50  border-gray-700">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3">
+                                            Tên môn học
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Số tín chỉ
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Điểm trung bình
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Điểm hệ số 4
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Xếp loại
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b  border-gray-700 bg-slate-100">
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            Giải tích 1
+                                        </th>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            4
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            10
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            4
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            A+
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b  border-gray-700 bg-slate-300">
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            Giải tích 2
+                                        </th>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            4
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            10
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            4
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            A+
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b  border-gray-700 bg-slate-100">
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            Vật lý đại cương 1
+                                        </th>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            4
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            8
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            3.5
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            A
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b  border-gray-700 bg-slate-300">
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            Vật lý đại cương 2
+                                        </th>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            4
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            9
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            4
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            A+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="m-4">
+                            <table class="font-medium text-sm text-left text-gray-900">
+                                <tbody>
+                                    <tr>
+                                        <th>Tổng tín chỉ tích lũy:</th>
+                                        <td class="text-right">16</td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Điểm trung bình:
+                                        </th>
+                                        <td class="text-right">9.75</td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Điểm hệ số 4:
+                                        </th>
+                                        <td class="text-right">3.6</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="hidden" id="tab-options">
+                        <div class="relative overflow-x-auto">
+                            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                <thead class="text-xs text-gray-700 font-medium uppercase bg-gray-50  border-gray-700">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3">
+                                            Tên môn học
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Số tín chỉ
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Điểm trung bình
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Điểm hệ số 4
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Xếp loại
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b  border-gray-700 bg-slate-100">
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            Giải tích 1
+                                        </th>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            4
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            10
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            4
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            A+
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b  border-gray-700 bg-slate-300">
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            Giải tích 2
+                                        </th>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            4
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            10
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            4
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            A+
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b  border-gray-700 bg-slate-100">
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            Vật lý đại cương 1
+                                        </th>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            4
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            8
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            3.5
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            A
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b  border-gray-700 bg-slate-300">
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            Vật lý đại cương 2
+                                        </th>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            4
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            9
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            4
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            A+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="m-4">
+                            <table class="font-medium text-sm text-left text-gray-900">
+                                <tbody>
+                                    <tr>
+                                        <th>Tổng tín chỉ tích lũy:</th>
+                                        <td class="text-right">16</td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Điểm trung bình:
+                                        </th>
+                                        <td class="text-right">9.75</td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Điểm hệ số 4:
+                                        </th>
+                                        <td class="text-right">3.6</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+
+    <script>
+        function hoverdownload() {
+            const label = document.getElementById('l-download');
+            label.classList.remove('hidden');
+        }
+        function outhoverdownload() {
+            const label = document.getElementById('l-download');
+            label.classList.add('hidden');
+        }
+        function hovershare() {
+            const label = document.getElementById('l-share');
+            label.classList.remove('hidden');
+        }
+        function outhovershare() {
+            const label = document.getElementById('l-share');
+            label.classList.add('hidden');
+        }
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            function Contains(text_one, text_two) {
+                if (text_one.indexOf(text_two) != -1)
+                    return true;
+            }
+            $("#search").keyup(function () {
+                var searchText = $("search").val().toLowerCase();
+                $(".search").each(function () {
+                    if (!Contains($(this).text().toLowerCase(), searchText)) {
+                        $(this).hide();
+                    }
+                    else {
+                        $(this).show();
+                    }
+                })
+            })
+        });
+        function changeAtiveTab(event, tabID) {
+            let element = event.target;
+            while (element.nodeName !== "A") {
+                element = element.parentNode;
+            }
+            ulElement = element.parentNode.parentNode;
+            aElements = ulElement.querySelectorAll("li > a");
+            tabContents = document.getElementById("tabs-id").querySelectorAll(".tab-content > div");
+            for (let i = 0; i < aElements.length; i++) {
+                aElements[i].classList.remove("text-white");
+                aElements[i].classList.remove("bg-sky-600");
+                aElements[i].classList.add("text-sky-600");
+                aElements[i].classList.add("bg-white");
+                tabContents[i].classList.add("hidden");
+                tabContents[i].classList.remove("block");
+            }
+            element.classList.remove("text-sky-600");
+            element.classList.remove("bg-white");
+            element.classList.add("text-white");
+            element.classList.add("bg-sky-600");
+            document.getElementById(tabID).classList.remove("hidden");
+            document.getElementById(tabID).classList.add("block");
+        }
+    </script>
+}

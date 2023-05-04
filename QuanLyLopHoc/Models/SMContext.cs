@@ -111,10 +111,10 @@ namespace QuanLyLopHoc.Models
 
 
             modelBuilder.Entity<Transcript>().HasKey(pk => new { pk.Id });
-            modelBuilder.Entity<Transcript>()
-                .HasOne(pk=>pk.Subject)
-                .WithMany(pk=>pk.Transcripts)
-                .HasForeignKey(pk => pk.SubjectId);
+            //modelBuilder.Entity<Transcript>()
+            //    .HasOne(pk=>pk.Subject)
+            //    .WithOne(pk=>pk.Transcripts)
+            //    .HasForeignKey<Subject>(fk=>fk.);
             modelBuilder.Entity<Transcript>()
                 .HasOne(s => s.Creator)
                 .WithMany(g => g.CreatedTranscript)
@@ -128,6 +128,11 @@ namespace QuanLyLopHoc.Models
                 .WithMany(pk => pk.CreatedSubject)
                 .HasForeignKey(pk => pk.CreatorId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
+            modelBuilder.Entity<Subject>()
+                .HasOne<Transcript>(pk => pk.Transcript)
+                .WithOne(fk => fk.Subject)
+                .HasForeignKey<Transcript>(fk => fk.SubjectId);
+
             modelBuilder.Entity<User>().HasKey(pk => new { pk.Id });
             
             modelBuilder.Entity<DetailRollCall>().HasKey(pk => new { pk.StudentId, pk.RollCallId });

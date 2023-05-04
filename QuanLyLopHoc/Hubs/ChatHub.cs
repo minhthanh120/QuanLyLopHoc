@@ -23,9 +23,12 @@ namespace QuanLyLopHoc.Hubs
             //var currentUser = _userManager.Users.FirstOrDefault(s => s.Email == user);
             //var receiveUser = _userManager.Users.FirstOrDefault(s => s.Email == receiver);
             _messageSevice.Create(user, receiver, message);
-            await Clients.User(receiver).SendAsync("ReceiveMessage", user, message);
+            await Clients.Users(receiver, user).SendAsync("ReceiveMessage", user, message);
             //return Clients.Group(receiver).SendAsync("ReceiveMessage", user, message);
         }
+        public async Task SendNotification(string subject, IList<string> UserReceive, string message)
+        {
 
+        }
     }
 }

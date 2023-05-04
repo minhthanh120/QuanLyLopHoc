@@ -8,12 +8,14 @@ namespace QuanLyLopHoc.Models.Entities
     [Table("DetailTranscript")]
     public class DetailTranscript
     {
+        [Key]
         public string UserId { get; set; }
+        [Key]
         public string TranscriptId { get; set; }
-        public decimal DiemCC { get; set; }
-        public decimal DiemTX { get; set; }
-        public decimal DiemCK { get; set; }
-        public decimal DiemTB { get; set; }
+        public decimal? DiemCC { get; set; }
+        public decimal? DiemTX { get; set; }
+        public decimal? DiemCK { get; set; }
+        public decimal? DiemTB { get; set; }
         public virtual Transcript Transcript { get; set; }
         public virtual User Student { get; set; }
     }

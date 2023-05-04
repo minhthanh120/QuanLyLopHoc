@@ -70,19 +70,20 @@ namespace QuanLyLopHoc.Controllers
         public async Task<ActionResult> Edit()
         {
             var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            
             var user = await _userService.GetUserbyId(id);
-
+            //ViewData["avatar"] = user.Avatar;
             return View(user);
         }
 
         // POST: UserController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, [Bind("Id,FirstName, LastName,Class,School,Phone,Email, BirthDay, City")] User user)
+        public async Task<ActionResult> Edit(int id, [Bind("Id,FirstName, LastName,Class,School,Phone,Email, BirthDay, City, Avatar")] User user)
         {
             try
             {
-                _userService.Edit(user);
+                await _userService.Edit(user);
                 return View(user);
             }
             catch
@@ -96,6 +97,7 @@ namespace QuanLyLopHoc.Controllers
         {
             return View();
         }
+
 
         // POST: UserController/Delete/5
         [HttpPost]
