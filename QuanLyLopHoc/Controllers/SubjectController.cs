@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using QuanLyLopHoc.Models;
+using QuanLyLopHoc.Models.DAO;
 using QuanLyLopHoc.Models.Entities;
 
 namespace QuanLyLopHoc.Controllers
@@ -18,8 +19,18 @@ namespace QuanLyLopHoc.Controllers
         }
 
         public IActionResult Details(string id)
-        {    
-            return View();
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var subjectFromDb = _db.Subjects.Find(id);
+            if (subjectFromDb == null)
+            {
+                return NotFound();
+            }
+
+            return View(subjectFromDb);
         }
 
         // GET
@@ -32,10 +43,18 @@ namespace QuanLyLopHoc.Controllers
         [HttpPost]
         public IActionResult Create(Subject obj)
         {
-            if (ModelState.IsValid)
+            /*if (ModelState.IsValid)
             {
                 _db.Subjects.Add(obj);
                 _db.SaveChanges();
+                return RedirectToAction("Index", "Subject");
+            }
+            return View();*/
+
+            if (ModelState.IsValid)
+            {
+                var dao = new SubjectDao();
+                dao.Create(obj);
                 return RedirectToAction("Index", "Subject");
             }
             return View();
@@ -60,11 +79,23 @@ namespace QuanLyLopHoc.Controllers
         [HttpPost]
         public IActionResult Edit(Subject obj)
         {
-            if (ModelState.IsValid)
+            /*if (ModelState.IsValid)
             {
                 _db.Subjects.Update(obj);
                 _db.SaveChanges();
                 return RedirectToAction("Index", "Subject");
+            }
+            return View();*/
+
+            var dao = new SubjectDao();
+            var result = dao.Edit(obj);
+            if (result)
+            {
+                return RedirectToAction("Index", "Subject");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Không cập nhật được !");
             }
             return View();
         }
