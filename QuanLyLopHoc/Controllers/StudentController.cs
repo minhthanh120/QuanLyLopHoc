@@ -32,11 +32,14 @@ namespace QuanLyLopHoc.Controllers
         {
             var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
             
+            
             var subjects = await _studentService.GetListSubjectandTranscript(id);
             var completeList = subjects.Where(d => d.Transcript.Details.FirstOrDefault().DiemTB >= 4).ToList();
             var notcompleteList = subjects.Where(d => d.Transcript.Details.FirstOrDefault().DiemTB < 4).ToList();
             var willcompleteList = subjects.Where(d => d.Transcript.Details.FirstOrDefault().DiemTB == null).ToList();
-
+            ViewData["complete"] = completeList;
+            ViewData["notcomplete"] = notcompleteList;
+            ViewData["willcomplete"] = willcompleteList;
 
             return View();
         }
