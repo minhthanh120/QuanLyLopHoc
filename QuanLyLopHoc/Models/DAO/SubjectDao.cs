@@ -21,15 +21,23 @@ namespace QuanLyLopHoc.Models.DAO
             try
             {
                 var subject = db.Subjects.Find(obj.Id);
-                db.Subjects.Update(obj);
-                db.SaveChanges();
+                if (subject == null)
+                {
+                    subject.SubjectName = obj.SubjectName;
+                    subject.Description = obj.Description;
+                    db.SaveChanges();
+                }
+                else
+                {
+                    db.Subjects.Update(obj);
+                    db.SaveChanges();
+                }
                 return true;
             }
             catch (Exception ex)
             {
                 return false;
             }
-
         }
 
         public bool Delete(string id)
