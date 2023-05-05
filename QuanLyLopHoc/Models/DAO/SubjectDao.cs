@@ -1,19 +1,37 @@
-﻿using QuanLyLopHoc.Models.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using QuanLyLopHoc.Models.Entities;
+using System.Security.Claims;
+
 
 namespace QuanLyLopHoc.Models.DAO
 {
     public class SubjectDao
     {
-        SMContext db = null;
-        public SubjectDao()
+        private readonly SMContext db;
+        public SubjectDao(SMContext context)
         {
-            db = new SMContext();
+            db = context;
         }
-        public string Create(Subject obj)
+
+        public List<Subject> GetListSubjects(string userId) 
         {
-            db.Subjects.Add(obj);
-            db.SaveChanges();
-            return obj.Id;
+            var lst = db.Subjects.Where(con => con.TeacherSubjects.First(con2 => con2.UserId == userId).UserId != null).ToList();
+            return lst;
+        }
+
+        public bool Create(Subject obj/*, string creatorId*/)
+        {
+            try
+            {
+                obj.CreatorId = "1";
+                db.Subjects.Add(obj);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
         public bool Edit(Subject obj)
@@ -23,14 +41,18 @@ namespace QuanLyLopHoc.Models.DAO
                 var subject = db.Subjects.Find(obj.Id);
                 if (subject == null)
                 {
+                    subject = new Subject();
                     subject.SubjectName = obj.SubjectName;
                     subject.Description = obj.Description;
+                    subject.Credit = obj.Credit;
                     db.SaveChanges();
                 }
                 else
                 {
-                    db.Subjects.Update(obj);
-                    db.SaveChanges();
+                    subject.SubjectName = obj.SubjectName;
+                    subject.Description = obj.Description;
+                    subject.Credit = obj.Credit;
+                    db.SaveChanges(); db.SaveChanges();
                 }
                 return true;
             }

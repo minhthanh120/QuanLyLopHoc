@@ -9,6 +9,7 @@ using QuanLyLopHoc.Repository;
 using QuanLyLopHoc.Repositories;
 using QuanLyLopHoc.Services;
 using QuanLyLopHoc.Hubs;
+using QuanLyLopHoc.Models.DAO;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("SMContextConnection") ?? throw new InvalidOperationException("Connection string 'SMContextConnection' not found.");
@@ -24,6 +25,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
 builder.Services.AddControllersWithViews();
 builder.Services.AddSignalR(e => e.MaximumReceiveMessageSize = 102400000);
 builder.Services.AddTransient<SMContext>();
+builder.Services.AddTransient<SubjectDao>(); 
 builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IMessageSevice, MessageService>();

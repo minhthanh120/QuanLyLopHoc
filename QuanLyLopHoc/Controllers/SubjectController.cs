@@ -1,21 +1,33 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using QuanLyLopHoc.Models;
 using QuanLyLopHoc.Models.DAO;
 using QuanLyLopHoc.Models.Entities;
+using System.Security.Claims;
 
 namespace QuanLyLopHoc.Controllers
 {
     public class SubjectController : Controller
     {
         private readonly SMContext _db;
-        public SubjectController(SMContext db)
+        private readonly SubjectDao _subjectDao; //inject dey
+        public SubjectController(SMContext db, SubjectDao subjectDao)//day nua
         {
             _db = db;
+            _subjectDao = subjectDao;//dey nua nha
         }
+
+        [Authorize]
+
         public IActionResult Index()
         {
+            /*var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
             IEnumerable<Subject> objSubjectList = _db.Subjects;
-            return View(objSubjectList);
+            return View(objSubjectList);*/
+
+            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var subjectList = _subjectDao.GetListSubjects("1");
+            return View(subjectList);
         }
 
         public IActionResult Details(string id)
@@ -34,6 +46,7 @@ namespace QuanLyLopHoc.Controllers
         }
 
         // GET
+        [HttpGet]
         public IActionResult Create()
         {        
             return View();
@@ -43,23 +56,23 @@ namespace QuanLyLopHoc.Controllers
         [HttpPost]
         public IActionResult Create(Subject obj)
         {
-            /*if (ModelState.IsValid)
+            /*var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            obj.CreatorId = id;*/
+                         
+            var result = _subjectDao.Create(obj);
+            if(result)
             {
-                _db.Subjects.Add(obj);
-                _db.SaveChanges();
                 return RedirectToAction("Index", "Subject");
             }
-            return View();*/
-
-            if (ModelState.IsValid)
+            else
             {
-                var dao = new SubjectDao();
-                dao.Create(obj);
-                return RedirectToAction("Index", "Subject");
+                ModelState.AddModelError("", "Không tạo được lớp môn học !");
             }
+          
             return View();
         }
         // GET
+        [HttpGet]
         public IActionResult Edit(string? id)
         {
             if (id==null)
@@ -79,16 +92,7 @@ namespace QuanLyLopHoc.Controllers
         [HttpPost]
         public IActionResult Edit(Subject obj)
         {
-            /*if (ModelState.IsValid)
-            {
-                _db.Subjects.Update(obj);
-                _db.SaveChanges();
-                return RedirectToAction("Index", "Subject");
-            }
-            return View();*/
-
-            var dao = new SubjectDao();
-            var result = dao.Edit(obj);
+            var result = _subjectDao.Edit(obj);
             if (result)
             {
                 return RedirectToAction("Index", "Subject");
