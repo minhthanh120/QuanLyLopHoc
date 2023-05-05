@@ -17,8 +17,8 @@
     </div>
 </div>
 
-<div class="grid"
-     style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr))"
+<div class="flex flex-wrap gap-2 justify-start"
+     @*style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr))"*@
 >
     @foreach (var obj in Model)
     {
@@ -38,7 +38,7 @@
                     @obj.Description
                 </p>
                 <div class="flex gap-2 justify-between">
-                        <a href="#"
+                        <a asp-controller="Subject" asp-action="Details" asp-route-id="@obj.Id"
                            class="mt-auto inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-[#9c56d4] rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
                             Thông tin chi tiết
                             <svg aria-hidden="true"
