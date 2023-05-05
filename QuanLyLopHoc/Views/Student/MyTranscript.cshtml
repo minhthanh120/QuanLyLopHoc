@@ -1,6 +1,62 @@
 ﻿@{
     var complete = ViewData["complete"] as ICollection<QuanLyLopHoc.Models.Entities.Subject>;
+    var notcomplete = ViewData["notcomplete"] as ICollection<QuanLyLopHoc.Models.Entities.Subject>;
+    var willcomplete = ViewData["willcomplete"] as ICollection<QuanLyLopHoc.Models.Entities.Subject>;
+    var f = "F";
+    var d = "D";
+    var c = "C";
+    var b = "B";
+    var a = "A";
+    var dp = "D+";
+    var cp = "C+";
+    var bp = "B+";
+    var ap = "A+";
+    var dtb = Math.Round(complete.Sum(i => i.Transcript.Details.Sum(j => j.DiemTB)).Value / complete.Sum(i => i.Credit), 2);
+    decimal toFour(decimal x)
+    {
+        return Math.Round(x * 4 / 10, 2);
+    }
 
+    string toABC(decimal x)
+    {
+        if (x < 4M)
+        {
+            return "F";
+        }
+        else if (x < 5M)
+        {
+            return "D";
+        }
+        else if (x < 5.5M)
+        {
+            return "D+";
+        }
+        else if (x < 6.5M)
+        {
+            return "C";
+        }
+        else if (x < 7)
+        {
+            return "C+";
+        }
+        else if (x < 8)
+        {
+            return "B";
+        }
+        else if (x < 8.5M)
+        {
+            return "B+";
+        }
+        else if (x < 9)
+        {
+            return "A";
+        }
+        else if (x < 10)
+        {
+            return "A+";
+        }
+        return "";
+    }
 }
 <div class="flex flex-wrap" id="tabs-id">
     <div class="w-full">
@@ -66,27 +122,33 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach(var item in complete)
+                                    @foreach (var item in complete)
                                     {
                                         <tr class="border-b  border-gray-700 bg-slate-100">
                                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
                                                 @item.SubjectName
                                             </th>
                                             <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                                @item.
+                                                @item.Credit
                                             </td>
                                             <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                                10
+                                                @if(@item.Transcript.Details.FirstOrDefault() != null)
+                                                {@item.Transcript.Details.FirstOrDefault().DiemTB}
                                             </td>
                                             <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                                4
+                                                @if(@item.Transcript.Details.FirstOrDefault()!=null)
+                                                {
+                                                    @toFour(@item.Transcript.Details.FirstOrDefault().DiemTB.Value)
+                                                }
                                             </td>
                                             <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                                A+
+                                                @if(@item.Transcript.Details.FirstOrDefault()!=null)
+                                                {
+                                                    @toABC(item.Transcript.Details.FirstOrDefault().DiemTB.Value)
+                                                }
                                             </td>
                                         </tr>
                                     }
-
                                 </tbody>
                             </table>
                         </div>
@@ -95,19 +157,19 @@
                                 <tbody>
                                     <tr>
                                         <th>Tổng tín chỉ tích lũy:</th>
-                                        <td class="text-right">16</td>
+                                        <td class="text-right">@complete.Sum(i=>i.Credit)</td>
                                     </tr>
                                     <tr>
                                         <th>
                                             Điểm trung bình:
                                         </th>
-                                        <td class="text-right">9.75</td>
+                                        <td class="text-right">@dtb</td>
                                     </tr>
                                     <tr>
                                         <th>
                                             Điểm hệ số 4:
                                         </th>
-                                        <td class="text-right">3.6</td>
+                                        <td class="text-right">@toFour(dtb)</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -115,6 +177,7 @@
                     </div>
                     <div class="hidden" id="tab-settings">
                         <div class="relative overflow-x-auto">
+                            @if(@willcomplete.Count > 0 || @willcomplete !=null){
                             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                 <thead class="text-xs text-gray-700 font-medium uppercase bg-gray-50  border-gray-700">
                                     <tr>
@@ -136,105 +199,47 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="border-b  border-gray-700 bg-slate-100">
-                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            Giải tích 1
-                                        </th>
-                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            4
-                                        </td>
-                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            10
-                                        </td>
-                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            4
-                                        </td>
-                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            A+
-                                        </td>
-                                    </tr>
-                                    <tr class="border-b  border-gray-700 bg-slate-300">
-                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            Giải tích 2
-                                        </th>
-                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            4
-                                        </td>
-                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            10
-                                        </td>
-                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            4
-                                        </td>
-                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            A+
-                                        </td>
-                                    </tr>
-                                    <tr class="border-b  border-gray-700 bg-slate-100">
-                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            Vật lý đại cương 1
-                                        </th>
-                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            4
-                                        </td>
-                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            8
-                                        </td>
-                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            3.5
-                                        </td>
-                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            A
-                                        </td>
-                                    </tr>
-                                    <tr class="border-b  border-gray-700 bg-slate-300">
-                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            Vật lý đại cương 2
-                                        </th>
-                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            4
-                                        </td>
-                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            9
-                                        </td>
-                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            4
-                                        </td>
-                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            A+
-                                        </td>
-                                    </tr>
+                                    @foreach (var item in @willcomplete)
+                                    {
+                                        <tr class="border-b  border-gray-700 bg-slate-100">
+                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                                @item.SubjectName
+                                            </th>
+                                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                                @item.Credit
+                                            </td>
+                                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                                @if (@item.Transcript.Details.FirstOrDefault() != null)
+                                                {
+                                                    @item.Transcript.Details.FirstOrDefault().DiemTB
+                                                }
+                                            </td>
+                                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                                @*@if (@item.Transcript.Details.FirstOrDefault() != null)
+                                                {
+                                                    @toFour(@item.Transcript.Details.FirstOrDefault().DiemTB.Value)
+                                                }*@
+                                            </td><td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                                @*@if (@item.Transcript.Details.FirstOrDefault() != null)
+                                                {
+                                                    @toABC(item.Transcript.Details.FirstOrDefault().DiemTB.Value)
+                                                }*@
+                                            </td>
+                                        </tr>
+                                    }
+                                    
                                 </tbody>
                             </table>
+                            }
                         </div>
-                        <div class="m-4">
-                            <table class="font-medium text-sm text-left text-gray-900">
-                                <tbody>
-                                    <tr>
-                                        <th>Tổng tín chỉ tích lũy:</th>
-                                        <td class="text-right">16</td>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            Điểm trung bình:
-                                        </th>
-                                        <td class="text-right">9.75</td>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            Điểm hệ số 4:
-                                        </th>
-                                        <td class="text-right">3.6</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                        
                     </div>
                     <div class="hidden" id="tab-options">
                         <div class="relative overflow-x-auto">
+                            @if(@notcomplete !=null||@notcomplete.Count > 0  ){
                             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                 <thead class="text-xs text-gray-700 font-medium uppercase bg-gray-50  border-gray-700">
-                                    <tr>
+                                    <tr> 
                                         <th scope="col" class="px-6 py-3">
                                             Tên môn học
                                         </th>
@@ -253,99 +258,40 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="border-b  border-gray-700 bg-slate-100">
-                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            Giải tích 1
-                                        </th>
-                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            4
-                                        </td>
-                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            10
-                                        </td>
-                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            4
-                                        </td>
-                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            A+
-                                        </td>
-                                    </tr>
-                                    <tr class="border-b  border-gray-700 bg-slate-300">
-                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            Giải tích 2
-                                        </th>
-                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            4
-                                        </td>
-                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            10
-                                        </td>
-                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            4
-                                        </td>
-                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            A+
-                                        </td>
-                                    </tr>
-                                    <tr class="border-b  border-gray-700 bg-slate-100">
-                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            Vật lý đại cương 1
-                                        </th>
-                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            4
-                                        </td>
-                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            8
-                                        </td>
-                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            3.5
-                                        </td>
-                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            A
-                                        </td>
-                                    </tr>
-                                    <tr class="border-b  border-gray-700 bg-slate-300">
-                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            Vật lý đại cương 2
-                                        </th>
-                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            4
-                                        </td>
-                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            9
-                                        </td>
-                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            4
-                                        </td>
-                                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            A+
-                                        </td>
-                                    </tr>
+                                    @foreach (var item in notcomplete)
+                                    {
+                                        <tr class="border-b  border-gray-700 bg-slate-100">
+                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                                @item.SubjectName
+                                            </th>
+                                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                                @item.Credit
+                                            </td>
+                                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                                @if (@item.Transcript.Details.FirstOrDefault() != null)
+                                                {
+                                                    @item.Transcript.Details.FirstOrDefault().DiemTB
+                                                }
+                                            </td>
+                                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                                @if (@item.Transcript.Details.FirstOrDefault() != null)
+                                                {
+                                                    @toFour(@item.Transcript.Details.FirstOrDefault().DiemTB.Value)
+                                                }
+                                            </td>
+                                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                                @if (@item.Transcript.Details.FirstOrDefault() != null)
+                                                {
+                                                    @toABC(item.Transcript.Details.FirstOrDefault().DiemTB.Value)
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
                                 </tbody>
                             </table>
+                            }
                         </div>
-                        <div class="m-4">
-                            <table class="font-medium text-sm text-left text-gray-900">
-                                <tbody>
-                                    <tr>
-                                        <th>Tổng tín chỉ tích lũy:</th>
-                                        <td class="text-right">16</td>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            Điểm trung bình:
-                                        </th>
-                                        <td class="text-right">9.75</td>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            Điểm hệ số 4:
-                                        </th>
-                                        <td class="text-right">3.6</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                        
                     </div>
                 </div>
             </div>

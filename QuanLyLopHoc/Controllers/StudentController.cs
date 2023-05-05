@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using X.PagedList;
 using QuanLyLopHoc.Areas.Identity.Data;
 using QuanLyLopHoc.Services;
 using System.Security.Claims;
@@ -14,14 +15,32 @@ namespace QuanLyLopHoc.Controllers
         private readonly IStudentService _studentService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUserService _userService;
-        public StudentController(IStudentService studentService, IUserService userService)
+        private readonly ILogger<StudentController> _logger;
+        public StudentController(IStudentService studentService, IUserService userService, ILogger<StudentController> logger)
         {
             _studentService = studentService;
             _userService = userService;
+            _logger = logger;
 
         }
         [Authorize]
-        public ActionResult Index()
+        public ActionResult Index(int page=1)
+        {
+            try
+            {
+                int size = 9;
+                var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var subjects = _studentService.GetListSubject(id);
+                return View(subjects.ToPagedList(page, size));
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex.Message, ex);
+            }
+            return RedirectToAction("WebError", "Home");
+        }
+        [Authorize]
+        public ActionResult Search(string key)
         {
             var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var subjects = _studentService.GetListSubject(id);
@@ -33,6 +52,7 @@ namespace QuanLyLopHoc.Controllers
             var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
             
             
+            
             var subjects = await _studentService.GetListSubjectandTranscript(id);
             var completeList = subjects.Where(d => d.Transcript.Details.FirstOrDefault().DiemTB >= 4).ToList();
             var notcompleteList = subjects.Where(d => d.Transcript.Details.FirstOrDefault().DiemTB < 4).ToList();
@@ -40,7 +60,8 @@ namespace QuanLyLopHoc.Controllers
             ViewData["complete"] = completeList;
             ViewData["notcomplete"] = notcompleteList;
             ViewData["willcomplete"] = willcompleteList;
-
+            //completeList.Sum(i => i.Credit);
+            //completeList.Sum(i => i.Transcript.Details.Sum(j => j.DiemTB));
             return View();
         }
 
