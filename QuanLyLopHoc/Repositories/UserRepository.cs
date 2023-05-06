@@ -70,15 +70,28 @@ namespace QuanLyLopHoc.Repositories
             }
             return null;
         }
-        public async Task Create(string id, string email)
+        public async Task Create(User userInfo)
         {
             try
             {
-                var user = new User();
-                user.Id = id;
-                user.Email = email;
-                _context.Users.Add(user);
-                await _context.SaveChangesAsync();
+                var currentUser = _context.Find<User>(userInfo.Id);
+                if (currentUser == null)
+                {
+                    currentUser = new User();
+                    currentUser.Id = userInfo.Id;
+                    currentUser.Avatar = userInfo.Avatar;
+                    currentUser.School = userInfo.School;
+                    currentUser.Class = userInfo.Class;
+                    currentUser.City = userInfo.City;
+                    currentUser.About = userInfo.About;
+                    currentUser.BirthDay = userInfo.BirthDay;
+                    currentUser.Gender = userInfo.Gender;
+                    currentUser.LastName = userInfo.LastName;
+                    currentUser.FirstName = userInfo.FirstName;
+                    currentUser.Email = userInfo.Email;
+                    _context.Add(currentUser);
+                    await _context.SaveChangesAsync();
+                }
             }
             catch (Exception ex)
             {

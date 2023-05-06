@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using QuanLyLopHoc.Areas.Identity.Data;
 using QuanLyLopHoc.Models.Entities;
 using QuanLyLopHoc.Services;
 using System.Security.Claims;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace QuanLyLopHoc.Controllers
 {
@@ -11,10 +14,12 @@ namespace QuanLyLopHoc.Controllers
     public class UserController : Controller
     {
         private readonly IUserService _userService;
+        private readonly UserManager<ApplicationUser> userManager;
         // GET: UserController
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, UserManager<ApplicationUser> userManager)
         {
             _userService = userService;
+            this.userManager = userManager;
         }
         public ActionResult Index()
         {
@@ -35,27 +40,7 @@ namespace QuanLyLopHoc.Controllers
             return View();
         }
 
-        // GET: UserController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: UserController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
+        
         [HttpPost]
         //[ValidateAntiForgeryToken]
         public ActionResult Search(string search)
@@ -74,6 +59,21 @@ namespace QuanLyLopHoc.Controllers
             var user = await _userService.GetUserbyId(id);
             //ViewData["avatar"] = user.Avatar;
             return View(user);
+        }
+
+        public async Task< ActionResult> Create(User user)
+        {
+            return View(user);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(int id, [Bind("Id,FirstName, LastName,Email, Avatar")] User user)
+        {
+            //var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+             await _userService.CreateUserInfo(user);
+            //ViewData["avatar"] = user.Avatar;
+            return RedirectToAction("Index", "Home");
         }
 
         // POST: UserController/Edit/5

@@ -15,9 +15,9 @@ namespace QuanLyLopHoc.Services
         {
             return await _userRepository.FindListUserByName(name);
         }
-        public async Task CreateUserInfo(string id, string email)
+        public async Task CreateUserInfo(User user)
         {
-            await _userRepository.Create(id, email);
+            await _userRepository.Create(user);
         }
         public ICollection<User> Search(string name)
         {

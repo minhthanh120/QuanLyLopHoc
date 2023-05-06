@@ -243,7 +243,7 @@ namespace QuanLyLopHoc.Migrations
 
                     b.HasIndex("RollCallId");
 
-                    b.ToTable("DetailRollCall");
+                    b.ToTable("DetailRollCall", (string)null);
                 });
 
             modelBuilder.Entity("QuanLyLopHoc.Models.Entities.DetailTranscript", b =>
@@ -270,7 +270,7 @@ namespace QuanLyLopHoc.Migrations
 
                     b.HasIndex("TranscriptId");
 
-                    b.ToTable("DetailTranscript");
+                    b.ToTable("DetailTranscript", (string)null);
                 });
 
             modelBuilder.Entity("QuanLyLopHoc.Models.Entities.Message", b =>
@@ -300,7 +300,7 @@ namespace QuanLyLopHoc.Migrations
 
                     b.HasIndex("SenderId");
 
-                    b.ToTable("Message");
+                    b.ToTable("Message", (string)null);
                 });
 
             modelBuilder.Entity("QuanLyLopHoc.Models.Entities.Notification", b =>
@@ -328,7 +328,7 @@ namespace QuanLyLopHoc.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Notifications");
+                    b.ToTable("Notifications", (string)null);
                 });
 
             modelBuilder.Entity("QuanLyLopHoc.Models.Entities.Post", b =>
@@ -370,7 +370,7 @@ namespace QuanLyLopHoc.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("Post");
+                    b.ToTable("Post", (string)null);
                 });
 
             modelBuilder.Entity("QuanLyLopHoc.Models.Entities.Reply", b =>
@@ -400,7 +400,7 @@ namespace QuanLyLopHoc.Migrations
 
                     b.HasIndex("StudentRepId");
 
-                    b.ToTable("Replies");
+                    b.ToTable("Replies", (string)null);
                 });
 
             modelBuilder.Entity("QuanLyLopHoc.Models.Entities.RollCall", b =>
@@ -423,7 +423,7 @@ namespace QuanLyLopHoc.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("RollCall");
+                    b.ToTable("RollCall", (string)null);
                 });
 
             modelBuilder.Entity("QuanLyLopHoc.Models.Entities.StudentSubject", b =>
@@ -438,7 +438,7 @@ namespace QuanLyLopHoc.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("StudentSubject");
+                    b.ToTable("StudentSubject", (string)null);
                 });
 
             modelBuilder.Entity("QuanLyLopHoc.Models.Entities.Subject", b =>
@@ -469,7 +469,7 @@ namespace QuanLyLopHoc.Migrations
 
                     b.HasIndex("CreatorId");
 
-                    b.ToTable("Subject");
+                    b.ToTable("Subject", (string)null);
                 });
 
             modelBuilder.Entity("QuanLyLopHoc.Models.Entities.TeacherSubject", b =>
@@ -484,7 +484,7 @@ namespace QuanLyLopHoc.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("TeacherSubject");
+                    b.ToTable("TeacherSubject", (string)null);
                 });
 
             modelBuilder.Entity("QuanLyLopHoc.Models.Entities.TeacherTranscript", b =>
@@ -499,7 +499,7 @@ namespace QuanLyLopHoc.Migrations
 
                     b.HasIndex("TranscriptId");
 
-                    b.ToTable("TeacherTranscript");
+                    b.ToTable("TeacherTranscript", (string)null);
                 });
 
             modelBuilder.Entity("QuanLyLopHoc.Models.Entities.Transcript", b =>
@@ -523,7 +523,7 @@ namespace QuanLyLopHoc.Migrations
                     b.HasIndex("SubjectId")
                         .IsUnique();
 
-                    b.ToTable("Transcript");
+                    b.ToTable("Transcript", (string)null);
                 });
 
             modelBuilder.Entity("QuanLyLopHoc.Models.Entities.User", b =>
@@ -575,7 +575,7 @@ namespace QuanLyLopHoc.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserInfo");
+                    b.ToTable("UserInfo", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

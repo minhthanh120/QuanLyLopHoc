@@ -18,5 +18,10 @@ namespace QuanLyLopHoc.Models.Entities
         public decimal? DiemTB { get; set; }
         public virtual Transcript Transcript { get; set; }
         public virtual User Student { get; set; }
+        public DetailTranscript()
+        {
+            var subject = new Subject();
+            subject.Transcript = new Transcript();
+        }
     }
 }

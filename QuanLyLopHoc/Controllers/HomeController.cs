@@ -16,7 +16,7 @@ namespace QuanLyLopHoc.Controllers
         [Authorize]
         public IActionResult Index()
         {
-            return View("Index", "Student");
+            return RedirectToAction("Index", "Student");
         }
         [HttpPost]
         public IActionResult Index(string key)

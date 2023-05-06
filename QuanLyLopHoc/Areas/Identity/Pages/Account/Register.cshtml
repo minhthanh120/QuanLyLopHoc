@@ -1,8 +1,8 @@
 ﻿@page
 @model RegisterModel
 @{
-    ViewData["Title"] = "Register";
-    Layout = null;
+    ViewData["Title"] = "Đăng ký";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
 }
 <div class="w-full h-screen grid place-items-center">
     <div class="transition transform hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:transform-none">
@@ -15,6 +15,24 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                     <form id="registerForm" asp-route-ReturnUrl="@Model.ReturnUrl" method="post">
+                        <div class="mb-6">
+                            <label for="username" asp-for="Input.FirstName" class="block mb-2 text-sm font-medium text-gray-700"></label>
+                            <input type="text" id="username" asp-for="Input.FirstName" autocomplete="username"
+                                   class="bg-dark-50 border border-dark-500 text-dark-900 placeholder-dark-700 text-sm rounded-lg focus:ring-dark-500 focus:border-dark-500 block w-full p-2.5"
+                                   placeholder="" aria-required="true">
+                            <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                                <span class="font-medium" asp-validation-for="Input.FirstName"></span>
+                            </p>
+                        </div>
+                        <div class="mb-6">
+                            <label for="username" asp-for="Input.LastName" class="block mb-2 text-sm font-medium text-gray-700"></label>
+                            <input type="text" id="username" asp-for="Input.LastName" autocomplete="username"
+                                   class="bg-dark-50 border border-dark-500 text-dark-900 placeholder-dark-700 text-sm rounded-lg focus:ring-dark-500 focus:border-dark-500 block w-full p-2.5"
+                                   placeholder="" aria-required="true">
+                            <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                                <span class="font-medium" asp-validation-for="Input.LastName"></span>
+                            </p>
+                        </div>
                         <div class="mb-6">
                             <label for="username" asp-for="Input.Email" class="block mb-2 text-sm font-medium text-gray-700"></label>
                             <input type="email" id="username" asp-for="Input.Email" autocomplete="username"
