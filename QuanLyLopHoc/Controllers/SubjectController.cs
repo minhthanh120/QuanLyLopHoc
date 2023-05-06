@@ -41,8 +41,8 @@ namespace QuanLyLopHoc.Controllers
             {
                 return NotFound();
             }
-
-            return View(subjectFromDb);
+            ViewData["subjectFromDb"] = subjectFromDb;
+            return View();
         }
 
         // GET
@@ -133,6 +133,13 @@ namespace QuanLyLopHoc.Controllers
             _db.Subjects.Remove(obj);
             _db.SaveChanges();
             return RedirectToAction("Index", "Subject");                     
+        }
+
+        public IActionResult ListStudent ()
+        {
+            string id = "1";
+            var studentlist = _subjectDao.GetListUsers(id);
+            return PartialView(studentlist);
         }
     }
 }

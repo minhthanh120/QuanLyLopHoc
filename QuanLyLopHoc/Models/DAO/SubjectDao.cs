@@ -76,5 +76,22 @@ namespace QuanLyLopHoc.Models.DAO
                 return false;
             }
         }
+
+        public List<User> GetListUsers(string Id)
+        {
+            var lst = from a in db.StudentSubjects
+                      join b in db.Users on a.UserId equals b.Id
+                      join c in db.Subjects on a.SubjectId equals c.Id
+                      where c.Id == Id
+                      select new User()
+                      {
+                          FirstName = b.FirstName,
+                          LastName = b.LastName,
+                          Email = b.Email,
+                          Phone = b.Phone,
+                      };
+            lst.OrderBy(x => x.FirstName);
+            return lst.ToList();      
+        }
     }
 }
