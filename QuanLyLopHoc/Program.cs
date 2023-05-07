@@ -34,6 +34,13 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddSingleton<IEmailSender, SendMailService>();
 
+builder.Services.AddAuthentication().AddGitHub(options =>
+{
+    options.ClientId = "aef6fe19fe5192457d96";
+    options.ClientSecret = "b1c897493c258fdc74f7a40f619c313c88e72f08";
+    options.CallbackPath = "/signin-github";
+});
+
 builder.Services.AddAuthentication().AddFacebook(facebookOptions =>
 {
     //IConfigurationSection FBAuthNSection = builder.Configuration.GetSection("Authentication:FB");
