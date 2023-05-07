@@ -16,7 +16,7 @@ namespace QuanLyLopHoc.Controllers
         [Authorize]
         public IActionResult Index()
         {
-            return View("Index", "Student");
+            return RedirectToAction("Index", "Student");
         }
         [HttpPost]
         public IActionResult Index(string key)
@@ -33,7 +33,13 @@ namespace QuanLyLopHoc.Controllers
         //[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         //public IActionResult Error()
         //{
-        //    //return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        //    return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         //}
+        //[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        [Route("/Error")]
+        public IActionResult WebError()
+        {
+            return View();
+        }
     }
 }

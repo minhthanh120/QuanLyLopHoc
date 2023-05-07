@@ -6,7 +6,7 @@ namespace QuanLyLopHoc.Services
     {
         public Task<ICollection<User>> SearchByName(string name);
         public ICollection<User> Search(string name);
-        public Task CreateUserInfo(string id, string email);
+        public Task CreateUserInfo(User user);
         public Task<User> GetUserbyId(string id);
         public Task Edit(User user);
     }

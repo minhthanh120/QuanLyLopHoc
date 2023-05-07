@@ -1,6 +1,6 @@
 ﻿namespace QuanLyLopHoc.Services.FunctionSerives
 {
-    public interface IMailService
+    public interface IMailSender
     {
         
     }
