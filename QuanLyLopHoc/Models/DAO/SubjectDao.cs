@@ -1,6 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using QuanLyLopHoc.Models.Entities;
-using System.Security.Claims;
+﻿using QuanLyLopHoc.Models.Entities;
+using QuanLyLopHoc.Models.DAO;
 
 
 namespace QuanLyLopHoc.Models.DAO
@@ -13,17 +12,19 @@ namespace QuanLyLopHoc.Models.DAO
             db = context;
         }
 
-        public List<Subject> GetListSubjects(string userId) 
+        public List<Subject> GetListSubjects(string userId)
         {
             var lst = db.Subjects.Where(con => con.TeacherSubjects.First(con2 => con2.UserId == userId).UserId != null).ToList();
+            lst.OrderBy(x => x.CreatedDate).ToList();
             return lst;
         }
 
-        public bool Create(Subject obj/*, string creatorId*/)
+        public bool Create(Subject obj)
         {
             try
             {
-                obj.CreatorId = "1";
+                //obj.CreatorId = "1";
+                obj.Transcript = new Transcript();//???? sao ko lm nhu này
                 db.Subjects.Add(obj);
                 db.SaveChanges();
                 return true;
@@ -91,7 +92,19 @@ namespace QuanLyLopHoc.Models.DAO
                           Phone = b.Phone,
                       };
             lst.OrderBy(x => x.FirstName);
-            return lst.ToList();      
+            return lst.ToList();
+        }
+        public List<User> GetListStudent(string subjectId, string transcriptId)
+        {
+
+            var listSTD = GetListUsers(subjectId);
+            foreach (var item in listSTD)
+            {
+                db.Entry(item)
+            .Reference(b => b.Details.Where(fk => fk.TranscriptId == transcriptId))
+            .Load();
+            }
+            return listSTD;
         }
     }
 }

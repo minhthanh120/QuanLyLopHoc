@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using QuanLyLopHoc.Models;
 using QuanLyLopHoc.Models.DAO;
 using QuanLyLopHoc.Models.Entities;
+using System.Reflection.Metadata;
 using System.Security.Claims;
 
 namespace QuanLyLopHoc.Controllers
@@ -54,10 +55,11 @@ namespace QuanLyLopHoc.Controllers
 
         // POST
         [HttpPost]
+        [Authorize]
         public IActionResult Create(Subject obj)
         {
-            /*var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            obj.CreatorId = id;*/
+            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            obj.CreatorId = id;
                          
             var result = _subjectDao.Create(obj);
             if(result)
@@ -139,6 +141,7 @@ namespace QuanLyLopHoc.Controllers
         {
             string id = "1";
             var studentlist = _subjectDao.GetListUsers(id);
+            
             return PartialView(studentlist);
         }
     }
