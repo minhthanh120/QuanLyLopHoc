@@ -155,8 +155,8 @@ namespace QuanLyLopHoc.Areas.Identity.Pages.Account
                     
                     //return RedirectToAction("Index", "Home");
                     
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    await _emailSender.SendEmailAsync(Input.Email, "Xác nhận địa chỉ email",
+                        $"Bạn đã đăng ký tài khoản trên CloudClass của chúng tôi, hãy <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>bấm vào đây để kích hoạt tài khoản</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
