@@ -39,5 +39,8 @@ namespace QuanLyLopHoc.Areas.Identity.Pages.Account
                 return RedirectToPage();
             }
         }
+        public void OnGet(){
+            
+        }
     }
 }

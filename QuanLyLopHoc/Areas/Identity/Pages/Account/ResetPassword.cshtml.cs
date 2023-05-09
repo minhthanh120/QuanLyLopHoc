@@ -8,20 +8,26 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using QuanLyLopHoc.Areas.Identity.Data;
+using System.Text.Encodings.Web;
 
 namespace QuanLyLopHoc.Areas.Identity.Pages.Account
 {
     public class ResetPasswordModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IEmailSender _emailSender;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ResetPasswordModel(UserManager<ApplicationUser> userManager)
+        public ResetPasswordModel(IHttpContextAccessor httpContextAccessor,UserManager<ApplicationUser> userManager, IEmailSender emailSender)
         {
             _userManager = userManager;
+            _emailSender = emailSender;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         /// <summary>
@@ -41,16 +47,17 @@ namespace QuanLyLopHoc.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessage ="{0} chưa được điền.")]
+            [EmailAddress(ErrorMessage ="Thông tin {0} chưa hợp lệ.")]
             public string Email { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Display(Name = "Mật khẩu")]
+            [Required(ErrorMessage ="{0} chưa được điền.")]
+            [StringLength(100, ErrorMessage = "{0} có độ dài ít nhất {2} và không quá {1} ký tự.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
@@ -58,9 +65,10 @@ namespace QuanLyLopHoc.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
+            [Required(ErrorMessage ="{0} chưa được điền.")]
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Display(Name = "Xác nhận mật khẩu")]
+            [Compare("Password", ErrorMessage = "Không khớp với mật khẩu.")]
             public string ConfirmPassword { get; set; }
 
             /// <summary>
@@ -105,6 +113,13 @@ namespace QuanLyLopHoc.Areas.Identity.Pages.Account
             var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
             if (result.Succeeded)
             {
+                var callbackUrl = Url.Page(
+                    "/Account/Login",
+                    pageHandler: null,
+                    values: new { area = "Identity"},
+                    protocol: Request.Scheme);
+                await _emailSender.SendEmailAsync(Input.Email, "Mật khẩu CloudClass của bạn vừa được thay đổi",
+                        $"Bạn đã thay đổi mật khẩu trên CloudClass của chúng tôi vào lúc {DateTime.Now}, hãy <a href='{_httpContextAccessor.HttpContext.Request.Host.Value}'>bấm vào đây để đăng nhập lại</a>.");
                 return RedirectToPage("./ResetPasswordConfirmation");
             }
 
