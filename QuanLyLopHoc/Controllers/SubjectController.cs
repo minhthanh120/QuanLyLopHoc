@@ -21,13 +21,9 @@ namespace QuanLyLopHoc.Controllers
         [Authorize]
 
         public IActionResult Index()
-        {
-            /*var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            IEnumerable<Subject> objSubjectList = _db.Subjects;
-            return View(objSubjectList);*/
-
+        {            
             var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var subjectList = _subjectDao.GetListSubjects("1");
+            var subjectList = _subjectDao.GetListSubjects(id);
             return View(subjectList);
         }
 
@@ -42,7 +38,13 @@ namespace QuanLyLopHoc.Controllers
             {
                 return NotFound();
             }
+            _db.Entry(subjectFromDb)
+            .Reference(b => b.Creator)
+            .Load();
             ViewData["subjectFromDb"] = subjectFromDb;
+            //pass to detail-> partial view
+            var studentList = _subjectDao.GetTranscript(subjectFromDb.Id);
+            ViewData["studentList"] = studentList;
             return View();
         }
 
@@ -138,11 +140,20 @@ namespace QuanLyLopHoc.Controllers
         }
 
         public IActionResult ListStudent ()
+        {          
+            return PartialView();
+        }
+
+        [HttpGet]
+        public IActionResult AddStudent()
         {
-            string id = "1";
-            var studentlist = _subjectDao.GetListUsers(id);
-            
-            return PartialView(studentlist);
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddStudent(StudentSubject stu)
+        {
+            return View();
         }
     }
 }

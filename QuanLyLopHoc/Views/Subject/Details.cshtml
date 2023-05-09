@@ -1,6 +1,7 @@
 ﻿@using QuanLyLopHoc.Models.Entities;
 @{
     var subjectFromDb = ViewData["subjectFromDb"] as QuanLyLopHoc.Models.Entities.Subject;
+    var studentList = ViewData["studentList"] as QuanLyLopHoc.Models.Entities.Transcript; //ep kieu
 }
 
 <head>
@@ -18,7 +19,7 @@
     <main class="m-4">
         <h1 class="text-center text-3xl font-medium my-4">@subjectFromDb.SubjectName</h1>
         <div class="flex justify-evenly">
-            <p>Người tạo:</p>
+            <p>Người tạo: @subjectFromDb.Creator.FirstName @subjectFromDb.Creator.LastName</p>
             <p>Ngày tạo: @subjectFromDb.CreatedDate</p>
             <p>Số tín chỉ: @subjectFromDb.Credit</p>
         </div>
@@ -38,16 +39,16 @@
                 <div class="tab-item px-5 pt-4 pb-5 text-lg text-center text-purple-700 bg-white rounded-t-md border-b-4 border-transparent opacity-60 cursor-pointer transition-all duration-500 hover:opacity-100 hover:bg-purple-100 hover:border-purple-400">
                     Bài đăng
                 </div>
-                <div class="tab-item px-5 pt-4 pb-5 text-lg text-center text-purple-700 bg-white rounded-t-md border-b-4 border-transparent opacity-60 cursor-pointer transition-all duration-500 hover:opacity-100 hover:bg-purple-100 hover:border-purple-400">
-                    Điểm thành phần
-                </div>
+              
                 <div class="line absolute left-0 bottom-0 w-0 h-1 bg-purple-700 transition-all duration-200"></div>
             </div>
 
             <!-- Tab content -->
             <div class="tab-content m-4">
                 <div class="tab-pane hidden active">
-                    <partial name="ListStudent" for"User"/>
+                    @*<partial name="ListStudent" for"User"/>*@
+                    @*pass*@
+                    @await Html.PartialAsync("ListStudent", studentList) 
                 </div>
                 <div class="tab-pane hidden">
                     <h2>Angular</h2>
@@ -57,15 +58,7 @@
                         sophisticated single-page apps.
                     </p>
                 </div>
-                <div class="tab-pane hidden">
-                    <h2>Ember</h2>
-                    <p>
-                        Ember.js is a productive, battle-tested JavaScript
-                        framework for building modern web applications. It
-                        includes everything you need to build rich UIs that
-                        work on any device.
-                    </p>
-                </div>
+            
             </div>
         </div>
         <script>

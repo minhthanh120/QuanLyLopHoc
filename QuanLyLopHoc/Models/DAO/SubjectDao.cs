@@ -1,6 +1,6 @@
 ﻿using QuanLyLopHoc.Models.Entities;
 using QuanLyLopHoc.Models.DAO;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace QuanLyLopHoc.Models.DAO
 {
@@ -23,10 +23,16 @@ namespace QuanLyLopHoc.Models.DAO
         {
             try
             {
-                //obj.CreatorId = "1";
-                obj.Transcript = new Transcript();//???? sao ko lm nhu này
+                obj.Transcript = new Transcript();
+                obj.Transcript.CreatorId = obj.CreatorId;
                 db.Subjects.Add(obj);
-                db.SaveChanges();
+                db.SaveChanges();// tao dc lop thi co id cua lop
+                var ts = new TeacherSubject();
+                ts.SubjectId = obj.Id;
+                ts.UserId = obj.CreatorId;//id cua giao vien mac dinh
+                db.Add(ts);
+                db.SaveChanges(); //ong thu luu xem nao
+
                 return true;
             }
             catch (Exception ex)
@@ -77,34 +83,24 @@ namespace QuanLyLopHoc.Models.DAO
                 return false;
             }
         }
-
-        public List<User> GetListUsers(string Id)
+     
+        public Transcript GetTranscript(string subjectId)
         {
-            var lst = from a in db.StudentSubjects
-                      join b in db.Users on a.UserId equals b.Id
-                      join c in db.Subjects on a.SubjectId equals c.Id
-                      where c.Id == Id
-                      select new User()
-                      {
-                          FirstName = b.FirstName,
-                          LastName = b.LastName,
-                          Email = b.Email,
-                          Phone = b.Phone,
-                      };
-            lst.OrderBy(x => x.FirstName);
-            return lst.ToList();
-        }
-        public List<User> GetListStudent(string subjectId, string transcriptId)
-        {
-
-            var listSTD = GetListUsers(subjectId);
-            foreach (var item in listSTD)
+            var transcript = db.Transcripts.Where(fk => fk.SubjectId == subjectId)
+                .Include(b => b.Details)
+                .FirstOrDefault();//Lay row dau tien
+            foreach (var item in transcript.Details)
             {
                 db.Entry(item)
-            .Reference(b => b.Details.Where(fk => fk.TranscriptId == transcriptId))
+            .Reference(b => b.Student)
             .Load();
             }
-            return listSTD;
+            return transcript;
         }
+
+       /* public bool AddStudent(StudentSubject stu)
+        {
+
+        }*/
     }
 }

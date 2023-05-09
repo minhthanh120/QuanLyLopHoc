@@ -1,5 +1,4 @@
-﻿@using QuanLyLopHoc.Models.Entities;
-@model IEnumerable<User>
+﻿@model QuanLyLopHoc.Models.Entities.Transcript;  //nhan list student vao model
 
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg my-6">
         <h1 class="py-6 px-6 text-2xl font-medium">
@@ -39,81 +38,126 @@
                 Thêm người vào lớp học
             </button>
         </div>
-        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
-                <tr>
-                    <th scope="col" class="px-6 py-3">
-                        Tên sinh viên
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Mã sinh viên
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Email
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Số điện thoại
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Tác vụ
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
+        <form method="post" asp-action="">
+        <fieldset class="max-w-full mx-4 sm:mx-auto my-4 p-3">
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            Tên sinh viên
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Email
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Điểm CC
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Điểm TX
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Điểm CK
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Điểm TB
+                        </th>
+                        <th scope="col" class="px-6 py-3">
 
-                <tr class="border-b border-gray-200 dark:border-gray-700">
-                    <td scope="row"
-                        class="px-6 py-4 text-gray-900 whitespace-nowrap">
-                        Nguyễn Văn A
-                    </td>
-                    <td class="px-6 py-4">18150001</td>
-                    <td class="px-6 py-4">
-                        nguyenvanA@gmail.com
-                    </td>
-                    <td class="px-6 py-4">0914235132</td>
-                    <td class="px-6 py-4 flex">
-                        <a class="text-white bg-purple-700 hover:bg-purple-800 font-medium rounded-lg text-sm px-3 py-1 text-center inline-flex items-center mr-2">
-                            Chi tiết
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                 fill="none"
-                                 viewBox="0 0 24 24"
-                                 stroke-width="1.5"
-                                 stroke="currentColor"
-                                 class="w-6 h-6 mx-1">
-                                <path stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
-                            </svg>
-                        </a>
-                        <a href="#"
-                           class="text-white bg-purple-700 hover:bg-purple-800 font-medium rounded-lg text-sm px-3 py-1 text-center inline-flex items-center mr-2">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                 fill="none"
-                                 viewBox="0 0 24 24"
-                                 stroke-width="1.5"
-                                 stroke="currentColor"
-                                 class="w-6 h-6">
-                                <path stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-                            </svg>
-                        </a>
-                        <a href="#"
-                           class="text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-3 py-1 text-center inline-flex items-center mr-2">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                 fill="none"
-                                 viewBox="0 0 24 24"
-                                 stroke-width="1.5"
-                                 stroke="currentColor"
-                                 class="w-6 h-6">
-                                <path stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
-                            </svg>
-                        </a>
-                    </td>
-                </tr>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Details) //goi details(list)
+                    {
+                        <tr class="border-b border-gray-200 dark:border-gray-700">
+                            <td scope="row"
+                                class="px-6 py-4 text-gray-900 whitespace-nowrap flex gap-4">
+                                <div>
+                                    @if (@item.Student.Avatar == null)
+                                    {
+                                        <div id="alter-avatar" class="bg-gray-700 rounded-full h-6 w-6 inline-flex justify-center items-center">
+                                            <span class="font-bold text-sm text-white ">@item.Student.LastName.Split(' ').Last()[0]</span>
+                                        </div>
+                                        <img id="avatar" class="hidden rounded-full w-40 h-40" src=""
+                                             alt="image description">
+                                    }
+                                    else
+                                    {
+                                        <div id="alter-avatar" class="hidden bg-gray-700 rounded-full h-6 w-6 inline-flex justify-center items-center">
+                                            <span class="font-bold text-6xl text-white ">JL</span>
+                                        </div>
+                                        <img id="avatar" class="rounded-full w-40 h-40" src="@item.Student.Avatar"
+                                             alt="image description">
+                                    }
+                                </div>
+                                <div>
+                                    @item.Student.FirstName @item.Student.LastName
+                                </div>
 
-            </tbody>
-        </table>
+                            </td>
+                            <td class="px-6 py-4">
+                                @item.Student.Email
+                            </td>
+                            <td class="px-6 py-4">
+                                <input type="text"
+                                       id="website-admin"
+                                       class="text-gray-900 block flex-1 min-w-0 max-w-full text-sm p-2.5"
+                                       placeholder=""
+                                       value="@item.DiemCC" 
+                                       asp-for="Details"
+                                />                               
+                            </td>
+                            <td class="px-6 py-4">
+                                <input type="text"
+                                       id="website-admin"
+                                       class="text-gray-900 block flex-1 min-w-0 max-w-full text-sm p-2.5"
+                                       placeholder=""
+                                       value="@item.DiemTX" />
+                            </td>
+                            <td class="px-6 py-4">
+                                <input type="text"
+                                       id="website-admin"
+                                       class="text-gray-900 block flex-1 min-w-0 max-w-full text-sm p-2.5"
+                                       placeholder=""
+                                       value="@item.DiemCK" />
+                            </td>
+                            <td class="px-6 py-4">
+                                <input type="text"
+                                       id="website-admin"
+                                       class="text-gray-900 block flex-1 min-w-0 max-w-full text-sm p-2.5"
+                                       placeholder=""
+                                       value="@item.DiemTB" />
+                            </td>
+                            <td class="px-6 py-4 flex">                                   
+                                <a href="#"
+                                   class="text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-3 py-1 text-center inline-flex items-center mr-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         fill="none"
+                                         viewBox="0 0 24 24"
+                                         stroke-width="1.5"
+                                         stroke="currentColor"
+                                         class="w-6 h-6">
+                                        <path stroke-linecap="round"
+                                              stroke-linejoin="round"
+                                              d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                                    </svg>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="ml-auto max-w-xs sm:w-full my-10 flex justify-evenly">
+                <button type="submit"
+                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-2/5 sm:w-auto px-5 py-2.5 sm:ml-6 text-center">
+                    Xác nhận
+                </button>
+                <button type="submit"
+                        class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-2/5 sm:w-3/12 px-5 py-2.5 sm:ml-6 text-center">
+                    Hủy
+                </button>
+            </div>
+        </fieldset>
+        </form>
+        
     </div>
