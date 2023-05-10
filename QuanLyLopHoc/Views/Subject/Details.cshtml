@@ -1,7 +1,8 @@
 ﻿@using QuanLyLopHoc.Models.Entities;
 @{
     var subjectFromDb = ViewData["subjectFromDb"] as QuanLyLopHoc.Models.Entities.Subject;
-    var studentList = ViewData["studentList"] as QuanLyLopHoc.Models.Entities.Transcript; //ep kieu
+    var studentList = ViewData["studentList"] as QuanLyLopHoc.Models.Entities.Transcript;
+    var listTeacher = ViewData["listTeacher"] as QuanLyLopHoc.Models.Entities.TeacherSubject;
 }
 
 <head>
@@ -34,7 +35,7 @@
             <!-- Tab items -->
             <div class="tabs flex justify-center relative gap-2">
                 <div class="tab-item px-5 pt-4 pb-5 text-lg text-center text-purple-700 bg-white rounded-t-md border-b-4 border-transparent opacity-60 cursor-pointer transition-all duration-500 hover:opacity-100 hover:bg-purple-100 hover:border-purple-400 active">
-                    Danh sách sinh viên
+                    Danh sách lớp
                 </div>
                 <div class="tab-item px-5 pt-4 pb-5 text-lg text-center text-purple-700 bg-white rounded-t-md border-b-4 border-transparent opacity-60 cursor-pointer transition-all duration-500 hover:opacity-100 hover:bg-purple-100 hover:border-purple-400">
                     Bài đăng
@@ -45,17 +46,14 @@
 
             <!-- Tab content -->
             <div class="tab-content m-4">
-                <div class="tab-pane hidden active">
-                    @*<partial name="ListStudent" for"User"/>*@
-                    @*pass*@
+                <div class="tab-pane hidden active">                 
                     @await Html.PartialAsync("ListStudent", studentList) 
+                    @await Html.PartialAsync("ListTeacher", listTeacher)
                 </div>
                 <div class="tab-pane hidden">
                     <h2>Angular</h2>
                     <p>
-                        Angular is an application design framework and
-                        development platform for creating efficient and
-                        sophisticated single-page apps.
+                       
                     </p>
                 </div>
             

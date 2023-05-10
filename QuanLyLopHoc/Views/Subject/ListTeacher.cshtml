@@ -1,0 +1,80 @@
+﻿@model QuanLyLopHoc.Models.Entities.TeacherSubject;
+
+
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg my-6">
+    <h2 class="py-6 px-6 text-2xl font-medium">
+        Danh sách giáo viên
+    </h2>
+
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Tên giáo viên
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Số điện thoại
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Email
+                </th>
+                <th scope="col" class="px-6 py-3">
+
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+           @* @foreach (var item in Model)
+            {*@
+                <tr class="border-b border-gray-200 dark:border-gray-700">
+                    <td scope="row"
+                        class="px-6 py-4 text-gray-900 whitespace-nowrap flex gap-4">
+                        <div>
+                            @if (@Model.User.Avatar == null)
+                            {
+                                <div id="alter-avatar" class="bg-gray-700 rounded-full h-6 w-6 inline-flex justify-center items-center">
+                                    <span class="font-bold text-sm text-white ">@Model.User.LastName.Split(' ').Last()[0]</span>
+                                </div>
+                                <img id="avatar" class="hidden rounded-full w-40 h-40" src=""
+                                     alt="image description">
+                            }
+                            else
+                            {
+                                <div id="alter-avatar" class="hidden bg-gray-700 rounded-full h-6 w-6 inline-flex justify-center items-center">
+                                    <span class="font-bold text-6xl text-white ">JL</span>
+                                </div>
+                                <img id="avatar" class="rounded-full w-40 h-40" src="@Model.User.Avatar"
+                                     alt="image description">
+                            }
+                        </div>
+                        <div>
+                            @Model.User.FirstName @Model.User.LastName
+                        </div>
+                    </td>
+                    <td class="px-6 py-4">
+                        @Model.User.Phone
+                    </td>
+                    <td class="px-6 py-4">
+                        @Model.User.Email
+                    </td>
+                    <td class="px-6 py-4 flex">
+                        <a href="#"
+                           class="text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-3 py-1 text-center inline-flex items-center mr-2">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke-width="1.5"
+                                 stroke="currentColor"
+                                 class="w-6 h-6">
+                                <path stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                            </svg>
+                        </a>
+                    </td>
+                </tr>
+            @*}*@
+        </tbody>
+    </table>
+</div>
+

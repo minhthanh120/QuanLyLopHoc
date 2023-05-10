@@ -12,10 +12,10 @@ namespace QuanLyLopHoc.Controllers
     {
         private readonly SMContext _db;
         private readonly SubjectDao _subjectDao; //inject dey
-        public SubjectController(SMContext db, SubjectDao subjectDao)//day nua
+        public SubjectController(SMContext db, SubjectDao subjectDao)
         {
             _db = db;
-            _subjectDao = subjectDao;//dey nua nha
+            _subjectDao = subjectDao;
         }
 
         [Authorize]
@@ -45,6 +45,9 @@ namespace QuanLyLopHoc.Controllers
             //pass to detail-> partial view
             var studentList = _subjectDao.GetTranscript(subjectFromDb.Id);
             ViewData["studentList"] = studentList;
+            var listTeacher = _subjectDao.GetListTeacher(subjectFromDb.Id);
+            ViewData["listTeacher"] = listTeacher;
+
             return View();
         }
 
@@ -145,15 +148,16 @@ namespace QuanLyLopHoc.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddStudent()
+        public IActionResult AddMember()
         {
-            return View();
+            return PartialView();
         }
 
         [HttpPost]
-        public IActionResult AddStudent(StudentSubject stu)
+        public IActionResult AddMember(User user)
         {
-            return View();
+            
+            return PartialView();
         }
     }
 }
