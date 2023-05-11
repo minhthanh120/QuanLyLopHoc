@@ -12,8 +12,9 @@ namespace QuanLyLopHoc.Hubs
         private readonly ILogger _logger;
         private readonly IMessageSevice _messageSevice;
         private readonly UserManager<ApplicationUser> _userManager;
-        public ChatHub(SMContext context, ILogger<ChatHub> logger, IMessageSevice messageSevice)
+        public ChatHub(SMContext context, ILogger<ChatHub> logger, IMessageSevice messageSevice , UserManager<ApplicationUser> userManager)
         {
+            _userManager = userManager;
             _context = context;
             _logger = logger;
             _messageSevice = messageSevice;

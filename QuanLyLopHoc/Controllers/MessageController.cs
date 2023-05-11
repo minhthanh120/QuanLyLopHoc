@@ -12,10 +12,11 @@ namespace QuanLyLopHoc.Controllers
     {
         // GET: MessageController
         private readonly IMessageSevice _messageSevice;
-        private readonly UserManager<ApplicationUser> userManager;
-        public MessageController(IMessageSevice messageSevice)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public MessageController(IMessageSevice messageSevice, UserManager<ApplicationUser> userManager)
         {
             _messageSevice = messageSevice;
+            _userManager = userManager;
         }
         [Authorize]
         public ActionResult Index()

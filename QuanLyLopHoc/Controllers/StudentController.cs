@@ -17,12 +17,12 @@ namespace QuanLyLopHoc.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUserService _userService;
         private readonly ILogger<StudentController> _logger;
-        public StudentController(IStudentService studentService, IUserService userService, ILogger<StudentController> logger)
+        public StudentController(UserManager<ApplicationUser> userManager, IStudentService studentService, IUserService userService, ILogger<StudentController> logger)
         {
             _studentService = studentService;
             _userService = userService;
             _logger = logger;
-
+            _userManager = userManager;
         }
         [Authorize]
         public ActionResult Index(int page = 1)
