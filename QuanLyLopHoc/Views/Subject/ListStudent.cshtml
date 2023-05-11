@@ -23,8 +23,9 @@
                        class="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                        placeholder="Tìm kiếm sinh viên" />
             </div>
-            <button type="button"
-                    class="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 font-medium rounded-lg text-sm px-3 py-1 w-50 flex items-center">
+            <a  asp-controller="Subject" asp-action="AddStudent"
+                type="button"
+                class="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 font-medium rounded-lg text-sm px-3 py-1 w-50 flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg"
                      fill="none" viewBox="0 0 24 24"
                      stroke-width="1.5"
@@ -35,8 +36,8 @@
                           stroke-linejoin="round"
                           d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                Thêm người vào lớp học
-            </button>
+                Thêm học sinh vào lớp học
+            </a>
         </div>
         <form method="post" asp-action="">
         <fieldset class="max-w-full mx-4 sm:mx-auto my-4 p-3">
@@ -86,7 +87,7 @@
                                         <div id="alter-avatar" class="hidden bg-gray-700 rounded-full h-6 w-6 inline-flex justify-center items-center">
                                             <span class="font-bold text-6xl text-white ">JL</span>
                                         </div>
-                                        <img id="avatar" class="rounded-full w-40 h-40" src="@item.Student.Avatar"
+                                        <img id="avatar" class="rounded-full w-6 h-6" src="@item.Student.Avatar"
                                              alt="image description">
                                     }
                                 </div>

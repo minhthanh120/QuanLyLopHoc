@@ -109,16 +109,19 @@ namespace QuanLyLopHoc.Models.DAO
             return teacher;
         }
 
-        public bool AddStudent(User user, string subId)
+        public bool AddStudent(User obj, string subId)
         {
             try
-            {
+            {               
+                var user = db.Users.Where(x => x.Email == obj.Email).FirstOrDefault();
+                var ts = db.Transcripts.Where(x => x.SubjectId == subId).FirstOrDefault();
                 var stu = new StudentSubject();
                 stu.UserId = user.Id;
-                stu.SubjectId = subId; 
+                stu.SubjectId = subId;
                 db.Add(stu);        
                 var details = new DetailTranscript();
                 details.UserId = user.Id;
+                details.TranscriptId = ts.Id;
                 db.Add(details);
                 db.SaveChanges();
                 return true;

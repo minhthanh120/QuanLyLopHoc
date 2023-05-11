@@ -47,6 +47,7 @@ namespace QuanLyLopHoc.Controllers
             ViewData["studentList"] = studentList;
             var listTeacher = _subjectDao.GetListTeacher(subjectFromDb.Id);
             ViewData["listTeacher"] = listTeacher;
+            TempData["subjectId"] = subjectFromDb.Id;
 
             return View();
         }
@@ -148,6 +149,35 @@ namespace QuanLyLopHoc.Controllers
         }
 
         [HttpGet]
+        public IActionResult AddStudent() 
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddStudent(User user)
+        {
+
+            /*tudidoan@cloudclass.software
+             travitang@cloudclass.software*/
+            string sbId = TempData["subjectId"].ToString();
+            TempData.Keep("subjectId");
+
+            var result = _subjectDao.AddStudent(user, sbId);
+            if (result)
+            {
+                return RedirectToAction("Details", "Subject", sbId);
+            }
+            else
+            {
+                ModelState.AddModelError("", "Không thêm được học sinh !");
+            }
+            return View();
+        }
+
+
+
+        /*[HttpGet]
         public IActionResult AddMember()
         {
             return PartialView();
@@ -155,9 +185,8 @@ namespace QuanLyLopHoc.Controllers
 
         [HttpPost]
         public IActionResult AddMember(User user)
-        {
-            
+        {                 
             return PartialView();
-        }
+        }*/
     }
 }

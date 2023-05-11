@@ -1,10 +1,16 @@
-﻿<head>
-    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
-</head>
+﻿
+@*@{
+    ViewData["Title"] = "AddStudent";
+}
+
+<h1>AddStudent</h1>*@
+@using QuanLyLopHoc.Models.Entities;
+@model User
+
 <h1 class="text-2xl py-5 font-medium text-center">
-    Thêm người vào lớp học
+    Thêm học sinh vào lớp học
 </h1>
-<form method="post" asp-action="AddMember">
+<form method="post" asp-action="AddStudent">
     <fieldset class="max-w-2xl mx-4 sm:mx-auto my-4 border-solid p-3 border-2 shadow">
         <div class="m-5">
             <label for="input-group-1"
@@ -21,62 +27,35 @@
                     </svg>
                 </div>
                 <input type="text"
+                       asp-for="Email"
                        id="input-group-1"
                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                        placeholder="name@gmail.com" />
             </div>
         </div>
 
-        <div class="m-5">
+       @* <div class="m-5">
             <label for="website-admin"
                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Họ tên</label>
             <div>
                 <input type="text"
+                       asp-for="FirstName"
                        id="website-admin"
                        class="rounded-lg bg-gray-50 border text-gray-900 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
                        placeholder=""
-                       disable readonly/>
+                       disable readonly />
             </div>
-        </div>
-
-        <div class="m-5">
-            <h3 class="block mb-3 text-sm font-medium text-gray-900 dark:text-white">
-                Vai trò
-            </h3>           
-
-            <div class="flex items-center mb-4">
-                <input checked
-                       id="Student"
-                       type="radio"
-                       value="Student"
-                       name="role"
-                       class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 " />
-               
-                <label for="Student"
-                       class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Học sinh</label>
-            </div>
-            <div class="flex items-center">
-                <input 
-                       id="Teacher"
-                       type="radio"
-                       value="Teacher"
-                       name="role"
-                       class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 " />
-                <label for="Teacher"
-                       class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Giáo viên</label>
-            </div>
-        </div>
+        </div>*@
         <div class="mx-auto max-w-sm sm:w-full sm:mx-0 my-10">
             <button type="submit"
                     class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-2/5 sm:w-auto px-5 py-2.5 sm:ml-6 text-center">
                 Xác nhận
             </button>
-            <button type="submit"
-                    class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-2/5 sm:w-3/12 px-5 py-2.5 sm:ml-6 text-center">
+            <a asp-controller="Subject" asp-action="Details" 
+                type="submit"
+                class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-2/5 sm:w-3/12 px-5 py-2.5 sm:ml-6 text-center">
                 Hủy
-            </button>
+            </a>
         </div>
     </fieldset>
 </form>
-
-
