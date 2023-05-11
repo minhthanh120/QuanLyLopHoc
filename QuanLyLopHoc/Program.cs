@@ -35,7 +35,12 @@ builder.Services.AddScoped<IMessageSevice, MessageService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddSingleton<IEmailSender, SendMailService>();
-
+builder.Services.ConfigureApplicationCookie(
+    options=>{
+        options.LoginPath = "/Login";
+        options.LogoutPath = "/Logout";
+    }
+);
 builder.Services.AddAuthentication().AddGitHub(options =>
 {
     options.ClientId = "aef6fe19fe5192457d96";

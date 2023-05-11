@@ -45,8 +45,8 @@ namespace QuanLyLopHoc.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessage = "{0} chưa được nhập")]
+            [EmailAddress(ErrorMessage = "{0} chưa đúng định dạng")]
             public string Email { get; set; }
         }
 
@@ -73,8 +73,8 @@ namespace QuanLyLopHoc.Areas.Identity.Pages.Account
 
                 await _emailSender.SendEmailAsync(
                     Input.Email,
-                    "Reset Password",
-                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    "Reset mật khẩu",
+                    $"Reset lại mật khẩu của bạn bằng cách <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>click vào đây</a>.");
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }

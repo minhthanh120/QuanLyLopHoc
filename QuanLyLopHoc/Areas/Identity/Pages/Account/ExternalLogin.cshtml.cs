@@ -19,6 +19,8 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using QuanLyLopHoc.Models.Entities;
 using QuanLyLopHoc.Areas.Identity.Data;
+using QuanLyLopHoc.Models;
+using QuanLyLopHoc.Services;
 
 namespace QuanLyLopHoc.Areas.Identity.Pages.Account
 {
@@ -31,13 +33,16 @@ namespace QuanLyLopHoc.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly IEmailSender _emailSender;
         private readonly ILogger<ExternalLoginModel> _logger;
-
+        private readonly SMContext _context;
+        private readonly IUserService _userService;
         public ExternalLoginModel(
             SignInManager<ApplicationUser> signInManager,
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
             ILogger<ExternalLoginModel> logger,
-            IEmailSender emailSender)
+            SMContext context,
+            IEmailSender emailSender,
+            IUserService userService)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -45,6 +50,8 @@ namespace QuanLyLopHoc.Areas.Identity.Pages.Account
             _emailStore = GetEmailStore();
             _logger = logger;
             _emailSender = emailSender;
+            _context = context;
+            _userService = userService;
         }
 
         /// <summary>
@@ -83,9 +90,16 @@ namespace QuanLyLopHoc.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessage = "{0} không được để trống")]
+            [EmailAddress(ErrorMessage = "Thông tin {0} của bạn chưa hợp lệ")]
+            [Display(Name = "Email")]
             public string Email { get; set; }
+            [Required(ErrorMessage = "{0} không được để trống")]
+            [Display(Name = "Họ")]
+            public string FirstName { get; set; }
+            [Required(ErrorMessage = "{0} không được để trống")]
+            [Display(Name = "Tên")]
+            public string LastName { get; set; }
         }
         
         public IActionResult OnGet() => RedirectToPage("./Login");
@@ -167,6 +181,14 @@ namespace QuanLyLopHoc.Areas.Identity.Pages.Account
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
 
                         var userId = await _userManager.GetUserIdAsync(user);
+                        //create CreateUserInfo
+                        var currentUser = new User();
+                        currentUser.Id = userId;
+                        currentUser.Email = Input.Email;
+                        currentUser.FirstName = Input.FirstName;
+                        currentUser.LastName = Input.LastName;
+                        await _userService.CreateUserInfo(currentUser);
+                        //end
                         var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                         code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                         var callbackUrl = Url.Page(
@@ -175,8 +197,8 @@ namespace QuanLyLopHoc.Areas.Identity.Pages.Account
                             values: new { area = "Identity", userId = userId, code = code },
                             protocol: Request.Scheme);
 
-                        await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                            $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                        await _emailSender.SendEmailAsync(Input.Email, "Xác nhận email đăng ký CloudClass",
+                            $"Xác nhận đăng ký tài khoản CloudClass với email của bạn bằng cách <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>bấm vào đây</a>.");
 
                         // If account confirmation is required, we need to show the link if we don't have a real email sender
                         if (_userManager.Options.SignIn.RequireConfirmedAccount)

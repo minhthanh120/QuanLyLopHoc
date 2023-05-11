@@ -61,7 +61,7 @@ namespace QuanLyLopHoc.Controllers
             return View(user);
         }
 
-        public async Task< ActionResult> Create(User user)
+        public ActionResult Create(User user)
         {
             return View(user);
         }
