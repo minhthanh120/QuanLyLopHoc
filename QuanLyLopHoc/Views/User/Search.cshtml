@@ -7,22 +7,24 @@
 {
     @foreach (var item in model)
     {
-        <li class="pt-3 pb-0 sm:pt-4" >
-            <a id="@Html.DisplayFor(modelItem=>item.Id)" class="flex items-center space-x-4" onclick="chatwith(this)" href="javascript:void(0);">
-                <div class="flex-shrink-0">
-                    <img class="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-4.jpg"
-                         alt="Neil image">
+        <li id="@Html.DisplayFor(modelItem=>item.Id)" class="border p-2 hover:bg-gray-100">
+            <a href="/Message/?id=@item.Id"
+               class="flex flex-row ">
+                <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                    @if(item.Avatar == null)
+                    {
+                        <span class="font-medium text-gray-600 dark:text-gray-300">@item.LastName.Split(' ').Last()[0]</span>
+                    }
+                    else
+                    {
+                        <img src="@item.Avatar" />
+                    }   
                 </div>
-                <div class="flex-1 min-w-0">
-                    <p class="text-sm font-medium text-gray-900 truncate ">
-                        @Html.DisplayFor(modelItem => item.FirstName)  @Html.DisplayFor(modelItem => item.LastName)
+                <div class="pl-1">
+                    <p class="text-base text-gray-950"> @Html.DisplayFor(modelItem => item.FirstName)  @Html.DisplayFor(modelItem => item.LastName)</p>
+                    <p class="text-sm text-gray-500">
+                        <span class="mr-1">Email:</span>@Html.DisplayFor(modelItem => item.Email)
                     </p>
-                    <p class="text-sm text-gray-500 truncate ">
-                        @Html.DisplayFor(modelItem => item.Email)
-                    </p>
-                </div>
-                <div class="inline-flex items-center text-base font-semibold text-gray-900 ">
-                    Tin nhắn mới
                 </div>
             </a>
         </li>

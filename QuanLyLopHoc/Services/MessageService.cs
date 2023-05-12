@@ -13,12 +13,20 @@ namespace QuanLyLopHoc.Services
         private readonly IUserService _userService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SMContext _context;
+        private readonly ILogger<MessageService> _logger;
 
-        public MessageService(IMessageRepository message, IUserService userService, SMContext context)
+        public MessageService(IMessageRepository message,
+            IUserService userService,
+            SMContext context,
+            ILogger<MessageService> logger,
+            UserManager<ApplicationUser> userManager)
         {
             this._messageRepository = message;
             _userService = userService;
             _context = context;
+            _logger = logger;
+            _userManager = userManager;
+
         }
 
         public void Create(string user, string receiver, string message)
@@ -46,13 +54,20 @@ namespace QuanLyLopHoc.Services
 
         public async Task<MessageHistory> GetHistoryChat(string userId, string otherUserId)
         {
-            
-            var currentUser = await _userService.GetUserbyId(userId);
-            var oppositeUser = await _userService.GetUserbyId(otherUserId);
-            if (currentUser != null || oppositeUser != null)
+            try
             {
-                return await _messageRepository.GetAll(currentUser, oppositeUser);
+                var currentUser = await _userService.GetUserbyId(userId);
+                var oppositeUser = await _userService.GetUserbyId(otherUserId);
+                if (currentUser != null || oppositeUser != null)
+                {
+                    return await _messageRepository.GetAll(currentUser, oppositeUser);
+                }
             }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, ex);
+            }
+
             return null;
 
         }

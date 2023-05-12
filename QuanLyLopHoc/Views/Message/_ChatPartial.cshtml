@@ -1,14 +1,13 @@
 ﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @model QuanLyLopHoc.Models.DAO.MessageHistory
 @{
     Layout = null;
     var currentUser = ViewData["currentUser"];
     var receiver = ViewData["receiver"];
-    //@Model = ViewData["HistoryChat"] as QuanLyLopHoc.Models.DAO.MessageHistory;
 }
-@if (Model != null && Model.messages != null)
+@if (Model != null)
 {
     <div class="flex-1 p:2 sm:p-6 justify-between flex flex-col h-screen">
         <div class="flex sm:items-center justify-between py-3 border-b-2 border-gray-200">
@@ -19,14 +18,22 @@
                             <circle cx="8" cy="8" r="8" fill="currentColor"></circle>
                         </svg>
                     </span>
-                    <img src="https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
+                    <img src="@Model.oppositeUser.Avatar"
                          alt="" class="w-10 sm:w-16 h-10 sm:h-16 rounded-full">
                 </div>
                 <div class="flex flex-col leading-tight">
                     <div class="text-2xl mt-1 flex items-center">
                         <span class="text-gray-700 mr-3">@Model.oppositeUser.FirstName @Model.oppositeUser.LastName</span>
                     </div>
-                    <span class="text-lg text-gray-600">@Model.oppositeUser.Email</span>
+                    @if (Model.oppositeUser.About != null)
+                    {
+                        <span class="text-lg text-gray-600">@Model.oppositeUser.About</span>
+
+                    }
+                    else
+                    {
+                        <span class="text-lg text-gray-600">@Model.oppositeUser.Email</span>
+                    }
                     <span id="currentUser" class="hidden">@currentUser</span>
                     <span id="receiver" class="hidden">@receiver</span>
                 </div>
@@ -250,7 +257,7 @@
         window.onload = (even) => {
             console.log("loading message");
         }
-        </script>
+    </script>
 }
 else
 {

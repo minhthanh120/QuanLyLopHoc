@@ -42,7 +42,7 @@ namespace QuanLyLopHoc.Models.Entities
         [Column(TypeName = "NVARCHAR(100)")]
         public string? Class { get; set; }//, -- Lớp chủ nhiệm
         [Display(Name = "Ảnh đại diện")]
-        [Column(TypeName = "NCHAR(255)")]
+        [Column(TypeName = "NTEXT")]
         public string? Avatar { get; set; }
         [Display(Name = "Mô tả")]
         [MaxLength(255)]
