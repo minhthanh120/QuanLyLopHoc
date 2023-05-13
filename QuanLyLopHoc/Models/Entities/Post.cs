@@ -11,7 +11,6 @@ namespace QuanLyLopHoc.Models.Entities
         public string Id { get; set; }
         [Required]
         public string CreatorId { get; set; }
-        public int TypeId { get; set; }
         [StringLength(255)]
         public string Title { get; set; }
         [Required]
@@ -21,7 +20,7 @@ namespace QuanLyLopHoc.Models.Entities
         public DateTime PostTime { get; set; }
         [Required]
         public string Type { get;set; }
-        public virtual User User { get; set; }
+        public virtual User Creator { get; set; }
         [Required]
         public string SubjectId { get; set; }
         public virtual Subject Subject { get; set; }

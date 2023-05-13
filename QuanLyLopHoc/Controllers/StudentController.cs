@@ -7,6 +7,8 @@ using QuanLyLopHoc.Areas.Identity.Data;
 using QuanLyLopHoc.Services;
 using System.Security.Claims;
 using QuanLyLopHoc.Models.DAO;
+using QuanLyLopHoc.Services.FunctionSerives;
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace QuanLyLopHoc.Controllers
 {
@@ -17,12 +19,23 @@ namespace QuanLyLopHoc.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUserService _userService;
         private readonly ILogger<StudentController> _logger;
-        public StudentController(UserManager<ApplicationUser> userManager, IStudentService studentService, IUserService userService, ILogger<StudentController> logger)
+        private readonly IFileService _fileService; //inject file upload service
+        private readonly INotyfService _notyf;//inject toast notification
+
+        public StudentController(UserManager<ApplicationUser> userManager,
+        IStudentService studentService,
+        IUserService userService,
+        ILogger<StudentController> logger,
+        IFileService fileService,
+        INotyfService notyf
+        )
         {
             _studentService = studentService;
             _userService = userService;
             _logger = logger;
             _userManager = userManager;
+            _notyf = notyf;
+            _fileService = fileService;
         }
         [Authorize]
         public ActionResult Index(int page = 1)
@@ -147,32 +160,24 @@ namespace QuanLyLopHoc.Controllers
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             model.IsResponse = true;
-            if (model.Files.Count > 0)
+            if(model.Files == null){
+                model.IsSuccess = false;
+                model.Message = "Mời bạn chọn file";
+                _notyf.Warning(model.Message);
+            }
+            else if (model.Files.Count > 0)
             {
-                foreach (var file in model.Files)
-                {
-
-                    string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadedFiles/"+postId+"/"+userId);
-
-                    //create folder if not exist
-                    if (!Directory.Exists(path))
-                        Directory.CreateDirectory(path);
-
-
-                    string fileNameWithPath = Path.Combine(path, file.FileName);
-
-                    using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
-                    {
-                        file.CopyTo(stream);
-                    }
-                }
+                var result = _fileService.UploadFile(userId, postId, model);//ma nguoi dung, postId, file can tai len
                 model.IsSuccess = true;
                 model.Message = "Tải lên thành công";
+                _notyf.Success(model.Message);
             }
             else
             {
                 model.IsSuccess = false;
                 model.Message = "Mời bạn chọn file";
+                _notyf.Error(model.Message);
+
             }
             return View("Reply", model);
         }

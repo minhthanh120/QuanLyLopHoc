@@ -85,7 +85,7 @@ namespace QuanLyLopHoc.Models
             //modelBuilder.Entity<Post>().HasKey(pk => new { pk.UserId, pk.TypeId, pk.SubjectId });
             modelBuilder.Entity<Post>().HasKey(pk => new { pk.Id});
             modelBuilder.Entity<Post>()
-                .HasOne(pk => pk.User)
+                .HasOne(pk => pk.Creator)
                 .WithMany(pk => pk.Posts)
                 .HasForeignKey(pk => pk.CreatorId);
             //modelBuilder.Entity<Post>()

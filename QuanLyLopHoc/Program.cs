@@ -11,6 +11,7 @@ using QuanLyLopHoc.Services;
 using QuanLyLopHoc.Hubs;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using QuanLyLopHoc.Services.FunctionSerives;
+using AspNetCoreHero.ToastNotification;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("SMContextConnection") ?? throw new InvalidOperationException("Connection string 'SMContextConnection' not found.");
@@ -33,6 +34,7 @@ builder.Services.AddScoped<IMessageSevice, MessageService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddSingleton<IEmailSender, SendMailService>();
+builder.Services.AddSingleton<IFileService, FileService>();
 builder.Services.ConfigureApplicationCookie(
     options=>{
         options.LoginPath = "/Login";
@@ -65,6 +67,7 @@ builder.Services.AddAuthentication().AddGoogle(googleOptions =>
     googleOptions.CallbackPath = "/google-login";
 
 });
+builder.Services.AddNotyf(config=> { config.DurationInSeconds = 8;config.IsDismissable = true;config.Position = NotyfPosition.BottomRight; });
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
