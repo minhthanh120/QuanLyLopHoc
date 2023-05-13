@@ -3,16 +3,19 @@
 var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
 //Disable the send button until connection is established.
-document.getElementById("confirmSend").disabled = true;
-var currentUser = document.getElementById("currentUser").value;
-console.log(currentUser);
-var receiver = document.getElementById("receiver").value;
-console.log(receiver);
+//document.getElementById("confirmSend").disabled = true;
+//var currentUser = document.getElementById("currentUser").value;
+//console.log(currentUser);
+//var receiver = document.getElementById("receiver").value;
+//console.log(receiver);
 
-connection.on("ReceiveMessage", addMessageToChat);
+connection.on("ReceiveMessage", function (user, message) {
+  if (document.getElementById("messages")) {
+    addMessageToChat(user, message);
+  }
+  showToast();
+});
 
-connection.start().then(function () {
-    document.getElementById("confirmSend").disabled = false;
-}).catch(function (err) {
-    return console.error(err.toString());
+connection.start().catch(function (err) {
+  return console.error(err.toString());
 });

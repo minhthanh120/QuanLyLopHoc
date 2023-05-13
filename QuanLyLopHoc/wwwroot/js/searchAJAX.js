@@ -18,3 +18,20 @@
         };
     });
 });
+
+function whensearch() {
+    users = document.getElementById("users");
+    users.classList.add("hidden");
+    result = document.getElementById("result");
+    result.classList.remove("hidden");
+    backbutton = document.getElementById("back");
+    backbutton.classList.remove("hidden");
+}
+function stopsearch() {
+    users = document.getElementById("users");
+    users.classList.remove("hidden");
+    result = document.getElementById("result");
+    result.classList.add("hidden");
+    backbutton = document.getElementById("back");
+    backbutton.classList.add("hidden");
+}

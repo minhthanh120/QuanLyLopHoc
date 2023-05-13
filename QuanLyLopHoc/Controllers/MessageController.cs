@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using QuanLyLopHoc.Areas.Identity.Data;
+using QuanLyLopHoc.Models.Entities;
 using QuanLyLopHoc.Services;
 using System.Security.Claims;
 
@@ -21,7 +22,24 @@ namespace QuanLyLopHoc.Controllers
         [Authorize]
         public ActionResult Index()
         {
-            
+
+            return View();
+        }
+        [Authorize]
+        [Route("/Message/")]
+        public async Task<IActionResult> Main(string id = null)
+        {
+            if (id != null)
+            {
+                ViewData["id"] = id;
+                var userid = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var historyChat = await _messageSevice.GetHistoryChat(userid, id);
+                ViewData["currentUser"] = id;
+                ViewData["receiver"] = userid;
+                ViewData["historyChat"] = historyChat;
+                return View();
+
+            }
             return View();
         }
 
@@ -64,6 +82,11 @@ namespace QuanLyLopHoc.Controllers
                 return View(historyChat);
             }
             return View();
+        }
+
+        public ActionResult Chat()
+        {
+            return PartialView();
         }
 
         // POST: MessageController/Edit/5
