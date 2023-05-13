@@ -1,6 +1,7 @@
 ﻿using QuanLyLopHoc.Models.Entities;
 using QuanLyLopHoc.Models.DAO;
 using Microsoft.EntityFrameworkCore;
+using NuGet.DependencyResolver;
 
 namespace QuanLyLopHoc.Models.DAO
 {
@@ -112,15 +113,17 @@ namespace QuanLyLopHoc.Models.DAO
             return listtranscript.ToList();
         }
 
-        public TeacherSubject GetListTeacher(string subjectId)
+        public List<TeacherSubject> GetListTeacher(string subjectId)
         {
-            var teacher = db.TeacherSubjects.Where(fk => fk.SubjectId == subjectId)
-                          .Include(b => b.User).FirstOrDefault();                                       
-            db.Entry(teacher)
+            var teachers = db.TeacherSubjects.Where(fk => fk.SubjectId == subjectId)
+                          .Include(b => b.User);  
+            foreach( var item in teachers)
+            {
+                db.Entry(item)
             .Reference(b => b.User)
             .Load();
-            
-            return teacher;
+            }    
+            return teachers.ToList();
         }
 
         public bool AddStudent(User obj, string subId)
@@ -165,10 +168,11 @@ namespace QuanLyLopHoc.Models.DAO
             }
         }
 
-        public bool AddTeacher(User user, string subId)
+        public bool AddTeacher(User obj, string subId)
         {
             try
             {
+                var user = db.Users.Where(x => x.Email == obj.Email).FirstOrDefault();
                 var teacher = new TeacherSubject();
                 teacher.SubjectId = subId;
                 teacher.UserId = user.Id;
@@ -177,6 +181,21 @@ namespace QuanLyLopHoc.Models.DAO
                 return true;
             }
             catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public bool DeleteTeacher(TeacherSubject obj, string subId)
+        {
+            try 
+            {
+                TeacherSubject teacher = db.TeacherSubjects.Where(x => x.UserId == obj.UserId && x.SubjectId == subId).FirstOrDefault();
+                db.Remove(teacher);
+                db.SaveChanges();
+                return true;
+            } 
+            catch (Exception ex) 
             {
                 return false;
             }

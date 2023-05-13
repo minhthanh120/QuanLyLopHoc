@@ -155,6 +155,7 @@ namespace QuanLyLopHoc.Controllers
             return PartialView();
         }
 
+
         [HttpGet]
         public IActionResult AddStudent() 
         {
@@ -182,6 +183,8 @@ namespace QuanLyLopHoc.Controllers
             }
             return View();
         }
+
+
         [HttpGet]
         public IActionResult DeleteStudent(User user)
         {
@@ -200,6 +203,54 @@ namespace QuanLyLopHoc.Controllers
             string sbId = TempData["subjectId"].ToString();
             TempData.Keep("subjectId");
             _subjectDao.DeleteStudent(obj, sbId);
+            return RedirectToAction("Details", "Subject", new { id = sbId });
+        }
+
+
+        [HttpGet]
+        public IActionResult AddTeacher()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddTeacher(User user)
+        {
+            string sbId = TempData["subjectId"].ToString();
+            TempData.Keep("subjectId");
+
+            var result = _subjectDao.AddTeacher(user, sbId);
+            if (result)
+            {
+                return RedirectToAction("Details", "Subject", new { id = sbId });
+            }
+            else
+            {
+                ModelState.AddModelError("", "Không thêm được giáo viên !");
+            }
+            return View();
+        }
+
+
+        [HttpGet]
+        public IActionResult DeleteTeacher(User user)
+        {
+            string sbId = TempData["subjectId"].ToString();
+            TempData.Keep("subjectId");
+            TeacherSubject teacher = _db.TeacherSubjects.Where(x => x.UserId == user.Id && x.SubjectId == sbId).FirstOrDefault();
+            _db.Entry(teacher)
+            .Reference(b => b.User)
+            .Load();
+            return View(teacher);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteTeacher(TeacherSubject obj)
+        {
+            string sbId = TempData["subjectId"].ToString();
+            TempData.Keep("subjectId");
+
+            _subjectDao.DeleteTeacher(obj, sbId);
             return RedirectToAction("Details", "Subject", new { id = sbId });
         }
 
