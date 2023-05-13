@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using QuanLyLopHoc.Models;
 using QuanLyLopHoc.Models.DAO;
 using QuanLyLopHoc.Models.Entities;
+using System;
 using System.Reflection.Metadata;
 using System.Security.Claims;
 
@@ -181,6 +182,27 @@ namespace QuanLyLopHoc.Controllers
             }
             return View();
         }
+        [HttpGet]
+        public IActionResult DeleteStudent(User user)
+        {
+            string sbId = TempData["subjectId"].ToString();
+            TempData.Keep("subjectId");
+            StudentSubject stu = _db.StudentSubjects.Where(x => x.UserId == user.Id && x.SubjectId == sbId).FirstOrDefault();
+            _db.Entry(stu)
+            .Reference(b => b.Users)
+            .Load();
+            return View(stu);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteStudent(StudentSubject obj)
+        {
+            string sbId = TempData["subjectId"].ToString();
+            TempData.Keep("subjectId");
+            _subjectDao.DeleteStudent(obj, sbId);
+            return RedirectToAction("Details", "Subject", new { id = sbId });
+        }
+
 
         [HttpGet]
         public IActionResult EditTranscript ()
@@ -188,7 +210,7 @@ namespace QuanLyLopHoc.Controllers
             return PartialView();
         }
         [HttpPost]
-        public IActionResult EditTranscript(List<DetailTranscript> transcripts) //obj de lm j
+        public IActionResult EditTranscript(List<DetailTranscript> transcripts) 
         {
             string sbId = TempData["subjectId"].ToString();
             TempData.Keep("subjectId");

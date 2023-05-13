@@ -39,7 +39,7 @@
                 Thêm học sinh vào lớp học
             </a>
         </div>
- @*   <form method="post" asp-action="EditTranscript" asp-controller="Subject">
+        @*<form method="post" asp-action="DeleteStudent" asp-controller="Subject">
         <fieldset class="max-w-full mx-4 sm:mx-auto my-4 p-3">*@
             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
@@ -50,25 +50,13 @@
                         <th scope="col" class="px-6 py-3">
                             Email
                         </th>
-                        @*<th scope="col" class="px-6 py-3">
-                            Điểm CC
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Điểm TX
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Điểm CK
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Điểm TB
-                        </th>*@
                         <th scope="col" class="px-6 py-3">
 
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model.Details) //goi details(list)
+                    @foreach (var item in Model.Details)
                     {
                         <tr class="border-b border-gray-200 dark:border-gray-700">
                             <td scope="row"
@@ -94,17 +82,16 @@
                                 <div>
                                     @item.Student.FirstName @item.Student.LastName
                                 </div>
-
+                                <div>
+                                    <input type="hidden" value="@item.UserId" asp-for="@item.UserId">
+                                </div>
                             </td>
                             <td class="px-6 py-4">
                                 @item.Student.Email
                             </td>
-                            @*//dong goi thanh partial view*@
-                            @*@await Html.PartialAsync("EditTranscript", @item)*@
-                            @*//den day*@
-                            <td class="px-6 py-4 flex">                                   
-                                <a href="#"
-                                   class="text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-3 py-1 text-center inline-flex items-center mr-2">
+                            <td class="px-6 py-4 flex">
+                        <a asp-action="DeleteStudent" asp-route-id="@item.UserId" asp-controller="Subject"
+                           class="text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-3 py-1 text-center inline-flex items-center mr-2">
                                     <svg xmlns="http://www.w3.org/2000/svg"
                                          fill="none"
                                          viewBox="0 0 24 24"
@@ -121,18 +108,6 @@
                     }
                 </tbody>
             </table>
-     @*       <div class="ml-auto max-w-xs sm:w-full my-10 flex justify-evenly">
-                <button type="submit"
-                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-2/5 sm:w-auto px-5 py-2.5 sm:ml-6 text-center">
-                    Xác nhận
-                </button>
-                <a asp-controller="Subject" asp-action="Details" asp-route-id="@TempData["subjectId"] @{TempData.Keep("subjectId");}"
-                    type="submit"
-                   class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-2/5 sm:w-3/12 px-5 py-2.5 sm:ml-6 text-center">
-                    Hủy
-                </a>
-            </div>
-        </fieldset>
-        </form>*@
-        
+        @*</fieldset>
+        </form>*@                    
     </div>

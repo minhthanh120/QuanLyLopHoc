@@ -146,6 +146,25 @@ namespace QuanLyLopHoc.Models.DAO
             }
         }
 
+        public bool DeleteStudent(StudentSubject obj, string subId)
+        {
+            try 
+            {
+                var transcript = db.Transcripts.Where(x => x.SubjectId == subId).FirstOrDefault();
+                StudentSubject stu = db.StudentSubjects.Where(x => x.UserId == obj.UserId &&  x.SubjectId == subId).FirstOrDefault();
+                DetailTranscript details = db.Details.Where(x => x.TranscriptId == transcript.Id && x.UserId == obj.UserId).FirstOrDefault();
+                db.StudentSubjects.Remove(stu);
+                db.Details.Remove(details);
+                db.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
         public bool AddTeacher(User user, string subId)
         {
             try
