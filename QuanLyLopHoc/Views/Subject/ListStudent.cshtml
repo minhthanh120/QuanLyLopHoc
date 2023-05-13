@@ -39,8 +39,8 @@
                 Thêm học sinh vào lớp học
             </a>
         </div>
-        <form method="post" asp-action="">
-        <fieldset class="max-w-full mx-4 sm:mx-auto my-4 p-3">
+ @*   <form method="post" asp-action="EditTranscript" asp-controller="Subject">
+        <fieldset class="max-w-full mx-4 sm:mx-auto my-4 p-3">*@
             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
                     <tr>
@@ -50,7 +50,7 @@
                         <th scope="col" class="px-6 py-3">
                             Email
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        @*<th scope="col" class="px-6 py-3">
                             Điểm CC
                         </th>
                         <th scope="col" class="px-6 py-3">
@@ -61,7 +61,7 @@
                         </th>
                         <th scope="col" class="px-6 py-3">
                             Điểm TB
-                        </th>
+                        </th>*@
                         <th scope="col" class="px-6 py-3">
 
                         </th>
@@ -99,36 +99,9 @@
                             <td class="px-6 py-4">
                                 @item.Student.Email
                             </td>
-                            <td class="px-6 py-4">
-                                <input type="text"
-                                       id="website-admin"
-                                       class="text-gray-900 block flex-1 min-w-0 max-w-full text-sm p-2.5"
-                                       placeholder=""
-                                       value="@item.DiemCC" 
-                                       asp-for="Details"
-                                />                               
-                            </td>
-                            <td class="px-6 py-4">
-                                <input type="text"
-                                       id="website-admin"
-                                       class="text-gray-900 block flex-1 min-w-0 max-w-full text-sm p-2.5"
-                                       placeholder=""
-                                       value="@item.DiemTX" />
-                            </td>
-                            <td class="px-6 py-4">
-                                <input type="text"
-                                       id="website-admin"
-                                       class="text-gray-900 block flex-1 min-w-0 max-w-full text-sm p-2.5"
-                                       placeholder=""
-                                       value="@item.DiemCK" />
-                            </td>
-                            <td class="px-6 py-4">
-                                <input type="text"
-                                       id="website-admin"
-                                       class="text-gray-900 block flex-1 min-w-0 max-w-full text-sm p-2.5"
-                                       placeholder=""
-                                       value="@item.DiemTB" />
-                            </td>
+                            @*//dong goi thanh partial view*@
+                            @*@await Html.PartialAsync("EditTranscript", @item)*@
+                            @*//den day*@
                             <td class="px-6 py-4 flex">                                   
                                 <a href="#"
                                    class="text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-3 py-1 text-center inline-flex items-center mr-2">
@@ -148,17 +121,18 @@
                     }
                 </tbody>
             </table>
-            <div class="ml-auto max-w-xs sm:w-full my-10 flex justify-evenly">
+     @*       <div class="ml-auto max-w-xs sm:w-full my-10 flex justify-evenly">
                 <button type="submit"
                         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-2/5 sm:w-auto px-5 py-2.5 sm:ml-6 text-center">
                     Xác nhận
                 </button>
-                <button type="submit"
-                        class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-2/5 sm:w-3/12 px-5 py-2.5 sm:ml-6 text-center">
+                <a asp-controller="Subject" asp-action="Details" asp-route-id="@TempData["subjectId"] @{TempData.Keep("subjectId");}"
+                    type="submit"
+                   class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-2/5 sm:w-3/12 px-5 py-2.5 sm:ml-6 text-center">
                     Hủy
-                </button>
+                </a>
             </div>
         </fieldset>
-        </form>
+        </form>*@
         
     </div>

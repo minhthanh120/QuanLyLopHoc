@@ -98,6 +98,20 @@ namespace QuanLyLopHoc.Models.DAO
             return transcript;
         }
 
+        public List<DetailTranscript> GetListTranscript(string subjectId)
+        {
+            var transcript = db.Transcripts.Where(x => x.SubjectId == subjectId).FirstOrDefault();
+            var listtranscript = db.Details.Where(fk => fk.TranscriptId == transcript.Id);               
+                
+            foreach (var item in listtranscript)
+            {
+                db.Entry(item)
+            .Reference(b => b.Student)
+            .Load();
+            }
+            return listtranscript.ToList();
+        }
+
         public TeacherSubject GetListTeacher(string subjectId)
         {
             var teacher = db.TeacherSubjects.Where(fk => fk.SubjectId == subjectId)
@@ -153,7 +167,7 @@ namespace QuanLyLopHoc.Models.DAO
         {
             try
             {
-                var transcript = db.Details.Find(obj.UserId);
+                var transcript = db.Details.Where(x =>x.UserId == obj.UserId).FirstOrDefault();
                 if (transcript == null)
                 {
                     transcript = new DetailTranscript();
@@ -163,6 +177,7 @@ namespace QuanLyLopHoc.Models.DAO
                     transcript.DiemCK = obj.DiemCK;
                     transcript.DiemTB = obj.DiemTB;
                     db.Details.Add(transcript);
+                    db.SaveChanges();
                 }
                 else
                 {

@@ -51,7 +51,7 @@
                     class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-2/5 sm:w-auto px-5 py-2.5 sm:ml-6 text-center">
                 Xác nhận
             </button>
-            <a asp-controller="Subject" asp-action="Details" 
+            <a asp-controller="Subject" asp-action="Details" asp-route-id="@TempData["subjectId"] @{TempData.Keep("subjectId");}"
                 type="submit"
                 class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-2/5 sm:w-3/12 px-5 py-2.5 sm:ml-6 text-center">
                 Hủy

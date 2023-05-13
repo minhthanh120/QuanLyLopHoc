@@ -3,6 +3,7 @@
     var subjectFromDb = ViewData["subjectFromDb"] as QuanLyLopHoc.Models.Entities.Subject;
     var studentList = ViewData["studentList"] as QuanLyLopHoc.Models.Entities.Transcript;
     var listTeacher = ViewData["listTeacher"] as QuanLyLopHoc.Models.Entities.TeacherSubject;
+    var listTranscript = ViewData["listTranscript"] as List<QuanLyLopHoc.Models.Entities.DetailTranscript>; //ep sai kieu, cai kia no la list ma:()
 }
 
 <head>
@@ -40,7 +41,9 @@
                 <div class="tab-item px-5 pt-4 pb-5 text-lg text-center text-purple-700 bg-white rounded-t-md border-b-4 border-transparent opacity-60 cursor-pointer transition-all duration-500 hover:opacity-100 hover:bg-purple-100 hover:border-purple-400">
                     Bài đăng
                 </div>
-              
+                <div class="tab-item px-5 pt-4 pb-5 text-lg text-center text-purple-700 bg-white rounded-t-md border-b-4 border-transparent opacity-60 cursor-pointer transition-all duration-500 hover:opacity-100 hover:bg-purple-100 hover:border-purple-400">
+                    Danh sách điểm
+                </div>
                 <div class="line absolute left-0 bottom-0 w-0 h-1 bg-purple-700 transition-all duration-200"></div>
             </div>
 
@@ -56,7 +59,9 @@
                        
                     </p>
                 </div>
-            
+                <div class="tab-pane hidden">
+                    @await Html.PartialAsync("EditTranscript", listTranscript)
+                </div>
             </div>
         </div>
         <script>

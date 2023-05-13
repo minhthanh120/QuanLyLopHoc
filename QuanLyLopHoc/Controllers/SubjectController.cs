@@ -43,10 +43,16 @@ namespace QuanLyLopHoc.Controllers
             .Load();
             ViewData["subjectFromDb"] = subjectFromDb;
             //pass to detail-> partial view
+
             var studentList = _subjectDao.GetTranscript(subjectFromDb.Id);
             ViewData["studentList"] = studentList;
+
             var listTeacher = _subjectDao.GetListTeacher(subjectFromDb.Id);
             ViewData["listTeacher"] = listTeacher;
+
+            var listTranscript = _subjectDao.GetListTranscript(subjectFromDb.Id);
+            ViewData["listTranscript"] = listTranscript;            
+
             TempData["subjectId"] = subjectFromDb.Id;
 
             return View();
@@ -159,14 +165,15 @@ namespace QuanLyLopHoc.Controllers
         {
 
             /*tudidoan@cloudclass.software
-             travitang@cloudclass.software*/
+             travitang@cloudclass.software
+            thuytuduong@cloudclass.software*/
             string sbId = TempData["subjectId"].ToString();
             TempData.Keep("subjectId");
 
             var result = _subjectDao.AddStudent(user, sbId);
             if (result)
             {
-                return RedirectToAction("Details", "Subject", sbId);
+                return RedirectToAction("Details", "Subject", new { id = sbId }); 
             }
             else
             {
@@ -175,18 +182,24 @@ namespace QuanLyLopHoc.Controllers
             return View();
         }
 
-
-
-        /*[HttpGet]
-        public IActionResult AddMember()
+        [HttpGet]
+        public IActionResult EditTranscript ()
         {
             return PartialView();
         }
-
         [HttpPost]
-        public IActionResult AddMember(User user)
-        {                 
-            return PartialView();
-        }*/
+        public IActionResult EditTranscript(List<DetailTranscript> transcripts) //obj de lm j
+        {
+            string sbId = TempData["subjectId"].ToString();
+            TempData.Keep("subjectId");
+
+            foreach (DetailTranscript item in transcripts)
+            {
+                _subjectDao.EditTranscript(item);
+            }
+            return RedirectToAction("Details", "Subject", new { id = sbId });
+        }
+
+
     }
 }
