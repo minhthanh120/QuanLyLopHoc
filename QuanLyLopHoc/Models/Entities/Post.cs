@@ -17,7 +17,7 @@ namespace QuanLyLopHoc.Models.Entities
         [Column(TypeName = "NTEXT")]
         public string Content { get; set; }
         [Required]
-        public DateTime PostTime { get; set; }
+        public DateTime PostTime { get; set; } = DateTime.Now;
         [Required]
         public string Type { get;set; }
         public virtual User Creator { get; set; }

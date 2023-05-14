@@ -3,7 +3,8 @@
     var subjectFromDb = ViewData["subjectFromDb"] as QuanLyLopHoc.Models.Entities.Subject;
     var studentList = ViewData["studentList"] as QuanLyLopHoc.Models.Entities.Transcript;
     var listTeacher = ViewData["listTeacher"] as List<QuanLyLopHoc.Models.Entities.TeacherSubject>;
-    var listTranscript = ViewData["listTranscript"] as List<QuanLyLopHoc.Models.Entities.DetailTranscript>; 
+    var listTranscript = ViewData["listTranscript"] as List<QuanLyLopHoc.Models.Entities.DetailTranscript>;
+    var listPost = ViewData["listPost"] as List<QuanLyLopHoc.Models.Entities.Post>;
 }
 
 <head>
@@ -54,10 +55,7 @@
                     @await Html.PartialAsync("ListTeacher", listTeacher)
                 </div>
                 <div class="tab-pane hidden">
-                    <h2>Angular</h2>
-                    <p>
-                       
-                    </p>
+                    @await Html.PartialAsync("ListPost", listPost)
                 </div>
                 <div class="tab-pane hidden">
                     @await Html.PartialAsync("EditTranscript", listTranscript)

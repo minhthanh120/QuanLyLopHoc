@@ -22,7 +22,7 @@ namespace QuanLyLopHoc.Controllers
         [Authorize]
 
         public IActionResult Index()
-        {            
+        {                    
             var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var subjectList = _subjectDao.GetListSubjects(id);
             return View(subjectList);
@@ -53,6 +53,9 @@ namespace QuanLyLopHoc.Controllers
 
             var listTranscript = _subjectDao.GetListTranscript(subjectFromDb.Id);
             ViewData["listTranscript"] = listTranscript;            
+
+            var listPost = _subjectDao.GetListPost(subjectFromDb.Id);
+            ViewData["listPost"] = listPost;
 
             TempData["subjectId"] = subjectFromDb.Id;
 

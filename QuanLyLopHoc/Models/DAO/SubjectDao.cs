@@ -233,5 +233,18 @@ namespace QuanLyLopHoc.Models.DAO
                 return false;
             }
         }
+
+        public List<Post> GetListPost(string subjectId)
+        {
+            var lstpost = db.Posts.Where(x => x.SubjectId == subjectId).ToList();
+            lstpost.OrderBy(x => x.PostTime);
+            foreach(var post in lstpost)
+            {
+                db.Entry(post)
+                .Reference(b => b.Creator)
+                .Load();
+            }
+            return lstpost;
+        }
     }
 }
