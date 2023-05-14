@@ -25,9 +25,9 @@ namespace QuanLyLopHoc.Models
         public virtual DbSet<Transcript> Transcripts { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Notification> Notifications { get; set; }
-        public virtual DbSet<RollCall> RollCalls { get; set; }
-        public virtual DbSet<DetailRollCall> DetailRollCalls { get; set; }
         public virtual DbSet<Reply> Replies { get; set; }
+        public virtual DbSet<ContentReply> ContentReplies { get; set; }
+        public virtual DbSet<ContentPost> ContentPosts { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //optionsBuilder.UseSqlServer("Data Source=.\\SQLEXPRESS;Initial Catalog=SUBJECTCLASS;Integrated Security=True;TrustServerCertificate=True");
@@ -51,6 +51,22 @@ namespace QuanLyLopHoc.Models
                 .HasOne(pk => pk.OriginPost)
                 .WithMany(pk => pk.Replies)
                 .HasForeignKey(pk => pk.PostId);
+            
+            modelBuilder.Entity<Reply>()
+                .HasOne(pk => pk.StudentRep)
+                .WithMany(pk => pk.Replies)
+                .HasForeignKey(pk => pk.StudentId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ContentPost>()
+                .HasOne(pk => pk.OriginalPost)
+                .WithMany(pk => pk.Contents)
+                .HasForeignKey(pk => pk.PostId);
+
+            modelBuilder.Entity<ContentReply>()
+                .HasOne(pk => pk.OriginalReply)
+                .WithMany(pk => pk.Contents)
+                .HasForeignKey(pk => pk.ReplyId);
 
             modelBuilder.Entity<TeacherTranscript>().HasKey(pk => new { pk.UserId, pk.TranscriptId });
             modelBuilder.Entity<TeacherTranscript>()
@@ -134,18 +150,6 @@ namespace QuanLyLopHoc.Models
                 .HasForeignKey<Transcript>(fk => fk.SubjectId);
 
             modelBuilder.Entity<User>().HasKey(pk => new { pk.Id });
-            
-            modelBuilder.Entity<DetailRollCall>().HasKey(pk => new { pk.StudentId, pk.RollCallId });
-            modelBuilder.Entity<DetailRollCall>()
-                .HasOne(pk => pk.RollCall)
-                .WithMany(pk => pk.Details)
-                .HasForeignKey(pk => pk.RollCallId)
-                .OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<DetailRollCall>()
-                .HasOne(fk => fk.Student)
-                .WithMany(fk => fk.Rollcalls)
-                .HasForeignKey(fk => fk.StudentId)
-                .OnDelete(DeleteBehavior.Restrict);
-        }
+                    }
     }
 }

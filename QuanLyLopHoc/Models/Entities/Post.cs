@@ -15,7 +15,7 @@ namespace QuanLyLopHoc.Models.Entities
         public string Title { get; set; }
         [Required]
         [Column(TypeName = "NTEXT")]
-        public string Content { get; set; }
+        public string Comment { get; set; }
         [Required]
         public DateTime PostTime { get; set; } = DateTime.Now;
         [Required]
@@ -25,5 +25,6 @@ namespace QuanLyLopHoc.Models.Entities
         public string SubjectId { get; set; }
         public virtual Subject Subject { get; set; }
         public virtual ICollection<Reply> Replies { get; set; }
+        public virtual ICollection<ContentPost> Contents { get; set; }
     }
 }
