@@ -13,6 +13,8 @@ namespace QuanLyLopHoc.Models.Entities
         [Required]
         [Column(TypeName = "NVARCHAR(50)")]
         public string SubjectName { get; set; }
+        [Column(TypeName = "NVARCHAR(10)")]
+        public string InviteCode { get; set; }
         [Column(TypeName = "NTEXT")]
         public string Description { get; set; }
         public int Credit { get;set; }

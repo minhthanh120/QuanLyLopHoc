@@ -57,7 +57,6 @@ namespace QuanLyLopHoc.Models.Entities
         public virtual ICollection<Message> Sent { get;set; }
         public virtual ICollection<Message> Received { get; set; }
         public virtual ICollection<DetailTranscript> Details { get;set; }
-        public virtual ICollection<DetailRollCall> Rollcalls { get; set; }
         public virtual ICollection<TeacherTranscript> TeacherTranscripts { get;set; }
         public virtual ICollection<TeacherSubject> TeacherSubjects { get;set;}
         public virtual ICollection<Post> Posts { get;set; }
