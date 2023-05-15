@@ -114,7 +114,6 @@ namespace QuanLyLopHoc.Repositories
                     currentUser.Gender = userInfo.Gender;
                     currentUser.LastName = userInfo.LastName;
                     currentUser.FirstName = userInfo.FirstName;
-                    currentUser.Email = userInfo.Email;
                     //currentUser. = userInfo.Avatar;
                     await _context.SaveChangesAsync();
                 }
