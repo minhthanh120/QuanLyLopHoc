@@ -44,7 +44,12 @@ namespace QuanLyLopHoc.Controllers
                     else if (_subjectService.IsTeacher(id, subject.Id))
                     {
                         _notyf.Success("is teacher");
-
+                    }
+                    else
+                    {
+                        _notyf.Warning("is not student yet");
+                        // _subjectService.JoinClass(id, subject.Id);
+                        // _notyf.Success("now you are student");
                     }
                 }
                 ViewData["subject"] = subject;

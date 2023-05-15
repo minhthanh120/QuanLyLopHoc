@@ -68,5 +68,22 @@ namespace QuanLyLopHoc.Services
             }
             return false;
         }
+        public bool JoinClass(string userId, string subjectId){
+            try
+            {
+                var student = new StudentSubject();
+                student.UserId = userId;
+                student.SubjectId = subjectId;
+                _context.Add(student);
+                _context.SaveChanges();
+                return true;
+            }
+            catch (System.Exception ex)
+            {
+
+                _logger.LogError(ex.Message);
+            }
+            return false;
+        }
     }
 }
