@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>@ViewData["Title"]</title>
+        <link rel="icon" type="image/x-icon" href="~/images/image.ico">
+        <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    </head>
+
+    <body class="bg-white">
+        <script src="~/js/signalr/dist/browser/signalr.js"></script>
+        <style>
+            .material-symbols-outlined {
+                font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48
+            }
+        </style>
+        <div>
+            <aside
+                class="fixed w-[calc(3.1rem)] hover:w-64 hover:shadow-2xl left-0 top-0 z-10 h-screen overflow-hidden border-r border-gray-300/40 bg-white dark:border-gray-700  ">
+                <div class="flex h-screen flex-col justify-between pt-2 pb-6">
+                    <div>
+                        <div class="w-max px-1">
+                            <svg width="246" height="91" viewBox="0 0 246 91" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <rect width="786" height="599" transform="translate(-364 -287)" fill="white" />
+                                <rect x="32.4264" y="25" width="60" height="60" rx="30"
+                                    transform="rotate(45 32.4264 25)" fill="#35B6FF" />
+                                <rect x="105.355" width="65" height="187.178" rx="32.5" transform="rotate(45 105.355 0)"
+                                    fill="#0089D7" />
+                                <rect x="179.583" y="-11.8247" width="65" height="179.016" rx="32.5"
+                                    transform="rotate(45 179.583 -11.8247)" fill="#67C5FA" />
+                                <rect x="209.103" y="16" width="65" height="62.3713" rx="31.1856"
+                                    transform="rotate(45 209.103 16)" fill="#74DDF4" />
+                                <rect x="191.471" y="34" width="62.1376" height="102.489"
+                                    transform="rotate(45 191.471 34)" fill="#74DDF4" />
+                                <path
+                                    d="M42.155 78.425C40.325 79.715 37.805 80.36 34.595 80.36C30.005 80.36 26.3 78.965 23.48 76.175C20.66 73.385 19.25 69.545 19.25 64.655C19.25 60.095 20.705 56.39 23.615 53.54C26.525 50.69 30.125 49.265 34.415 49.265C37.385 49.265 39.935 49.805 42.065 50.885V53.81C40.745 53.12 39.575 52.64 38.555 52.37C37.535 52.07 36.125 51.92 34.325 51.92C30.845 51.92 27.935 53.105 25.595 55.475C23.285 57.815 22.13 60.875 22.13 64.655C22.13 68.615 23.27 71.78 25.55 74.15C27.86 76.52 30.92 77.705 34.73 77.705C37.7 77.705 40.175 76.925 42.155 75.365V78.425ZM50.2835 80H47.5385V48.185H50.2835V80ZM77.0901 68.705C77.0901 72.095 76.1301 74.9 74.2101 77.12C72.3201 79.31 69.7101 80.405 66.3801 80.405C63.1701 80.405 60.6201 79.295 58.7301 77.075C56.8401 74.855 55.8951 72.065 55.8951 68.705C55.8951 65.375 56.8701 62.57 58.8201 60.29C60.7701 58.01 63.2901 56.87 66.3801 56.87C69.7701 56.87 72.3951 57.995 74.2551 60.245C76.1451 62.465 77.0901 65.285 77.0901 68.705ZM58.7751 68.705C58.7751 71.195 59.4651 73.34 60.8451 75.14C62.2551 76.91 64.1001 77.795 66.3801 77.795C68.8701 77.795 70.7901 76.925 72.1401 75.185C73.5201 73.415 74.2101 71.255 74.2101 68.705C74.2101 66.065 73.5651 63.875 72.2751 62.135C70.9851 60.365 69.0201 59.48 66.3801 59.48C64.0101 59.48 62.1501 60.38 60.8001 62.18C59.4501 63.98 58.7751 66.155 58.7751 68.705ZM99.4797 80H96.7347V75.905C95.5347 78.845 93.1197 80.315 89.4897 80.315C87.2697 80.315 85.4997 79.655 84.1797 78.335C82.8897 76.985 82.2447 75.215 82.2447 73.025V57.185H84.9897V72.26C84.9897 74 85.4397 75.335 86.3397 76.265C87.2697 77.195 88.4847 77.66 89.9847 77.66C91.9947 77.66 93.6147 76.94 94.8447 75.5C96.1047 74.06 96.7347 72.185 96.7347 69.875V57.185H99.4797V80ZM107.818 68.885C107.818 71.495 108.448 73.625 109.708 75.275C110.998 76.925 112.618 77.75 114.568 77.75C116.518 77.75 118.198 77.045 119.608 75.635C121.018 74.195 121.723 71.81 121.723 68.48C121.723 66.8 121.483 65.345 121.003 64.115C120.553 62.855 119.953 61.91 119.203 61.28C118.483 60.62 117.748 60.155 116.998 59.885C116.278 59.585 115.558 59.435 114.838 59.435C112.798 59.435 111.118 60.26 109.798 61.91C108.478 63.53 107.818 65.855 107.818 68.885ZM124.468 80H121.723V76.67C120.133 79.13 117.778 80.36 114.658 80.36C111.598 80.36 109.213 79.25 107.503 77.03C105.793 74.78 104.938 72.05 104.938 68.84C104.938 65.3 105.853 62.42 107.683 60.2C109.513 57.95 111.868 56.825 114.748 56.825C117.718 56.825 120.043 58.085 121.723 60.605V48.185H124.468V80ZM153.029 78.425C151.199 79.715 148.679 80.36 145.469 80.36C140.879 80.36 137.174 78.965 134.354 76.175C131.534 73.385 130.124 69.545 130.124 64.655C130.124 60.095 131.579 56.39 134.489 53.54C137.399 50.69 140.999 49.265 145.289 49.265C148.259 49.265 150.809 49.805 152.939 50.885V53.81C151.619 53.12 150.449 52.64 149.429 52.37C148.409 52.07 146.999 51.92 145.199 51.92C141.719 51.92 138.809 53.105 136.469 55.475C134.159 57.815 133.004 60.875 133.004 64.655C133.004 68.615 134.144 71.78 136.424 74.15C138.734 76.52 141.794 77.705 145.604 77.705C148.574 77.705 151.049 76.925 153.029 75.365V78.425ZM161.158 80H158.413V48.185H161.158V80ZM174.779 77.705C176.579 77.705 178.019 77.21 179.099 76.22C180.179 75.23 180.719 73.97 180.719 72.44V69.155H176.264C174.134 69.155 172.544 69.575 171.494 70.415C170.444 71.225 169.919 72.245 169.919 73.475C169.919 74.735 170.324 75.755 171.134 76.535C171.974 77.315 173.189 77.705 174.779 77.705ZM180.719 77.345C179.459 79.265 177.269 80.225 174.149 80.225C172.049 80.225 170.324 79.61 168.974 78.38C167.654 77.12 166.994 75.515 166.994 73.565C166.994 71.375 167.834 69.68 169.514 68.48C171.224 67.25 173.474 66.635 176.264 66.635H180.719V65.6C180.719 63.56 180.284 62.03 179.414 61.01C178.544 59.96 177.089 59.435 175.049 59.435C172.679 59.435 170.549 60.08 168.659 61.37V58.4C170.399 57.35 172.544 56.825 175.094 56.825C180.674 56.825 183.464 59.75 183.464 65.6V80H180.719V77.345ZM203.324 74.15C203.324 76.04 202.664 77.54 201.344 78.65C200.054 79.73 198.269 80.27 195.989 80.27C193.229 80.27 191.009 79.82 189.329 78.92V76.085C191.339 77.225 193.499 77.795 195.809 77.795C197.339 77.795 198.494 77.48 199.274 76.85C200.084 76.22 200.489 75.395 200.489 74.375C200.489 73.175 200.069 72.245 199.229 71.585C198.419 70.925 197.069 70.22 195.179 69.47C193.349 68.75 191.894 67.91 190.814 66.95C189.734 65.99 189.194 64.67 189.194 62.99C189.194 61.16 189.869 59.705 191.219 58.625C192.569 57.515 194.264 56.96 196.304 56.96C198.764 56.96 200.654 57.305 201.974 57.995V60.74C200.564 59.93 198.659 59.525 196.259 59.525C194.939 59.525 193.889 59.84 193.109 60.47C192.359 61.07 191.984 61.865 191.984 62.855C191.984 63.455 192.089 63.98 192.299 64.43C192.539 64.88 192.929 65.3 193.469 65.69C194.039 66.05 194.519 66.32 194.909 66.5C195.299 66.68 195.929 66.95 196.799 67.31C198.899 68.15 200.504 69.08 201.614 70.1C202.754 71.09 203.324 72.44 203.324 74.15ZM221.605 74.15C221.605 76.04 220.945 77.54 219.625 78.65C218.335 79.73 216.55 80.27 214.27 80.27C211.51 80.27 209.29 79.82 207.61 78.92V76.085C209.62 77.225 211.78 77.795 214.09 77.795C215.62 77.795 216.775 77.48 217.555 76.85C218.365 76.22 218.77 75.395 218.77 74.375C218.77 73.175 218.35 72.245 217.51 71.585C216.7 70.925 215.35 70.22 213.46 69.47C211.63 68.75 210.175 67.91 209.095 66.95C208.015 65.99 207.475 64.67 207.475 62.99C207.475 61.16 208.15 59.705 209.5 58.625C210.85 57.515 212.545 56.96 214.585 56.96C217.045 56.96 218.935 57.305 220.255 57.995V60.74C218.845 59.93 216.94 59.525 214.54 59.525C213.22 59.525 212.17 59.84 211.39 60.47C210.64 61.07 210.265 61.865 210.265 62.855C210.265 63.455 210.37 63.98 210.58 64.43C210.82 64.88 211.21 65.3 211.75 65.69C212.32 66.05 212.8 66.32 213.19 66.5C213.58 66.68 214.21 66.95 215.08 67.31C217.18 68.15 218.785 69.08 219.895 70.1C221.035 71.09 221.605 72.44 221.605 74.15Z"
+                                    fill="#F8F8F8" fill-opacity="0.78" />
+                                <path d="M17 86.75H223.18V89H17V86.75Z" fill="#F8F8F8" fill-opacity="0.78" />
+                            </svg>
+                        </div>
+                        <ul class="mt-6 space-y-2 tracking-wide">
+                            <li class="min-w-max">
+                                <a href="#" aria-label="dashboard"
+                                    class="relative flex items-center space-x-4 bg-gradient-to-r px-4 py-3  from-sky-600 to-cyan-400 text-white">
+                                    <svg class="-ml-1 h-6 w-6" viewBox="0 0 24 24" fill="none">
+                                        <path
+                                            d="M6 8a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V8ZM6 15a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-1Z"
+                                            class="fill-current text-cyan-400 dark:fill-slate-600"></path>
+                                        <path
+                                            d="M13 8a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2V8Z"
+                                            class="fill-current text-cyan-200 group-hover:text-cyan-300"></path>
+                                        <path
+                                            d="M13 15a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-1Z"
+                                            class="fill-current group-hover:text-sky-300"></path>
+                                    </svg>
+                                    <span class="-mr-1 font-medium">Tham gia lớp học mới</span>
+                                </a>
+                            </li>
+                            <li class="min-w-max">
+                                <a href="#" aria-label="dashboard"
+                                    class="relative flex items-center space-x-4 bg-gradient-to-r px-4 py-3  text-gray-600">
+                                    <span class="material-symbols-outlined -ml-1 h-5 w-5">
+                                        add_circle
+                                    </span>
+                                    <span class="group-hover:text-gray-700">Tạo lớp học mới</span>
+                                </a>
+                            </li>
+                            <li class="min-w-max">
+                                <a href="#" aria-label="dashboard"
+                                    class="relative flex items-center space-x-4 bg-gradient-to-r px-4 py-3  text-gray-600">
+                                    <svg class="-ml-1 h-6 w-6" viewBox="0 0 24 24" fill="none">
+                                        <path
+                                            d="M6 8a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V8ZM6 15a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-1Z"
+                                            class="fill-current text-cyan-400 dark:fill-slate-600"></path>
+                                        <path
+                                            d="M13 8a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2V8Z"
+                                            class="fill-current text-cyan-200 group-hover:text-cyan-300"></path>
+                                        <path
+                                            d="M13 15a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-1Z"
+                                            class="fill-current group-hover:text-sky-300"></path>
+                                    </svg>
+                                    <span class="group-hover:text-gray-700">Lớp môn học đã tham gia</span>
+                                </a>
+                            </li>
+                            <li class="min-w-max">
+                                <a href="#" aria-label="dashboard"
+                                    class="relative flex items-center space-x-4 bg-gradient-to-r px-4 py-3  text-gray-600">
+                                    <svg class="-ml-1 h-6 w-6" viewBox="0 0 24 24" fill="none">
+                                        <path
+                                            d="M6 8a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V8ZM6 15a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-1Z"
+                                            class="fill-current text-cyan-400 dark:fill-slate-600"></path>
+                                        <path
+                                            d="M13 8a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2V8Z"
+                                            class="fill-current text-cyan-200 group-hover:text-cyan-300"></path>
+                                        <path
+                                            d="M13 15a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-1Z"
+                                            class="fill-current group-hover:text-sky-300"></path>
+                                    </svg>
+                                    <span class="group-hover:text-gray-700">Lớp môn học đã tạo</span>
+                                </a>
+                            </li>
+                            <li class="min-w-max">
+                                <a href="#"
+                                    class="group flex items-center space-x-4 rounded-md px-4 py-3 text-gray-600">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
+                                        fill="currentColor">
+                                        <path class="fill-current text-gray-600 group-hover:text-cyan-600"
+                                            fill-rule="evenodd"
+                                            d="M2 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 002 2H4a2 2 0 01-2-2V5zm3 1h6v4H5V6zm6 6H5v2h6v-2z"
+                                            clip-rule="evenodd" />
+                                        <path class="fill-current text-gray-300 group-hover:text-cyan-300"
+                                            d="M15 7h1a2 2 0 012 2v5.5a1.5 1.5 0 01-3 0V7z" />
+                                    </svg>
+                                    <span class="group-hover:text-gray-700">Bảng điểm của bạn</span>
+                                </a>
+                            </li>
+                            <li class="min-w-max">
+                                <a href="/Message/"
+                                    class="group flex items-center space-x-4 rounded-md px-4 py-3 text-gray-600">
+                                    <span class="relative inline-flex">
+                                        <svg viewBox="0 0 32 32" class="h-5 w-5" xmlns="http://www.w3.org/2000/svg">
+                                            <defs>
+                                                <style>
+                                                    .cls-1 {
+                                                        fill: none;
+                                                    }
+                                                </style>
+                                            </defs>
+                                            <title />
+                                            <g data-name="Layer 2" id="Layer_2">
+                                                <path
+                                                    d="M4,28a.84.84,0,0,1-.38-.08A1,1,0,0,1,3,27V8.78A4.89,4.89,0,0,1,8,4H24a4.89,4.89,0,0,1,5,4.78v9.44A4.89,4.89,0,0,1,24,23H9.41l-4.7,4.71A1,1,0,0,1,4,28ZM8,6A2.9,2.9,0,0,0,5,8.78V24.59l3.29-3.3A1,1,0,0,1,9,21H24a2.9,2.9,0,0,0,3-2.78V8.78A2.9,2.9,0,0,0,24,6Z" />
+                                                <circle cx="16" cy="13.5" r="0.5" />
+                                                <circle cx="21.5" cy="13.5" r="0.5" />
+                                                <circle cx="10.5" cy="13.5" r="0.5" />
+                                            </g>
+                                            <g id="frame">
+                                                <rect class="cls-1" height="20" width="20" />
+                                            </g>
+                                        </svg>
+                                        <span class="flex absolute h-3 w-3 top-0 right-0 -mt-1 -mr-1">
+                                            <span
+                                                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                                            <span class="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
+                                        </span>
+                                    </span>
+                                    <span class="group-hover:text-gray-700">Tin nhắn</span>
+                                </a>
+                            </li>
+                            <li class="min-w-max">
+                                <a href="#"
+                                    class="group flex items-center space-x-4 rounded-md px-4 py-3 text-gray-600">
+                                    <span class="relative inline-flex">
+                                        <span class="material-symbols-outlined h-5 w-5">
+                                            notifications
+                                        </span>
+                                        <span class="flex absolute h-3 w-3 top-0 right-0 -mt-1 -mr-1">
+                                            <span
+                                                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                                            <span class="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
+                                        </span>
+                                    </span>
+                                    <span class="group-hover:text-gray-700">Thông báo</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="w-max -mb-3">
+                        <partial name="_LoginPartial" />
+                    </div>
+                </div>
+            </aside>
+            <main class="w-[calc(100%-3.5rem)] ml-auto">
+                <div class="flex h-screen flex-col mx-auto space-y-6">
+                    <div
+                        class="w-full h-screen flex rounded-l-xl justify-center items-center border border-gray-300/40 dark:border-gray-700">
+                        <div class="w-full h-full"  style="background-image: url('https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4wEaH?ver=6557'); background-repeat: no-repeat; background-attachment: fixed; background-size: 100% 100%; border-radius: 8px;">
+                            @RenderBody()
+                        </div>
+                    </div>
+                </div>
+            </main>
+            @if (@ViewData["Title"] != "Tin nhắn")
+            {
+            <div id="myToast"
+                class="hidden fixed right-10 bottom-10 px-5 py-4 border-r-8 border-blue-500 bg-white drop-shadow-lg">
+                <p class="text-sm">
+                    <!-- Polish the toast with an circle blue "i" (stands for information) -->
+                    <span
+                        class="mr-2 inline-block px-3 py-1 rounded-full bg-blue-500 text-white font-extrabold">i</span>
+                    Bạn có tin nhắn mới
+                </p>
+            </div>
+            }
+        </div>
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/js/chat.js" asp-append-version="true"></script>
+        @await Component.InvokeAsync("Notyf")
+        @RenderSection("Scripts", required: false)
+    </body>
+
+</html>

@@ -33,6 +33,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IMessageSevice, MessageService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddScoped<ISubjectService, SubjectService>();
 builder.Services.AddSingleton<IEmailSender, SendMailService>();
 builder.Services.AddSingleton<IFileService, FileService>();
 builder.Services.ConfigureApplicationCookie(
