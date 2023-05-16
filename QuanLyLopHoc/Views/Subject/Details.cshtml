@@ -22,12 +22,32 @@
     <main class="m-4">
         <h1 class="text-center text-3xl font-medium my-4">@subjectFromDb.SubjectName</h1>
         <div class="flex justify-evenly">
-            <p>Người tạo: @subjectFromDb.Creator.FirstName @subjectFromDb.Creator.LastName</p>
-            <p>Ngày tạo: @subjectFromDb.CreatedDate</p>
-            <p>Số tín chỉ: @subjectFromDb.Credit</p>
+            <p>
+                <span class="font-medium">
+                    Người tạo:
+                </span>
+                 @subjectFromDb.Creator.FirstName @subjectFromDb.Creator.LastName</p>
+            <p>
+                <span class="font-medium">
+                    Ngày tạo:
+                </span> 
+                @subjectFromDb.CreatedDate
+            </p>
+            <p>
+                <span class="font-medium">
+                    Số tín chỉ:
+                </span>
+                 @subjectFromDb.Credit
+             </p>
+             <div>
+                <p class="p-2 border rounded-lg border-gray-500 ">
+                    <span class="font-medium">Mã lớp:</span>
+                    3f1g3gf
+                 </p>               
+             </div>
         </div>
         <div class="text-left my-4 w-3/4 mx-auto">
-            <span class="text-xl font-normal">Mô tả:</span> <br />
+            <span class="text-xl font-medium">Mô tả:</span> <br />
             <p class="p-2 my-2 border rounded-lg border-gray-500">
                 @subjectFromDb.Description
             </p>
