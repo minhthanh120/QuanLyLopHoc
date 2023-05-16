@@ -27,6 +27,7 @@ namespace QuanLyLopHoc.Models.Entities
         [Column(TypeName = "NVARCHAR(20)")]
         public string? City { get; set; }
         [Display(Name ="Ngày sinh")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? BirthDay { get; set; }
         [Display(Name = "Số điện thoại")]
         [MaxLength(12)]

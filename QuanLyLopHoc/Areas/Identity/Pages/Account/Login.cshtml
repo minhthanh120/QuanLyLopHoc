@@ -8,7 +8,7 @@
 
 <div class="w-full h-screen grid place-items-center">
     <div class="transition transform hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:transform-none">
-        <div class="w-28rem rounded overflow-hidden shadow-lg px-2">
+        <div class="w-28rem rounded overflow-hidden shadow-lg px-2 bg-gray-600/30 backdrop-blur-sm">
             <div class="grid grid-cols-1 divide-y">
                 <div class="my-1">
                     @{
@@ -121,7 +121,7 @@
 
                     <div class="grid place-items-center pt-4 pb-2 md:grid-cols-2">
                         <a id="forgot-password" asp-page="./ForgotPassword" class="">Quên mật khẩu?</a>
-                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="text-cyan-500">Đăng ký</a>
+                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="text-cyan-800 font-bold">Đăng ký</a>
                     </div>
                 </div>
             </div>

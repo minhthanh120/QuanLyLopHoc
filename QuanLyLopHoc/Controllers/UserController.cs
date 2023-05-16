@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,11 +16,15 @@ namespace QuanLyLopHoc.Controllers
     {
         private readonly IUserService _userService;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly INotyfService _notyf;
+        private readonly ILogger<UserController> _logger;
         // GET: UserController
-        public UserController(IUserService userService, UserManager<ApplicationUser> userManager)
+        public UserController(IUserService userService, INotyfService notyf, UserManager<ApplicationUser> userManager, ILogger<UserController> logger)
         {
             _userService = userService;
             this.userManager = userManager;
+            _notyf = notyf;
+            _logger = logger;
         }
         public ActionResult Index()
         {
@@ -40,7 +45,7 @@ namespace QuanLyLopHoc.Controllers
             return View();
         }
 
-        
+
         [HttpPost]
         //[ValidateAntiForgeryToken]
         public ActionResult Search(string search)
@@ -54,11 +59,18 @@ namespace QuanLyLopHoc.Controllers
         [Authorize]
         public async Task<ActionResult> Edit()
         {
-            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            
-            var user = await _userService.GetUserbyId(id);
-            //ViewData["avatar"] = user.Avatar;
-            return View(user);
+            try
+            {
+                var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var user = await _userService.GetUserbyId(id);
+                //ViewData["avatar"] = user.Avatar;
+                return View(user);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+            }
+            return RedirectToAction("WebError", "Home");
         }
 
         public ActionResult Create(User user)
@@ -71,7 +83,7 @@ namespace QuanLyLopHoc.Controllers
         {
             //var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-             await _userService.CreateUserInfo(user);
+            await _userService.CreateUserInfo(user);
             //ViewData["avatar"] = user.Avatar;
             return RedirectToAction("Index", "Home");
         }
@@ -79,17 +91,20 @@ namespace QuanLyLopHoc.Controllers
         // POST: UserController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(int id, [Bind("Id,FirstName, LastName,Class,School,Phone,Email, BirthDay, City, Avatar")] User user)
+        public async Task<ActionResult> Edit(int id, [Bind("Id,FirstName, LastName,Class,School,Phone, BirthDay, City, Avatar")] User user)
         {
             try
             {
                 await _userService.Edit(user);
+                _notyf.Success("Chỉnh sửa thông tin thành công");
                 return View(user);
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                _logger.LogError(ex.Message);
             }
+            return RedirectToAction("WebError", "Home");
+
         }
 
         // GET: UserController/Delete/5

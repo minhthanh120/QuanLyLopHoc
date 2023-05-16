@@ -1,38 +1,38 @@
 ﻿@model QuanLyLopHoc.Models.Entities.User
 
 @{
-    ViewData["Title"] = "Edit";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+ViewData["Title"] = "Edit";
+Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="px-2 pt-2">
-    <form asp-action="Edit">
+<div class="px-2 pt-2 flex justify-center items-center h-full">
+    <form asp-action="Edit" class="backdrop-blur-sm rounded-lg bg-gray-600/30 w-full max-w-3xl p-2">
 
         <div class="grid place-content-center mb-2">
             <div class="flex justify-center">
                 @if (Model.Avatar == null)
                 {
-                    <div id="alter-avatar" class="bg-gray-700 rounded-full h-40 w-40 inline-flex justify-center items-center">
-                        <span class="font-bold text-6xl text-white ">JL</span>
-                    </div>
-                    <img id="avatar" class="hidden rounded-full w-40 h-40" src=""
-                         alt="image description">
+                <div id="alter-avatar"
+                    class="bg-gray-700 rounded-full h-40 w-40 inline-flex justify-center items-center">
+                    <span class="font-bold text-6xl text-white ">@Model.LastName.Split(' ').Last()[0]</span>
+                </div>
+                <img id="avatar" class="hidden rounded-full w-40 h-40" src="" alt="image description">
                 }
                 else
                 {
-                    <div id="alter-avatar" class="hidden bg-gray-700 rounded-full h-40 w-40 inline-flex justify-center items-center">
-                        <span class="font-bold text-6xl text-white ">JL</span>
-                    </div>
-                    <img id="avatar" class="rounded-full w-40 h-40" src="@Model.Avatar"
-                         alt="image description">
+                <div id="alter-avatar"
+                    class="hidden bg-gray-700 rounded-full h-40 w-40 inline-flex justify-center items-center">
+                    <span class="font-bold text-6xl text-white ">@Model.LastName.Split(' ').Last()[0]</span>
+                </div>
+                <img id="avatar" class="rounded-full w-40 h-40" src="@Model.Avatar" alt="image description">
                 }
-                <input id="avatarInput" type="text" asp-for="Avatar" class="hidden"/>
+                <input id="avatarInput" type="text" asp-for="Avatar" class="hidden" />
                 <span asp-validation-for="Avatar" class="text-danger"></span>
 
             </div>
             <button type="button" onclick="uploadClick()"
-                    class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-400 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150 mt-2 ml-3"
-                    x-on:click.prevent="$refs.photo.click()">
-                Select New Photo
+                class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-400 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150 mt-2 ml-3"
+                x-on:click.prevent="$refs.photo.click()">
+                Chọn ảnh đại hiện mới
             </button>
             <input id="upload" type="file" class="hidden" accept="image/png, image/gif, image/jpeg" />
             <label class="grid place-content-center" for="avatar"></label>
@@ -43,53 +43,53 @@
             <div>
                 <label asp-for="FirstName" class="block mb-2 text-sm font-medium text-gray-900"></label>
                 <input type="text" asp-for="FirstName" maxlength="20"
-                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
             <div>
                 <label asp-for="LastName" class="block mb-2 text-sm font-medium text-gray-900"></label>
                 <input type="text" asp-for="LastName" maxlength="20"
-                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div>
                 <label asp-for="Class" class="block mb-2 text-sm font-medium text-gray-900"></label>
                 <input type="text" asp-for="Class"
-                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                       placeholder="">
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="">
                 <span asp-validation-for="Class" class="text-danger"></span>
             </div>
             <div>
                 <label asp-for="School" class="block mb-2 text-sm font-medium text-gray-900"></label>
                 <input type="text" asp-for="School"
-                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                       placeholder="">
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="">
                 <span asp-validation-for="School" class="text-danger"></span>
             </div>
             <div>
                 <label asp-for="BirthDay" class="block mb-2 text-sm font-medium text-gray-900"></label>
-                <input type="text" asp-for="BirthDay"
-                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <input type="date" asp-for="BirthDay"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <span asp-validation-for="BirthDay" class="text-danger"></span>
             </div>
             <div>
                 <label asp-for="Phone" class="block mb-2 text-sm font-medium text-gray-900"></label>
                 <input type="tel" asp-for="Phone"
-                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                       pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}">
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}">
                 <span asp-validation-for="Phone" class="text-danger"></span>
             </div>
             <div>
                 <label asp-for="City" class="block mb-2 text-sm font-medium text-gray-900"></label>
                 <input type="text" asp-for="City"
-                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                       placeholder="Hà Nội">
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Hà Nội">
                 <span asp-validation-for="City" class="text-danger"></span>
             </div>
             <div>
                 <label asp-for="Gender" class="block mb-2 text-sm font-medium text-gray-900 "></label>
                 <select asp-for="Gender"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <option selected>Chọn giới tính</option>
                     <option value=1>Nam</option>
                     <option value=0>Nữ</option>
@@ -99,20 +99,25 @@
         </div>
 
         <div class="mb-6">
-            <label asp-for="Email" class="block mb-2 text-sm font-medium text-gray-900">Địa chỉ Email</label>
+            <!-- <label asp-for="Email" class="block mb-2 text-sm font-medium text-gray-900">Địa chỉ Email</label>
             <input type="email" asp-for="Email"
-                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                   placeholder="thanhminh.le@mta.edu.com" required>
-            <span asp-validation-for="FirstName" class="text-danger"></span>
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="thanhminh.le@mta.edu.com" required>
+            <span asp-validation-for="FirstName" class="text-danger"></span> -->
         </div>
-        <button type="submit"
-                class="ml-auto grid place-items-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-            Cập
-            nhật thông tin
-        </button>
+        <div class="flex justify-center items-center">
+            <button type="submit"
+                class="grid place-items-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                Cập
+                nhật thông tin
+            </button>
+        </div>
     </form>
 </div>
 
+
+@section Scripts {
+@{
 <script>
     const input = document.getElementById("upload");
     const avatar = document.getElementById("avatar");
@@ -149,17 +154,14 @@
 
     input.addEventListener("change", (e) => {
         uploadImage(e);
-        if (!alter.classList.contains('hidden')){
+        if (!alter.classList.contains('hidden')) {
             alter.classList.add('hidden');
         }
-        if (avatar.classList.contains('hidden')){
+        if (avatar.classList.contains('hidden')) {
             avatar.classList.remove('hidden');
         }
     });
 </script>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
 }

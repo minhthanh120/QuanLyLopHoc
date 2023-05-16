@@ -21,13 +21,14 @@ namespace QuanLyLopHoc.Controllers
         private readonly ILogger<StudentController> _logger;
         private readonly IFileService _fileService; //inject file upload service
         private readonly INotyfService _notyf;//inject toast notification
-
+        private readonly ISubjectService _subjectService;
         public StudentController(UserManager<ApplicationUser> userManager,
         IStudentService studentService,
         IUserService userService,
         ILogger<StudentController> logger,
         IFileService fileService,
-        INotyfService notyf
+        INotyfService notyf,
+        ISubjectService subjectService
         )
         {
             _studentService = studentService;
@@ -36,6 +37,7 @@ namespace QuanLyLopHoc.Controllers
             _userManager = userManager;
             _notyf = notyf;
             _fileService = fileService;
+            _subjectService = subjectService;
         }
         [Authorize]
         public ActionResult Index(int page = 1)
@@ -160,7 +162,8 @@ namespace QuanLyLopHoc.Controllers
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             model.IsResponse = true;
-            if(model.Files == null){
+            if (model.Files == null)
+            {
                 model.IsSuccess = false;
                 model.Message = "Mời bạn chọn file";
                 _notyf.Warning(model.Message);
@@ -180,6 +183,24 @@ namespace QuanLyLopHoc.Controllers
 
             }
             return View("Reply", model);
+        }
+        [Authorize]
+        public IActionResult JoinClass(string subjectId)
+        {
+            try
+            {
+                var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (_subjectService.JoinClass(id, subjectId))
+                {
+                    _notyf.Success("is student");
+                }
+                return RedirectToAction("Index", "Home");
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex.Message, ex);
+            }
+            return RedirectToAction("WebError", "Home");
         }
     }
 }

@@ -1,29 +1,62 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using QuanLyLopHoc.Areas.Identity.Data;
 using QuanLyLopHoc.Models;
+using QuanLyLopHoc.Services;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace QuanLyLopHoc.Controllers
 {
     public class HomeController : Controller
     {
-        //private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<HomeController> _logger;
+        private readonly INotyfService _notyf;//inject toast notification
+        private readonly ISubjectService _subjectService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        //public HomeController(ILogger<HomeController> logger)
-        //{
-        //    _logger = logger;
-        //}
+        public HomeController(ILogger<HomeController> logger,
+        INotyfService notyf,
+        UserManager<ApplicationUser> userManager,
+        ISubjectService subjectService)
+        {
+            _userManager = userManager;
+            _logger = logger;
+            _notyf = notyf;
+            _subjectService = subjectService;
+        }
         [Authorize]
-        public IActionResult Index()
+        public IActionResult Index(string inviteCode = null)
         {
+
+            if (inviteCode != null && inviteCode.Length > 0)
+            {
+                var subject = _subjectService.FindSubjectByInviteCode(inviteCode);
+                if(subject != null && subject.Id != null)
+                {
+                    var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    if (_subjectService.IsStudent(id, subject.Id))
+                    {
+                        _notyf.Success("is student");
+                    }
+                    else if (_subjectService.IsTeacher(id, subject.Id))
+                    {
+                        _notyf.Success("is teacher");
+                    }
+                    else
+                    {
+                        _notyf.Warning("is not student yet");
+                        // _subjectService.JoinClass(id, subject.Id);
+                        // _notyf.Success("now you are student");
+                    }
+                }
+                ViewData["subject"] = subject;
+            }
             return View();
         }
-        [HttpPost]
-        public IActionResult Index(string key)
-        {
-            var k = key;
-            return View();
-        }
+
 
         public IActionResult Privacy()
         {
@@ -40,6 +73,11 @@ namespace QuanLyLopHoc.Controllers
         public IActionResult WebError()
         {
             return View();
+        }
+        [Authorize]
+        public IActionResult Join()
+        {
+            return PartialView();
         }
     }
 }

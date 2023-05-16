@@ -9,9 +9,9 @@ namespace QuanLyLopHoc.Models
     public class SMContext : IdentityDbContext<ApplicationUser>
     {
         public SMContext() { }
-        public SMContext(DbContextOptions<SMContext> options):base(options)
+        public SMContext(DbContextOptions<SMContext> options) : base(options)
         {
-            
+
         }
         public virtual DbSet<DetailTranscript> Details { get; set; }
         public virtual DbSet<Message> Messages { get; set; }
@@ -45,13 +45,13 @@ namespace QuanLyLopHoc.Models
                 .HasOne(pk => pk.Transcript)
                 .WithMany(pk => pk.Details)
                 .HasForeignKey(pk => pk.TranscriptId);
-            
+
 
             modelBuilder.Entity<Reply>()
                 .HasOne(pk => pk.OriginPost)
                 .WithMany(pk => pk.Replies)
                 .HasForeignKey(pk => pk.PostId);
-            
+
             modelBuilder.Entity<Reply>()
                 .HasOne(pk => pk.StudentRep)
                 .WithMany(pk => pk.Replies)
@@ -99,7 +99,7 @@ namespace QuanLyLopHoc.Models
                 .HasForeignKey(pk => pk.SubjectId);
 
             //modelBuilder.Entity<Post>().HasKey(pk => new { pk.UserId, pk.TypeId, pk.SubjectId });
-            modelBuilder.Entity<Post>().HasKey(pk => new { pk.Id});
+            modelBuilder.Entity<Post>().HasKey(pk => new { pk.Id });
             modelBuilder.Entity<Post>()
                 .HasOne(pk => pk.Creator)
                 .WithMany(pk => pk.Posts)
@@ -150,6 +150,6 @@ namespace QuanLyLopHoc.Models
                 .HasForeignKey<Transcript>(fk => fk.SubjectId);
 
             modelBuilder.Entity<User>().HasKey(pk => new { pk.Id });
-                    }
+        }
     }
 }
