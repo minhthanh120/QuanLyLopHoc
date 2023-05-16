@@ -2,9 +2,10 @@
 @model LogoutModel
 @{
 ViewData["Title"] = "Đăng xuất";
+Layout = "~/Views/Shared/_LoginLayout.cshtml";
 }
 
-<div class="flex flex-col justify-center items-center h-full">
+<div class="flex flex-col justify-center items-center h-screen">
     <div class="backdrop-blur-sm rounded-lg bg-gray-600/30 w-fit p-3">
         <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl">
             @ViewData["Title"]</h1>
