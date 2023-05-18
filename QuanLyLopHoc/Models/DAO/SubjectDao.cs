@@ -237,7 +237,7 @@ namespace QuanLyLopHoc.Models.DAO
         public List<Post> GetListPost(string subjectId)
         {
             var lstpost = db.Posts.Where(x => x.SubjectId == subjectId).ToList();
-            lstpost.OrderBy(x => x.PostTime);
+            lstpost.OrderByDescending(x => x.PostTime);
             foreach(var post in lstpost)
             {
                 db.Entry(post)
@@ -245,6 +245,70 @@ namespace QuanLyLopHoc.Models.DAO
                 .Load();
             }
             return lstpost;
+        }
+
+        public bool CreatePost(UploadPost obj, string subjectId, IList<string> path)
+        {
+            try
+            {
+                /* var post = new UploadPost();                
+                 post.CreatorId = obj.CreatorId;
+                 post.Title = obj.Title;
+                 post.Comment = obj.Comment;
+                 post.Type = obj.Type;
+                 post.SubjectId = subjectId;
+                 db.Posts.Add(post);  */
+                obj.SubjectId = subjectId;
+                db.Posts.Add(obj);
+                db.SaveChanges();            
+ 
+                foreach(var item in  path)
+                {
+                    var content = new ContentPost(); //tao content
+                    //luu thong tin content ong tu viet di
+                    content.PostId = obj.Id;
+                    content.Content = item;
+                    db.Add(content);
+                }               
+                db.SaveChanges();
+                return true;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public bool EditPost(Post obj) 
+        {
+            try
+            {
+                var post = db.Posts.Find(obj.Id);
+                post.Title = obj.Title;
+                post.Comment = obj.Comment; 
+                post.Type = obj.Type;
+                db.SaveChanges();
+                return true;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public bool DeletePost(Post obj)
+        {
+            try
+            {
+                var post = db.Posts.Find(obj.Id);
+                db.Remove(post);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 }

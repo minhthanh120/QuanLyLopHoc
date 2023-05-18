@@ -66,14 +66,23 @@
                                 </a>
                             </li>
                             <li class="min-w-max">
-                                <a href="#" aria-label="dashboard"
-                                    class="relative flex items-center space-x-4 bg-gradient-to-r px-4 py-3  text-gray-600">
+                                <a href="@Url.Action("Create","Subject")" aria-label="dashboard"
+                               class="relative flex items-center space-x-4 bg-gradient-to-r px-4 py-3 text-gray-600  @(ViewContext.RouteData.Values["Action"].ToString() +"/"+ViewContext.RouteData.Values["Controller"].ToString() == "Create/Subject"?"bg-gradient-to-r from-sky-600 to-cyan-400 text-white":"text-gray-600") ">
                                     <span class="material-symbols-outlined -ml-1 h-5 w-5">
                                         add_circle
                                     </span>
                                     <span class="group-hover:text-gray-700">Tạo lớp học mới</span>
                                 </a>
                             </li>
+                        <li class="min-w-max">
+                            <a href="@Url.Action("Index","Subject")" aria-label="dashboard"
+                               class="relative flex items-center space-x-4 bg-gradient-to-r px-4 py-3 text-gray-600  @(ViewContext.RouteData.Values["Action"].ToString() +"/"+ViewContext.RouteData.Values["Controller"].ToString() == "Index/Subject"?"bg-gradient-to-r from-sky-600 to-cyan-400 text-white":"text-gray-600") ">
+                                <svg fill="none" stroke="currentColor" class="h-6 w-6" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM3.75 12h.007v.008H3.75V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm-.375 5.25h.007v.008H3.75v-.008zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"></path>
+                                </svg>
+                                <span class="group-hover:text-gray-700">Lớp học đang giảng dạy</span>
+                            </a>
+                        </li>
                             <li class="min-w-max">
                             <a href="@Url.Action("Index","Student")" aria-label="dashboard"
                                class="relative flex items-center space-x-4 bg-gradient-to-r px-4 py-3   @(ViewContext.RouteData.Values["Action"].ToString() +"/"+ViewContext.RouteData.Values["Controller"].ToString() == "Index/Student"?"bg-gradient-to-r from-sky-600 to-cyan-400 text-white":"text-gray-600") ">

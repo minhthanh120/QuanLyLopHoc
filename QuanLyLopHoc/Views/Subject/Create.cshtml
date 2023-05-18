@@ -1,52 +1,55 @@
 ﻿@using QuanLyLopHoc.Models.Entities;
 @model Subject
 
-<h1 class="text-2xl py-5 font-medium text-center">Tạo mới lớp học</h1>
-<form method="post" asp-action="Create">
-    <fieldset class="max-w-2xl mx-4 sm:mx-auto my-4 border-solid p-3 border-2 shadow">
-        <div class="mx-6 my-6">
-            <label asp-for="SubjectName"
+<div>
+    <h1 class="text-2xl py-5 font-medium text-center">Tạo mới lớp học</h1>
+    <form method="post" asp-action="Create">
+        <fieldset class="max-w-2xl mx-4 sm:mx-auto my-4 border-solid p-3 border-2 shadow bg-purple-400 bg-opacity-70">
+            <div class="mx-6 my-6">
+                <label asp-for="SubjectName"
                    class="block mb-2 text-sm font-medium text-gray-900 ">Tên lớp môn học</label>
-            <input type="text"
+                <input type="text"
                    asp-for="SubjectName"
                    class="text-gray-900 bg-gray-50 rounded-lg border border-gray-300 placeholder-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                    placeholder="Nhập tên lớp môn học muốn tạo" />
-            <p class="mt-2 text-sm text-red-600 dark:text-green-500 hidden">
-                <span asp-validation-for="SubjectName" class="font-medium"></span>
-            </p>
-        </div>
-        <div class="mx-6 my-6">
-            <label asp-for="Description"
+                <p class="mt-2 text-sm text-red-600 dark:text-green-500 hidden">
+                    <span asp-validation-for="SubjectName" class="font-medium"></span>
+                </p>
+            </div>
+            <div class="mx-6 my-6">
+                <label asp-for="Description"
                    class="block mb-2 text-sm font-medium text-gray-900 ">Thông tin về lớp học</label>
-            <textarea asp-for="Description"
+                <textarea asp-for="Description"
                       rows="4"
                       class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       placeholder="">
-             </textarea>
-        </div>
-        <div class="mx-6 my-6">
-            <label asp-for="Credit"
+                </textarea>
+            </div>
+            <div class="mx-6 my-6">
+                <label asp-for="Credit"
                    class="block mb-2 text-sm font-medium text-gray-900 ">Số tín chỉ</label>
-            <input type="text"
+                <input type="text"
                    asp-for="Credit"
                    class="text-gray-900 bg-gray-50 rounded-lg border border-gray-300 placeholder-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                    placeholder="" />
-            <p class="mt-2 text-sm text-red-600 dark:text-green-500 hidden">
-                <span asp-validation-for="Credit" class="font-medium"></span>
-            </p>
-        </div>
-        <div class="mx-auto max-w-sm sm:w-full sm:mx-0 my-10">
-            <button type="submit"
+                <p class="mt-2 text-sm text-red-600 dark:text-green-500 hidden">
+                    <span asp-validation-for="Credit" class="font-medium"></span>
+                </p>
+            </div>
+            <div class="mx-auto max-w-sm sm:w-full sm:mx-0 my-10">
+                <button type="submit"
                     class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-2/5 sm:w-auto px-5 py-2.5 sm:ml-6 text-center">
-                Xác nhận
-            </button>
-            <a  asp-controller="Subject" asp-action="Index"
-                class="text-white bg-red-600 hover:bg-red-700 font-medium rounded-lg text-sm w-2/5 sm:w-3/12 px-5 py-2.5 sm:ml-6 mx-2.5 text-center">
-                Hủy
-            </a>
-        </div>
-    </fieldset>
-</form>
+                    Xác nhận
+                </button>
+                <a  asp-controller="Subject" asp-action="Index"
+                    class="text-white bg-red-600 hover:bg-red-700 font-medium rounded-lg text-sm w-2/5 sm:w-3/12 px-5 py-2.5 sm:ml-6 mx-2.5 text-center">
+                    Hủy
+                </a>
+            </div>
+        </fieldset>
+    </form>
+</div>
+
 
 @section Scripts {
     @{

@@ -9,7 +9,7 @@ namespace QuanLyLopHoc.Models.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public string Id { get; set; }
-        public string Content { get; set; }
+        public string Content { get; set; }//luu link file
         public string PostId { get; set; }
         public virtual Post OriginalPost { get; set; }
     }

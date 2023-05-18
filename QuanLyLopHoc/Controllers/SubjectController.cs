@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using QuanLyLopHoc.Models;
 using QuanLyLopHoc.Models.DAO;
 using QuanLyLopHoc.Models.Entities;
+using QuanLyLopHoc.Services.FunctionSerives;
 using System;
 using System.Reflection.Metadata;
 using System.Security.Claims;
@@ -13,10 +14,12 @@ namespace QuanLyLopHoc.Controllers
     {
         private readonly SMContext _db;
         private readonly SubjectDao _subjectDao; //inject dey
-        public SubjectController(SMContext db, SubjectDao subjectDao)
+        private readonly IFileService fileService;
+        public SubjectController(SMContext db, SubjectDao subjectDao, IFileService fileService)
         {
             _db = db;
             _subjectDao = subjectDao;
+            fileService = fileService;
         }
 
         [Authorize]
@@ -276,6 +279,55 @@ namespace QuanLyLopHoc.Controllers
             return RedirectToAction("Details", "Subject", new { id = sbId });
         }
 
+        [HttpGet]
+        public IActionResult CreatePost()
+        {
+            return View();
+        }
 
+        [HttpPost]
+        public IActionResult CreatePost(UploadPost obj) 
+        {
+            string sbId = TempData["subjectId"].ToString();
+            TempData.Keep("subjectId");
+
+            var listFile = UploadFile("ABC", "ABC",obj.Files);
+            
+            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            obj.CreatorId = id;
+            var result = _subjectDao.CreatePost(obj, sbId, listFile);
+            if (result)
+            {
+                return RedirectToAction("Details", "Subject", new { id = sbId });
+            }
+            else
+            {
+                ModelState.AddModelError("", "Không tạo được bài đăng !");
+            }
+            
+            return View();
+        }
+        public IList<String> UploadFile(string userId, string ObjectId, IList<IFormFile> model)
+        {
+            IList<String> fileUploaded = new List<String>();
+            foreach (var file in model)
+            {
+
+                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadedFiles/" + ObjectId + "/" + userId);
+
+                //create folder if not exist
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
+
+
+                string fileNameWithPath = Path.Combine(path, file.FileName);
+                fileUploaded.Add(fileNameWithPath);
+                using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                {
+                    file.CopyTo(stream);
+                }
+            }
+            return fileUploaded;
+        }
     }
 }

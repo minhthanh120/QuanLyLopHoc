@@ -156,7 +156,7 @@ namespace QuanLyLopHoc.Controllers
             return View(model);
         }
         [HttpPost]
-        public ActionResult Reply(MultipleFilesModel model)
+        public ActionResult Reply(MultipleFilesModel model)//file minh post len kieu nay
         {
             string postId = "";
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -170,7 +170,7 @@ namespace QuanLyLopHoc.Controllers
             }
             else if (model.Files.Count > 0)
             {
-                var result = _fileService.UploadFile(userId, postId, model);//ma nguoi dung, postId, file can tai len
+                //var result = _fileService.UploadFile(userId, postId, model);//ma nguoi dung, postId, file can tai len
                 model.IsSuccess = true;
                 model.Message = "Tải lên thành công";
                 _notyf.Success(model.Message);
