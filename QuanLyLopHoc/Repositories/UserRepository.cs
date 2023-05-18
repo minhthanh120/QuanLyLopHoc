@@ -56,6 +56,24 @@ namespace QuanLyLopHoc.Repositories
             return null;
         }
 
+        public ICollection<User> FindListUserbyEmail(string email)
+        {
+            try
+            {
+                var result = _context.Users.Where(c=>c.Email.Contains(email)).ToList();
+                if(result== null)
+                {
+                    result = new List<User>();
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, ex);
+            }
+            return null;
+        }
+
         public async Task<User> FindUserById(string id)
         {
             try
@@ -122,6 +140,21 @@ namespace QuanLyLopHoc.Repositories
             {
                 _logger.LogError(ex.Message, ex);
             }
+        }
+
+        public async Task<ICollection<User>> FindListUserByNameandEmail(string searchKey)
+        {
+            try
+            {
+                searchKey = searchKey.ToLower();
+                var listUser = await _context.Users.Where(c => (c.FirstName.ToLower() + " " + c.LastName.ToLower()).Contains(searchKey)|| c.Email.Contains(searchKey)).ToListAsync();
+                return listUser;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, ex);
+            }
+            return null;
         }
     }
 }

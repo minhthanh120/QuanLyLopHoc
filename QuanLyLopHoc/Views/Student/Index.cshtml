@@ -55,7 +55,9 @@
             </div>
         }
     </div>
-    @Html.PagedListPager((IPagedList)Model, page=> Url.Action("Index", new {page = page}),
+    @if (Model.Count() > 0)
+    {
+        @Html.PagedListPager((IPagedList)Model, page=> Url.Action("Index", new {page = page}),
     new X.PagedList.Web.Common.PagedListRenderOptions{
         //DisplayItemSliceAndTotal = true,
         ContainerDivClasses = new []{"navigation flex items-center justify-center "},
@@ -63,6 +65,7 @@
         LiElementClasses = new[]{""},
         PageClasses = new[]{"page-link px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 "},
     })
+    }
 }
 @*<h1>Index</h1>
 

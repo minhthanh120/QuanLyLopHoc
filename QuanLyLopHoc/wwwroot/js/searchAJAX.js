@@ -3,11 +3,11 @@
     $("#messageloading").show();
     $("#search").keyup(function () {
         $("#loading").show();
-        if ($(this).val().length > 4) {
+        if ($(this).val().length > 2) {
             $.ajax({
                 type: "POST",
-                url: "/User/Search",
-                data: { search: $(this).val() },
+                url: "/User/SearchbyNameandEmail",
+                data: { searchKey: $(this).val() },
                 datatype: "html",
                 success: function (data) {
                     $("#loading").hide();

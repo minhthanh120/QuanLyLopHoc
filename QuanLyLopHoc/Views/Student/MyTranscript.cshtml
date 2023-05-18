@@ -1,62 +1,10 @@
 ﻿@{
-    var complete = ViewData["complete"] as ICollection<QuanLyLopHoc.Models.Entities.Subject>;
-    var notcomplete = ViewData["notcomplete"] as ICollection<QuanLyLopHoc.Models.Entities.Subject>;
+    var complete = ViewData["complete"] as QuanLyLopHoc.Models.DAO.Summary;
+    var notcomplete = ViewData["notcomplete"] as QuanLyLopHoc.Models.DAO.Summary;
     var willcomplete = ViewData["willcomplete"] as ICollection<QuanLyLopHoc.Models.Entities.Subject>;
-    var f = "F";
-    var d = "D";
-    var c = "C";
-    var b = "B";
-    var a = "A";
-    var dp = "D+";
-    var cp = "C+";
-    var bp = "B+";
-    var ap = "A+";
-    var dtb = Math.Round(complete.Sum(i => i.Transcript.Details.Sum(j => j.DiemTB)).Value / complete.Sum(i => i.Credit), 2);
-    decimal toFour(decimal x)
-    {
-        return Math.Round(x * 4 / 10, 2);
-    }
 
-    string toABC(decimal x)
-    {
-        if (x < 4M)
-        {
-            return "F";
-        }
-        else if (x < 5M)
-        {
-            return "D";
-        }
-        else if (x < 5.5M)
-        {
-            return "D+";
-        }
-        else if (x < 6.5M)
-        {
-            return "C";
-        }
-        else if (x < 7)
-        {
-            return "C+";
-        }
-        else if (x < 8)
-        {
-            return "B";
-        }
-        else if (x < 8.5M)
-        {
-            return "B+";
-        }
-        else if (x < 9)
-        {
-            return "A";
-        }
-        else if (x < 10)
-        {
-            return "A+";
-        }
-        return "";
-    }
+    var link = ViewData["ShareMyTranscript"] as string;
+
 }
 <div class="flex flex-wrap" id="tabs-id">
     <div class="w-full">
@@ -82,7 +30,7 @@
                 <div class="tab-content tab-space">
                     <div class="block" id="tab-profile">
                         <div class="flex flex-row my-2">
-                            <button onmouseover="hoverdownload()" onmouseout="outhoverdownload()" class="hover:animate-bounce bg-white dark:bg-slate-300 p-2 w-10 h-10 ring-1 ring-slate-900/5 dark:ring-slate-200/20 shadow-lg rounded-full flex items-center justify-center">
+                            <button onmouseover="hoverdownload()" onmouseout="outhoverdownload()" onclick="myFunction()" class="hover:animate-bounce bg-white dark:bg-slate-300 p-2 w-10 h-10 ring-1 ring-slate-900/5 dark:ring-slate-200/20 shadow-lg rounded-full flex items-center justify-center">
                                 <svg class="w-6 h-6 text-violet-500" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                                     <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
                                 </svg>
@@ -95,203 +43,192 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z"></path>
                                 </svg>
                             </button>
-                            <div id="l-share" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+                            <div href="@link" id="l-share" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
                                 Share link
                             </div>
-                            <input id="search" type="text" class="ml-auto border rounded-lg text-base p-2" placeholder="Tìm kiếm">
                         </div>
-                        <div class="relative overflow-x-auto">
-                            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                <thead class="text-xs text-gray-700 font-medium uppercase bg-gray-50  border-gray-700">
-                                    <tr>
-                                        <th scope="col" class="px-6 py-3">
-                                            Tên môn học
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Số tín chỉ
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Điểm trung bình
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Điểm hệ số 4
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Xếp loại
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in complete)
-                                    {
-                                        <tr class="border-b  border-gray-700 bg-slate-100">
-                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                                @item.SubjectName
+                        @if (complete != null && complete.Transcript.Count > 0)
+                        {
+                            <div class="relative overflow-x-auto">
+                                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                    <thead class="text-xs text-gray-700 font-medium uppercase bg-gray-50  border-gray-700">
+                                        <tr>
+                                            <th scope="col" class="px-6 py-3">
+                                                Tên môn học
                                             </th>
-                                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                                @item.Credit
-                                            </td>
-                                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                                @if(@item.Transcript.Details.FirstOrDefault() != null)
-                                                {@item.Transcript.Details.FirstOrDefault().DiemTB}
-                                            </td>
-                                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                                @if(@item.Transcript.Details.FirstOrDefault()!=null)
-                                                {
-                                                    @toFour(@item.Transcript.Details.FirstOrDefault().DiemTB.Value)
-                                                }
-                                            </td>
-                                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                                @if(@item.Transcript.Details.FirstOrDefault()!=null)
-                                                {
-                                                    @toABC(item.Transcript.Details.FirstOrDefault().DiemTB.Value)
-                                                }
-                                            </td>
+                                            <th scope="col" class="px-6 py-3">
+                                                Số tín chỉ
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Điểm trung bình
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Điểm hệ số 4
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Xếp loại
+                                            </th>
                                         </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="m-4">
-                            <table class="font-medium text-sm text-left text-gray-900">
-                                <tbody>
-                                    <tr>
-                                        <th>Tổng tín chỉ tích lũy:</th>
-                                        <td class="text-right">@complete.Sum(i=>i.Credit)</td>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            Điểm trung bình:
-                                        </th>
-                                        <td class="text-right">@dtb</td>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            Điểm hệ số 4:
-                                        </th>
-                                        <td class="text-right">@toFour(dtb)</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in complete.Transcript)
+                                        {
+                                            <tr class="border-b  border-gray-700 bg-slate-100">
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                                    @item.SubjectName
+                                                </th>
+                                                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                                    @item.Credit
+                                                </td>
+                                                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                                    @item.DiemTB
+                                                </td>
+                                                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                                    @item.Heso4
+                                                </td>
+                                                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                                    @item.XepLoai
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="m-4">
+                                <table class="font-medium text-sm text-left text-gray-900">
+                                    <tbody>
+                                        <tr>
+                                            <th>Tổng tín chỉ tích lũy:</th>
+                                            <td class="text-right">@complete.TotalCredit</td>
+                                        </tr>
+                                        <tr>
+                                            <th>
+                                                Điểm trung bình:
+                                            </th>
+                                            <td class="text-right">@complete.Avg</td>
+                                        </tr>
+                                        <tr>
+                                            <th>
+                                                Điểm hệ số 4:
+                                            </th>
+                                            <td class="text-right">@complete.Heso4</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
                     </div>
                     <div class="hidden" id="tab-settings">
                         <div class="relative overflow-x-auto">
-                            @if(@willcomplete.Count > 0 || @willcomplete !=null){
-                            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                <thead class="text-xs text-gray-700 font-medium uppercase bg-gray-50  border-gray-700">
-                                    <tr>
-                                        <th scope="col" class="px-6 py-3">
-                                            Tên môn học
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Số tín chỉ
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Điểm trung bình
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Điểm hệ số 4
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Xếp loại
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in @willcomplete)
-                                    {
-                                        <tr class="border-b  border-gray-700 bg-slate-100">
-                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                                @item.SubjectName
+                            @if (@willcomplete != null && @willcomplete.Count > 0)
+                            {
+                                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                    <thead class="text-xs text-gray-700 font-medium uppercase bg-gray-50  border-gray-700">
+                                        <tr>
+                                            <th scope="col" class="px-6 py-3">
+                                                Tên môn học
                                             </th>
-                                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                                @item.Credit
-                                            </td>
-                                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                                @if (@item.Transcript.Details.FirstOrDefault() != null)
-                                                {
-                                                    @item.Transcript.Details.FirstOrDefault().DiemTB
-                                                }
-                                            </td>
-                                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                                @*@if (@item.Transcript.Details.FirstOrDefault() != null)
-                                                {
-                                                    @toFour(@item.Transcript.Details.FirstOrDefault().DiemTB.Value)
-                                                }*@
-                                            </td><td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                                @*@if (@item.Transcript.Details.FirstOrDefault() != null)
-                                                {
-                                                    @toABC(item.Transcript.Details.FirstOrDefault().DiemTB.Value)
-                                                }*@
-                                            </td>
+                                            <th scope="col" class="px-6 py-3">
+                                                Số tín chỉ
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Điểm trung bình
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Điểm hệ số 4
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Xếp loại
+                                            </th>
                                         </tr>
-                                    }
-                                    
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in @willcomplete)
+                                        {
+                                            <tr class="border-b  border-gray-700 bg-slate-100">
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                                    @item.SubjectName
+                                                </th>
+                                                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                                    @item.Credit
+                                                </td>
+                                                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                                    @if (@item.Transcript.Details.FirstOrDefault() != null)
+                                                    {
+                                                        @item.Transcript.Details.FirstOrDefault().DiemTB
+                                                    }
+                                                </td>
+                                                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                                    @*@if (@item.Transcript.Details.FirstOrDefault() != null)
+                                            {
+                                            @toFour(@item.Transcript.Details.FirstOrDefault().DiemTB.Value)
+                                            }*@
+                                                </td>
+                                                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                                    @*@if (@item.Transcript.Details.FirstOrDefault() != null)
+                                            {
+                                            @toABC(item.Transcript.Details.FirstOrDefault().DiemTB.Value)
+                                            }*@
+                                                </td>
+                                            </tr>
+                                        }
+
+                                    </tbody>
+                                </table>
                             }
                         </div>
-                        
+
                     </div>
                     <div class="hidden" id="tab-options">
                         <div class="relative overflow-x-auto">
-                            @if(@notcomplete !=null||@notcomplete.Count > 0  ){
-                            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                <thead class="text-xs text-gray-700 font-medium uppercase bg-gray-50  border-gray-700">
-                                    <tr> 
-                                        <th scope="col" class="px-6 py-3">
-                                            Tên môn học
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Số tín chỉ
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Điểm trung bình
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Điểm hệ số 4
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Xếp loại
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in notcomplete)
-                                    {
-                                        <tr class="border-b  border-gray-700 bg-slate-100">
-                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                                @item.SubjectName
+                            @if (@notcomplete != null && @notcomplete.Transcript.Count > 0)
+                            {
+                                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                    <thead class="text-xs text-gray-700 font-medium uppercase bg-gray-50  border-gray-700">
+                                        <tr>
+                                            <th scope="col" class="px-6 py-3">
+                                                Tên môn học
                                             </th>
-                                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                                @item.Credit
-                                            </td>
-                                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                                @if (@item.Transcript.Details.FirstOrDefault() != null)
-                                                {
-                                                    @item.Transcript.Details.FirstOrDefault().DiemTB
-                                                }
-                                            </td>
-                                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                                @if (@item.Transcript.Details.FirstOrDefault() != null)
-                                                {
-                                                    @toFour(@item.Transcript.Details.FirstOrDefault().DiemTB.Value)
-                                                }
-                                            </td>
-                                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                                @if (@item.Transcript.Details.FirstOrDefault() != null)
-                                                {
-                                                    @toABC(item.Transcript.Details.FirstOrDefault().DiemTB.Value)
-                                                }
-                                            </td>
+                                            <th scope="col" class="px-6 py-3">
+                                                Số tín chỉ
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Điểm trung bình
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Điểm hệ số 4
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Xếp loại
+                                            </th>
                                         </tr>
-                                    }
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in notcomplete.Transcript)
+                                        {
+                                            <tr class="border-b  border-gray-700 bg-slate-100">
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                                    @item.SubjectName
+                                                </th>
+                                                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                                    @item.Credit
+                                                </td>
+                                                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                                    @item.DiemTB
+                                                </td>
+                                                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                                    @item.Heso4
+                                                </td>
+                                                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                                    @item.XepLoai
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
                             }
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
@@ -299,6 +236,18 @@
     </div>
 </div>
 @section Scripts{
+    <script>
+        function myFunction() {
+            // Get the text field
+            var copyText = document.getElementById("l-share").getAttribute("href");
+
+            // Copy the text inside the text field
+            navigator.clipboard.writeText(copyText);
+
+            // Alert the copied text
+            alert("Đã sao chép đường link share bảng điểm của bạn: " + copyText);
+        }
+    </script>
 
     <script>
         function hoverdownload() {

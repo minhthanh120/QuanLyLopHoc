@@ -10,5 +10,7 @@ namespace QuanLyLopHoc.Services
         public Task EditMessage(string messageId, Message newMessage);
         public Task DeleteMessage(string messageId);
         public Task<MessageHistory> GetHistoryChat(string userId, string otherUserId);
+        public Task<List<User>> GetRecentChatting(string userId);
+
     }
 }

@@ -47,10 +47,16 @@ namespace QuanLyLopHoc.Controllers
 
 
         [HttpPost]
-        //[ValidateAntiForgeryToken]
         public ActionResult Search(string search)
         {
             var model = _userService.Search(search);
+            ViewData["listUser"] = model;
+            return View();
+        }
+        [HttpPost]
+        public  async Task<IActionResult> SearchbyNameandEmail(string searchKey)
+        {
+            var model = await _userService.SearchByNameandEmail(searchKey);
             ViewData["listUser"] = model;
             return View();
         }

@@ -5,6 +5,8 @@ namespace QuanLyLopHoc.Services
     public interface IStudentService
     {
         public List<Subject> GetListSubject(string userId);
-        public Task<List<Subject>> GetListSubjectandTranscript(string userId);
+        public List<Subject> GetListSubjectandTranscript(string userId);
+        public ICollection<User> SearchStudentbyEmail(string email, string subjectId);
+
     }
 }

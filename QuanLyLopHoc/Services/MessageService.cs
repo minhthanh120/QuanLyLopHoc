@@ -72,6 +72,20 @@ namespace QuanLyLopHoc.Services
 
         }
 
+        public async Task<List<User>> GetRecentChatting(string userId)
+        {
+            try
+            {
+               //var result = 
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, ex);
+            }
+
+            return null;
+        }
+
         public async Task Send(Message message)
         {
             await _messageRepository.Create(message);

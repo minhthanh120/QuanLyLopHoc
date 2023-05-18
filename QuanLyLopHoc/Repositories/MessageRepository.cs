@@ -81,5 +81,20 @@ namespace QuanLyLopHoc.Repositories
         {
             throw new NotImplementedException();
         }
+        public async Task<List<User>> GetRecentChatting(string userId)
+        {
+            try
+            {
+                var result = _context.Messages.Where(c => c.SenderId == userId || c.ReceiverId == userId).ToList();
+                //var lstUser = from item in result select item.
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, ex);
+            }
+
+            return null;
+        }
+
     }
 }

@@ -83,7 +83,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 //app.UseEndpoints(enpo);
-app.UseAuthentication();;
+app.UseAuthentication();
 
 app.UseAuthorization();
 

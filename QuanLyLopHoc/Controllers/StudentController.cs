@@ -9,6 +9,15 @@ using System.Security.Claims;
 using QuanLyLopHoc.Models.DAO;
 using QuanLyLopHoc.Services.FunctionSerives;
 using AspNetCoreHero.ToastNotification.Abstractions;
+using QuanLyLopHoc.Models.Entities;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.WebUtilities;
+using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using NuGet.Common;
+using Microsoft.AspNetCore.Http.Extensions;
 
 namespace QuanLyLopHoc.Controllers
 {
@@ -16,6 +25,8 @@ namespace QuanLyLopHoc.Controllers
     {
         // GET: StudentController
         private readonly IStudentService _studentService;
+        private readonly IConfiguration _config;
+
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUserService _userService;
         private readonly ILogger<StudentController> _logger;
@@ -28,9 +39,11 @@ namespace QuanLyLopHoc.Controllers
         ILogger<StudentController> logger,
         IFileService fileService,
         INotyfService notyf,
-        ISubjectService subjectService
+        ISubjectService subjectService,
+        IConfiguration config
         )
         {
+            _config = config;
             _studentService = studentService;
             _userService = userService;
             _logger = logger;
@@ -66,21 +79,75 @@ namespace QuanLyLopHoc.Controllers
         public async Task<IActionResult> MyTranscript()
         {
             var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            
+            
 
+            if(await _userService.GetUserbyId(id)!=null)
+            {
+                var subjects = _studentService.GetListSubjectandTranscript(id);
+                var completeList = subjects.Where(d => d.Transcript.Details.FirstOrDefault().DiemTB >= 4).ToList();
+                var notcompleteList = subjects.Where(d => d.Transcript.Details.FirstOrDefault().DiemTB < 4).ToList();
+                var willcompleteList = subjects.Where(d => d.Transcript.Details.FirstOrDefault().DiemTB == null).ToList();
+                Summary completeListConverted = new Summary();
+                if (completeList != null)
+                {
+                    completeListConverted = new Summary(completeList);
+                }
+                Summary notcompleteListConverted = new Summary();
 
-
-            var subjects = await _studentService.GetListSubjectandTranscript(id);
-            var completeList = subjects.Where(d => d.Transcript.Details.FirstOrDefault().DiemTB >= 4).ToList();
-            var notcompleteList = subjects.Where(d => d.Transcript.Details.FirstOrDefault().DiemTB < 4).ToList();
-            var willcompleteList = subjects.Where(d => d.Transcript.Details.FirstOrDefault().DiemTB == null).ToList();
-            ViewData["complete"] = completeList;
-            ViewData["notcomplete"] = notcompleteList;
-            ViewData["willcomplete"] = willcompleteList;
-            //completeList.Sum(i => i.Credit);
-            //completeList.Sum(i => i.Transcript.Details.Sum(j => j.DiemTB));
+                if (notcompleteList != null)
+                {
+                    notcompleteListConverted = new Summary(notcompleteList);
+                }
+                var publicKey = _config["Jwt:Key"];
+                id += ":" + publicKey;
+                var token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(id));
+                
+                ViewData["complete"] = completeListConverted;
+                ViewData["notcomplete"] = notcompleteListConverted;
+                ViewData["willcomplete"] = willcompleteList;
+                ViewData["ShareMyTranscript"] = Request.GetDisplayUrl() +"/?token="+ token;
+            }
             return View();
         }
 
+        private string GenerateToken(ApplicationUser user)
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            var claims = new[]
+            {
+                new Claim(ClaimTypes.NameIdentifier,user.Id),
+            };
+            var token = new JwtSecurityToken(_config["Jwt:Issuer"],
+                _config["Jwt:Audience"],
+                claims,
+                expires: DateTime.Now.AddMinutes(15),
+                signingCredentials: credentials);
+
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+
+        }
+        
+
+        public async Task<IActionResult> ShareMyTranscript(string token)
+        {
+            var userId = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token)).Split(":").First();
+            var user = await _userService.GetUserbyId(userId);
+            Summary completeListConverted = new Summary();
+            if(user != null)
+            {
+                var subjects = _studentService.GetListSubjectandTranscript(userId);
+                var completeList = subjects.Where(d => d.Transcript.Details.FirstOrDefault().DiemTB >= 4).ToList();
+                if (completeList != null)
+                {
+                    completeListConverted = new Summary(completeList);
+                }
+            }
+            //_userManager.GenerateUserTokenAsync()
+            return View(completeListConverted);
+        }
         // GET: StudentController/Details/5
         public ActionResult Details(int id)
         {
