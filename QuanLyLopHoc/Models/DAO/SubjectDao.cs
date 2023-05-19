@@ -2,6 +2,7 @@
 using QuanLyLopHoc.Models.DAO;
 using Microsoft.EntityFrameworkCore;
 using NuGet.DependencyResolver;
+using System.IO;
 
 namespace QuanLyLopHoc.Models.DAO
 {
@@ -247,25 +248,20 @@ namespace QuanLyLopHoc.Models.DAO
             return lstpost;
         }
 
-        public bool CreatePost(UploadPost obj, string subjectId, IList<string> path)
+        public Post CreatePost(Post obj, string subjectId)
+        {              
+                obj.SubjectId = subjectId;
+                db.Posts.Add(obj);                   
+                db.SaveChanges();
+                return obj;                
+        }
+        public bool UpdateCreatePost(UploadPost obj, string subjectId, IList<string> path)
         {
             try
-            {
-                /* var post = new UploadPost();                
-                 post.CreatorId = obj.CreatorId;
-                 post.Title = obj.Title;
-                 post.Comment = obj.Comment;
-                 post.Type = obj.Type;
-                 post.SubjectId = subjectId;
-                 db.Posts.Add(post);  */
-                obj.SubjectId = subjectId;
-                db.Posts.Add(obj);
-                db.SaveChanges();            
- 
+            {                                      
                 foreach(var item in  path)
                 {
-                    var content = new ContentPost(); //tao content
-                    //luu thong tin content ong tu viet di
+                    var content = new ContentPost();                
                     content.PostId = obj.Id;
                     content.Content = item;
                     db.Add(content);
@@ -279,7 +275,7 @@ namespace QuanLyLopHoc.Models.DAO
             }
         }
 
-        public bool EditPost(Post obj) 
+        public bool EditPost(UploadPost obj) 
         {
             try
             {
@@ -296,7 +292,7 @@ namespace QuanLyLopHoc.Models.DAO
             }
         }
 
-        public bool DeletePost(Post obj)
+        public bool DeletePost(UploadPost obj)
         {
             try
             {

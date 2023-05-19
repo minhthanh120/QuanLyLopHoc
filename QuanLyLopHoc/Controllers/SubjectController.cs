@@ -14,12 +14,12 @@ namespace QuanLyLopHoc.Controllers
     {
         private readonly SMContext _db;
         private readonly SubjectDao _subjectDao; //inject dey
-        private readonly IFileService fileService;
+        private readonly IFileService _fileService;
         public SubjectController(SMContext db, SubjectDao subjectDao, IFileService fileService)
         {
             _db = db;
             _subjectDao = subjectDao;
-            fileService = fileService;
+            _fileService = fileService;
         }
 
         [Authorize]
@@ -291,11 +291,14 @@ namespace QuanLyLopHoc.Controllers
             string sbId = TempData["subjectId"].ToString();
             TempData.Keep("subjectId");
 
-            var listFile = UploadFile("ABC", "ABC",obj.Files);
-            
             var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
             obj.CreatorId = id;
-            var result = _subjectDao.CreatePost(obj, sbId, listFile);
+
+            var post = _subjectDao.CreatePost(obj, sbId);
+           
+            var listFile = UploadFile(id.ToString(), post.Id, obj.Files);
+                    
+            var result = _subjectDao.UpdateCreatePost(obj, sbId, listFile);
             if (result)
             {
                 return RedirectToAction("Details", "Subject", new { id = sbId });
@@ -307,6 +310,50 @@ namespace QuanLyLopHoc.Controllers
             
             return View();
         }
+
+        public IActionResult DetailsPost(string id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+            var post = _db.Posts.Find(id);
+            _db.Entry(post).Collection(x => x.Contents).Load();
+            _db.Entry(post).Reference(x => x.Creator).Load();
+            return View(post);
+        }
+
+        [HttpGet]
+        public IActionResult EditPost(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var post = _db.Posts.Find(id);
+            _db.Entry(post).Reference(x => x.Creator).Load();
+            return View(post);
+        }
+
+        [HttpPost]
+        public IActionResult EditPost(UploadPost post)
+        {
+            return View();
+        }
+
+
+        [HttpGet]
+        public IActionResult DeletePost(string id) 
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult DeletePost() 
+        {
+            return View();
+        }
+
         public IList<String> UploadFile(string userId, string ObjectId, IList<IFormFile> model)
         {
             IList<String> fileUploaded = new List<String>();
