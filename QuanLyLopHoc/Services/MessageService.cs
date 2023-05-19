@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using QuanLyLopHoc.Areas.Identity.Data;
 using QuanLyLopHoc.Models;
 using QuanLyLopHoc.Models.DAO;
@@ -29,7 +30,7 @@ namespace QuanLyLopHoc.Services
 
         }
 
-        public void Create(string user, string receiver, string message)
+        public Message Create(string user, string receiver, string message)
         {
             //var cUser = await _userService.GetUserbyId(user);
             //var oUser = await _userService.GetUserbyId(receiver);
@@ -39,6 +40,7 @@ namespace QuanLyLopHoc.Services
             mess.Content = message;
             _context.Add<Message>(mess);
             _context.SaveChanges();
+            return mess;
 
         }
 
@@ -71,19 +73,68 @@ namespace QuanLyLopHoc.Services
             return null;
 
         }
-
-        public async Task<List<User>> GetRecentChatting(string userId)
+        public Chat GetLastestMessage(string currentUserId, string otherUserId)
         {
+            var result = new Chat();
             try
             {
-               //var result = 
+                if (_context.Users.Any(i => i.Id == otherUserId))
+                {
+                    result.User = _context.Find<User>(otherUserId);
+                    var lst1 = _context.Messages.Where(c => c.SenderId == currentUserId && c.ReceiverId == otherUserId).ToList();
+                    var lst2 = _context.Messages.Where(c => c.SenderId == otherUserId && c.ReceiverId == currentUserId).ToList();
+                    lst1.AddRange(lst2);
+                    var ls = lst1.OrderByDescending(c => c.SendTime).First();
+                    result.Message = _context.Messages.Where(i => i.Id == ls.Id)
+                        .Include(fk => fk.Sender)
+                        .FirstOrDefault();
+
+                }
+                return result;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message, ex);
+                //_logger.LogError(ex.Message, ex);
             }
+            return result;
+        }
 
-            return null;
+        public ICollection<Chat> GetUsersRecentChatting(string userId)
+        {
+            try
+            {
+
+                var messages = _context.Messages.Where(u => u.SenderId == userId || u.ReceiverId == userId)
+                    .AsEnumerable()
+                    .OrderByDescending(t => t.SendTime)
+                    .GroupBy(g => new { g.SenderId, g.ReceiverId })
+                    //.FirstOrDefault()
+                    .ToList();
+                var lsi = (from message in messages select message.FirstOrDefault()).ToList();
+                var listId = (from u in lsi select u.SenderId).ToList();
+                listId = listId.Concat((from u in lsi select u.ReceiverId)).Distinct().ToList();
+                if (listId.Any(id => id == userId))
+                {
+                    var temp = listId.FirstOrDefault(id => id == userId);
+                    listId.Remove(userId);
+                }
+                var result = new List<Chat>();
+                foreach (var item in listId)
+                {
+                    var temp = GetLastestMessage(userId, item);
+                    if (temp.User != null)
+                    {
+                        result.Add(temp);
+                    }
+                }
+                //listId;
+                return result.OrderByDescending(i => i.Message.SendTime).ToList();
+            }
+            catch(Exception ex)
+            {
+
+            }
+            return new List<Chat>();
         }
 
         public async Task Send(Message message)

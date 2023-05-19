@@ -29,17 +29,17 @@ namespace QuanLyLopHoc.Controllers
         [Route("/Message/")]
         public async Task<IActionResult> Main(string id = null)
         {
+            var userid = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var recentChat = _messageSevice.GetUsersRecentChatting(userid);
             if (id != null)
             {
                 ViewData["id"] = id;
-                var userid = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 var historyChat = await _messageSevice.GetHistoryChat(userid, id);
-                ViewData["currentUser"] = id;
-                ViewData["receiver"] = userid;
+                ViewData["currentUser"] = userid;
+                ViewData["otherUser"] = id;
                 ViewData["historyChat"] = historyChat;
-                return View();
-
             }
+            ViewData["recentChat"] = recentChat;
             return View();
         }
 
@@ -123,6 +123,13 @@ namespace QuanLyLopHoc.Controllers
             {
                 return View();
             }
+        }
+        [Authorize]
+        public IActionResult GetRecentChatting(string id)
+        {
+            //var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var model = _messageSevice.GetUsersRecentChatting(id);
+            return View();
         }
     }
 }

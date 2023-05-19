@@ -4,6 +4,7 @@
 @{
     ViewData["Title"] = "Tin nhắn";
     var messageHistory = ViewData["historyChat"] as QuanLyLopHoc.Models.DAO.MessageHistory;
+    var recentChat = ViewData["recentChat"] as ICollection<QuanLyLopHoc.Models.DAO.Chat>;
 }
 <div class="h-screen">
     <div class="flex flex-row w-full">
@@ -39,65 +40,7 @@
 
                 <div class="flex flex-col">
                     <ul class="mt-auto divide-y divide-gray-200" id="users">
-                        <li id="user1" class="border p-2 hover:bg-gray-100">
-                            <a href="/Message/?id=user1"
-                               class="flex flex-row ">
-                                <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-                                    <span class="font-medium text-gray-600 dark:text-gray-300">JL</span>
-                                </div>
-                                <div class="pl-1">
-                                    <p class="text-base text-gray-950">User1</p>
-                                    <p class="text-sm text-gray-500">
-                                        <span class="mr-1">User:</span>message
-                                    </p>
-                                </div>
-                            </a>
-
-                        </li>
-                        <li id="user2" class="border p-2 hover:bg-gray-100">
-                            <a href="https://localhost:7080/Message/#"
-                               class="flex flex-row ">
-                                <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-                                    <span class="font-medium text-gray-600 dark:text-gray-300">AA</span>
-                                </div>
-                                <div class="pl-1">
-                                    <p class="text-base text-gray-950">User2</p>
-                                    <p class="text-sm text-gray-500">
-                                        <span class="mr-1">User:</span>message
-                                    </p>
-                                </div>
-                            </a>
-
-                        </li>
-                        <li id="user3" class="border p-2 hover:bg-gray-100">
-                            <a href="https://localhost:7080/Message/#"
-                               class="flex flex-row ">
-                                <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-                                    <span class="font-medium text-gray-600 dark:text-gray-300">AB</span>
-                                </div>
-                                <div class="pl-1">
-                                    <p class="text-base text-gray-950">User3</p>
-                                    <p class="text-sm text-gray-500">
-                                        <span class="mr-1">User:</span>message
-                                    </p>
-                                </div>
-                            </a>
-
-                        </li>
-                        <li id="user4" class="border p-2 hover:bg-gray-100">
-                            <a href="https://localhost:7080/Message/#"
-                               class="flex flex-row ">
-                                <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-                                    <span class="font-medium text-gray-600 dark:text-gray-300">JB</span>
-                                </div>
-                                <div class="pl-1">
-                                    <p class="text-base text-gray-950">User4</p>
-                                    <p class="text-sm text-gray-500">
-                                        <span class="mr-1">User:</span>message
-                                    </p>
-                                </div>
-                            </a>
-                        </li>
+                        @Html.Partial("GetRecentChatting", recentChat)
                     </ul>
                     <ul class="mt-auto divide-y divide-gray-200" id="result">
                         <div class="flex justify-center">

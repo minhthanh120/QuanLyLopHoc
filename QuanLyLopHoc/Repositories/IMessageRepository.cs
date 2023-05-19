@@ -10,7 +10,7 @@ namespace QuanLyLopHoc.Repository
         public Task Delete(string messageId);
         public Task<MessageHistory> GetAll(User currentUser, User oppositeUser);
         //public Task<MessageHistory> GetAll(string currentUserId, string oppositeUserId);
-
+        //public Task<>
 
     }
 }

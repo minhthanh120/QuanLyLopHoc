@@ -12,12 +12,17 @@ using AspNetCoreHero.ToastNotification.Abstractions;
 using QuanLyLopHoc.Models.Entities;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.WebUtilities;
-using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
+
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using NuGet.Common;
 using Microsoft.AspNetCore.Http.Extensions;
+using Newtonsoft.Json.Linq;
+using iTextSharp.text.html.simpleparser;
+using iTextSharp.text.pdf;
+using iTextSharp.text;
+using Org.BouncyCastle.Utilities;
 
 namespace QuanLyLopHoc.Controllers
 {
@@ -79,10 +84,8 @@ namespace QuanLyLopHoc.Controllers
         public async Task<IActionResult> MyTranscript()
         {
             var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            
-            
-
-            if(await _userService.GetUserbyId(id)!=null)
+            var user = await _userService.GetUserbyId(id);
+            if(user!=null)
             {
                 var subjects = _studentService.GetListSubjectandTranscript(id);
                 var completeList = subjects.Where(d => d.Transcript.Details.FirstOrDefault().DiemTB >= 4).ToList();
@@ -106,11 +109,42 @@ namespace QuanLyLopHoc.Controllers
                 ViewData["complete"] = completeListConverted;
                 ViewData["notcomplete"] = notcompleteListConverted;
                 ViewData["willcomplete"] = willcompleteList;
+                ViewData["token"] = token;
                 ViewData["ShareMyTranscript"] = Request.GetDisplayUrl() +"/?token="+ token;
             }
             return View();
         }
+        public async Task<IActionResult> Download(string token)
+        {
+            var userId = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token)).Split(":").First();
+            var user = await _userService.GetUserbyId(userId);
+            Summary completeListConverted = new Summary();
+            if (user != null)
+            {
+                var subjects = _studentService.GetListSubjectandTranscript(userId);
+                var completeList = subjects.Where(d => d.Transcript.Details.FirstOrDefault().DiemTB >= 4).ToList();
+                if (completeList != null)
+                {
+                    completeListConverted = new Summary(completeList);
+                    var html = ConverttoPDF.Template(completeListConverted, user);
+                    var Renderer = new IronPdf.ChromePdfRenderer();
 
+
+                    using (MemoryStream memoryStream = new MemoryStream())
+                    {
+                        
+                        byte[] bytes = Renderer.RenderHtmlAsPdf(html).Stream.ToArray();
+                        memoryStream.Close();
+                    _notyf.Information("Đang trong tiến trình tải xuống bảng điểm");
+                    return File(bytes, "application/force-download", "MyTranscript.pdf");
+                    }
+                    // Clears all content output from the buffer stream
+
+                }
+            }
+            //_userManager.GenerateUserTokenAsync()
+            return RedirectToAction("MyTranscript");
+        }
         private string GenerateToken(ApplicationUser user)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
@@ -227,7 +261,7 @@ namespace QuanLyLopHoc.Controllers
         {
             string postId = "";
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
+            model.Files.Sum(i => i.Length);
             model.IsResponse = true;
             if (model.Files == null)
             {

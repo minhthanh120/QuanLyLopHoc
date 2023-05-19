@@ -9,9 +9,9 @@ var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 //var receiver = document.getElementById("receiver").value;
 //console.log(receiver);
 
-connection.on("ReceiveMessage", function (user, message) {
+connection.on("ReceiveMessage", function (user, message, time, Avatar, AlterAvatar) {
   if (document.getElementById("messages")) {
-    addMessageToChat(user, message);
+      addMessageToChat(user, message, time, Avatar, AlterAvatar);
   }
   showToast();
 });

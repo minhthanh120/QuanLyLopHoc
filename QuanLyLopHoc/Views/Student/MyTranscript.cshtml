@@ -2,8 +2,9 @@
     var complete = ViewData["complete"] as QuanLyLopHoc.Models.DAO.Summary;
     var notcomplete = ViewData["notcomplete"] as QuanLyLopHoc.Models.DAO.Summary;
     var willcomplete = ViewData["willcomplete"] as ICollection<QuanLyLopHoc.Models.Entities.Subject>;
-
+    var token = ViewData["token"] as string;
     var link = ViewData["ShareMyTranscript"] as string;
+    ViewData["Title"] = "Bảng điểm của bạn";
 
 }
 <div class="flex flex-wrap" id="tabs-id">
@@ -30,15 +31,15 @@
                 <div class="tab-content tab-space">
                     <div class="block" id="tab-profile">
                         <div class="flex flex-row my-2">
-                            <button onmouseover="hoverdownload()" onmouseout="outhoverdownload()" onclick="myFunction()" class="hover:animate-bounce bg-white dark:bg-slate-300 p-2 w-10 h-10 ring-1 ring-slate-900/5 dark:ring-slate-200/20 shadow-lg rounded-full flex items-center justify-center">
+                            <a onmouseover="hoverdownload()" onmouseout="outhoverdownload()" href="Download/?token=@token"  class="hover:animate-bounce bg-white dark:bg-slate-300 p-2 w-10 h-10 ring-1 ring-slate-900/5 dark:ring-slate-200/20 shadow-lg rounded-full flex items-center justify-center">
                                 <svg class="w-6 h-6 text-violet-500" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                                     <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
                                 </svg>
-                            </button>
+                            </a>
                             <div id="l-download" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 dark:bg-gray-700">
                                 Download
                             </div>
-                            <button onmouseover="hovershare()" onmouseout="outhovershare()" class="hover:animate-bounce mx-3  bg-white dark:bg-slate-300 p-2 w-10 h-10 ring-1 ring-slate-900/5 dark:ring-slate-200/20 shadow-lg rounded-full flex items-center justify-center">
+                            <button onmouseover="hovershare()" onmouseout="outhovershare()" onclick="myFunction()" class="hover:animate-bounce mx-3  bg-white dark:bg-slate-300 p-2 w-10 h-10 ring-1 ring-slate-900/5 dark:ring-slate-200/20 shadow-lg rounded-full flex items-center justify-center">
                                 <svg class="w-6 h-6 text-violet-500" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z"></path>
                                 </svg>

@@ -47,16 +47,29 @@ namespace QuanLyLopHoc.Controllers
 
 
         [HttpPost]
-        public ActionResult Search(string search)
+        [Authorize]
+        public async Task<ActionResult> Search(string search)
         {
             var model = _userService.Search(search);
+            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var currentUser = await _userService.GetUserbyId(id);
+            if (model.Any(i => i.Id == id))
+            {
+                model.Remove(currentUser);
+            }
             ViewData["listUser"] = model;
             return View();
         }
         [HttpPost]
-        public  async Task<IActionResult> SearchbyNameandEmail(string searchKey)
+        public async Task<IActionResult> SearchbyNameandEmail(string searchKey)
         {
             var model = await _userService.SearchByNameandEmail(searchKey);
+            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var currentUser = await _userService.GetUserbyId(id);
+            if (model.Any(i => i.Id == id))
+            {
+                model.Remove(currentUser);
+            }
             ViewData["listUser"] = model;
             return View();
         }

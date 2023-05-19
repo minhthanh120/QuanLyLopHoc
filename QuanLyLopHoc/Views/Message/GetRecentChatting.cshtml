@@ -1,0 +1,34 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model ICollection<QuanLyLopHoc.Models.DAO.Chat>
+@{
+}
+@if (Model != null)
+{
+    @foreach (var item in Model)
+    {
+        <li id="user1" class="border p-2 hover:bg-gray-100 2xl:w-96 xl:w-1/4 bg-white md:w-96 w-full truncate">
+            <a href="/Message/?id=@item.User.Id"
+               class="flex flex-row ">
+                <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                    @if (item.User.Avatar == null)
+                    {
+                        <span class="font-medium text-gray-600 dark:text-gray-300">JL</span>
+                    }
+                    else
+                    {
+                        <img src="@item.User.Avatar" />
+                    }
+                </div>
+                <div class="pl-1 truncate">
+                    <p class="text-base text-gray-950">@item.User.FirstName @item.User.LastName</p>
+                    <p class="text-sm text-gray-500 truncate w-80">
+                        <span class="mr-1">@item.Message.Sender.LastName.Split(" ").Last():</span>@item.Message.Content
+                    </p>
+                    <p>@item.Message.SendTime</p>
+                </div>
+            </a>
+        </li>
+    }
+}
