@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using QuanLyLopHoc.Models;
 using QuanLyLopHoc.Models.DAO;
 using QuanLyLopHoc.Models.Entities;
+using QuanLyLopHoc.Services;
 using QuanLyLopHoc.Services.FunctionSerives;
 using System;
 using System.Reflection.Metadata;
@@ -15,11 +16,13 @@ namespace QuanLyLopHoc.Controllers
         private readonly SMContext _db;
         private readonly SubjectDao _subjectDao; //inject dey
         private readonly IFileService _fileService;
-        public SubjectController(SMContext db, SubjectDao subjectDao, IFileService fileService)
+        private readonly ISubjectService _subjectService;
+        public SubjectController(SMContext db, SubjectDao subjectDao, IFileService fileService, ISubjectService subjectService)
         {
             _db = db;
             _subjectDao = subjectDao;
             _fileService = fileService;
+            _subjectService = subjectService;
         }
 
         [Authorize]
@@ -31,8 +34,14 @@ namespace QuanLyLopHoc.Controllers
             return View(subjectList);
         }
 
+        [Authorize]
         public IActionResult Details(string id)
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var isTeacher = _subjectService.IsTeacher(userId, id);
+            ViewData["isTeacher"] = isTeacher;
+            var isStudent = _subjectService.IsStudent(userId, id);
+            ViewData["isStudent"] = isStudent;
             if (id == null)
             {
                 return NotFound();
@@ -65,6 +74,7 @@ namespace QuanLyLopHoc.Controllers
             return View();
         }
 
+        [Authorize]
         // GET
         [HttpGet]
         public IActionResult Create()
@@ -94,6 +104,7 @@ namespace QuanLyLopHoc.Controllers
         }
         // GET
         [HttpGet]
+        [Authorize]
         public IActionResult Edit(string? id)
         {
             if (id==null)
@@ -111,6 +122,7 @@ namespace QuanLyLopHoc.Controllers
 
         // POST
         [HttpPost]
+        [Authorize]
         public IActionResult Edit(Subject obj)
         {
             var result = _subjectDao.Edit(obj);
@@ -126,6 +138,7 @@ namespace QuanLyLopHoc.Controllers
         }
 
         // GET
+        [Authorize]
         public IActionResult Delete(string? id)
         {
             if (id == null)
@@ -142,6 +155,7 @@ namespace QuanLyLopHoc.Controllers
         }
 
         // POST
+        [Authorize]
         [HttpPost,ActionName("Delete")]
         public IActionResult DeletePOST(string? id)
         {
@@ -163,18 +177,16 @@ namespace QuanLyLopHoc.Controllers
 
 
         [HttpGet]
+        [Authorize]
         public IActionResult AddStudent() 
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult AddStudent(User user)
         {
-
-            /*tudidoan@cloudclass.software
-             travitang@cloudclass.software
-            thuytuduong@cloudclass.software*/
             string sbId = TempData["subjectId"].ToString();
             TempData.Keep("subjectId");
 
@@ -192,6 +204,7 @@ namespace QuanLyLopHoc.Controllers
 
 
         [HttpGet]
+        [Authorize]
         public IActionResult DeleteStudent(User user)
         {
             string sbId = TempData["subjectId"].ToString();
@@ -204,6 +217,7 @@ namespace QuanLyLopHoc.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult DeleteStudent(StudentSubject obj)
         {
             string sbId = TempData["subjectId"].ToString();
@@ -214,12 +228,14 @@ namespace QuanLyLopHoc.Controllers
 
 
         [HttpGet]
+        [Authorize]
         public IActionResult AddTeacher()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult AddTeacher(User user)
         {
             string sbId = TempData["subjectId"].ToString();
@@ -239,6 +255,7 @@ namespace QuanLyLopHoc.Controllers
 
 
         [HttpGet]
+        [Authorize]
         public IActionResult DeleteTeacher(User user)
         {
             string sbId = TempData["subjectId"].ToString();
@@ -251,6 +268,7 @@ namespace QuanLyLopHoc.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult DeleteTeacher(TeacherSubject obj)
         {
             string sbId = TempData["subjectId"].ToString();
@@ -262,11 +280,13 @@ namespace QuanLyLopHoc.Controllers
 
 
         [HttpGet]
+        [Authorize]
         public IActionResult EditTranscript ()
         {
             return PartialView();
         }
         [HttpPost]
+        [Authorize]
         public IActionResult EditTranscript(List<DetailTranscript> transcripts) 
         {
             string sbId = TempData["subjectId"].ToString();
@@ -280,12 +300,14 @@ namespace QuanLyLopHoc.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult CreatePost()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult CreatePost(UploadPost obj) 
         {
             string sbId = TempData["subjectId"].ToString();
@@ -296,7 +318,7 @@ namespace QuanLyLopHoc.Controllers
 
             var post = _subjectDao.CreatePost(obj, sbId);
            
-            var listFile = UploadFile(id.ToString(), post.Id, obj.Files);
+            var listFile = UploadFile(sbId, post.Id, obj.Files);
                     
             var result = _subjectDao.UpdateCreatePost(obj, sbId, listFile);
             if (result)
@@ -311,6 +333,7 @@ namespace QuanLyLopHoc.Controllers
             return View();
         }
 
+        [Authorize]
         public IActionResult DetailsPost(string id)
         {
             if(id == null)
@@ -323,44 +346,36 @@ namespace QuanLyLopHoc.Controllers
             return View(post);
         }
 
+
+
         [HttpGet]
-        public IActionResult EditPost(string id)
+        [Authorize]
+        public IActionResult DeletePost(string id) 
         {
             if (id == null)
             {
                 return NotFound();
             }
             var post = _db.Posts.Find(id);
+            _db.Entry(post).Collection(x => x.Contents).Load();
             _db.Entry(post).Reference(x => x.Creator).Load();
             return View(post);
         }
 
         [HttpPost]
-        public IActionResult EditPost(UploadPost post)
-        {
-            return View();
-        }
-
-
-        [HttpGet]
-        public IActionResult DeletePost(string id) 
-        {
-            return View();
-        }
-
-        [HttpPost]
+        [Authorize]
         public IActionResult DeletePost() 
         {
             return View();
         }
 
-        public IList<String> UploadFile(string userId, string ObjectId, IList<IFormFile> model)
+        public IList<String> UploadFile(string subId, string ObjectId, IList<IFormFile> model)
         {
             IList<String> fileUploaded = new List<String>();
             foreach (var file in model)
             {
 
-                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadedFiles/" + ObjectId + "/" + userId);
+                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadedFiles/" + subId + "/" + ObjectId);
 
                 //create folder if not exist
                 if (!Directory.Exists(path))
