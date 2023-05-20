@@ -28,16 +28,11 @@
    
         <h1 class="text-center text-3xl font-medium my-4">@subjectFromDb.SubjectName</h1>
         <div class="flex justify-evenly">
-            <p>
-                <span class="font-medium">
-                    Người tạo:
-                </span>
-                 @subjectFromDb.Creator.FirstName @subjectFromDb.Creator.LastName</p>
-            <p>
-                <span class="font-medium">
-                    Ngày tạo:
-                </span> 
-                @subjectFromDb.CreatedDate
+            <p>Giáo viên
+                <span class="font-medium"> @subjectFromDb.Creator.FirstName @subjectFromDb.Creator.LastName </span>
+                 đã tạo vào lúc 
+                <span class="font-medium"> 
+                @subjectFromDb.CreatedDate.ToString(" HH:mm dd/MM/yyyy") </span> 
             </p>
             <p>
                 <span class="font-medium">

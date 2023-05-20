@@ -19,9 +19,7 @@ using System.IdentityModel.Tokens.Jwt;
 using NuGet.Common;
 using Microsoft.AspNetCore.Http.Extensions;
 using Newtonsoft.Json.Linq;
-using iTextSharp.text.html.simpleparser;
-using iTextSharp.text.pdf;
-using iTextSharp.text;
+
 using Org.BouncyCastle.Utilities;
 
 namespace QuanLyLopHoc.Controllers
