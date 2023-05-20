@@ -3,6 +3,7 @@ using QuanLyLopHoc.Models.DAO;
 using Microsoft.EntityFrameworkCore;
 using NuGet.DependencyResolver;
 using System.IO;
+using Org.BouncyCastle.Crypto.Prng;
 
 namespace QuanLyLopHoc.Models.DAO
 {
@@ -21,10 +22,19 @@ namespace QuanLyLopHoc.Models.DAO
             return lst;
         }
 
+        private static Random random = new Random();
+
+        public static string RandomString(int length)
+        {
+            const string chars = "abcdefghijklmnopqrstuvwxyz0123456789"; //ABCDEFGHIJKLMNOPQRSTUVWXYZ
+            return new string(Enumerable.Repeat(chars, length)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
         public bool Create(Subject obj)
         {
             try
             {
+                obj.InviteCode = RandomString(7); 
                 obj.Transcript = new Transcript();
                 obj.Transcript.CreatorId = obj.CreatorId;
                 db.Subjects.Add(obj);
@@ -51,6 +61,7 @@ namespace QuanLyLopHoc.Models.DAO
                 if (subject == null)
                 {
                     subject = new Subject();
+                    subject.InviteCode = RandomString(7);
                     subject.SubjectName = obj.SubjectName;
                     subject.Description = obj.Description;
                     subject.Credit = obj.Credit;
@@ -58,6 +69,7 @@ namespace QuanLyLopHoc.Models.DAO
                 }
                 else
                 {
+                    subject.InviteCode = RandomString(7);
                     subject.SubjectName = obj.SubjectName;
                     subject.Description = obj.Description;
                     subject.Credit = obj.Credit;
@@ -215,6 +227,7 @@ namespace QuanLyLopHoc.Models.DAO
                     transcript.DiemTX = obj.DiemTX;
                     transcript.DiemCK = obj.DiemCK;
                     transcript.DiemTB = obj.DiemTB;
+                    /*transcript.DiemTB = obj.DiemCC * 0.1 + obj.DiemTX * 0.3 + obj.DiemCK * 0.6;*/
                     db.Details.Add(transcript);
                     db.SaveChanges();
                 }
@@ -280,6 +293,12 @@ namespace QuanLyLopHoc.Models.DAO
             {
 
                 var post = db.Posts.Find(obj.Id);
+                var content = db.ContentPosts.Where(x => x.PostId == post.Id).FirstOrDefault();
+                if (content != null)
+                {
+                    var path = Path.GetDirectoryName(content.Content);
+                    Directory.Delete(path, true);
+                }
                 db.Remove(post);
                 db.SaveChanges();
                 return true;
