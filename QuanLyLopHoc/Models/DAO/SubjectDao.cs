@@ -226,8 +226,8 @@ namespace QuanLyLopHoc.Models.DAO
                     transcript.DiemCC = obj.DiemCC;
                     transcript.DiemTX = obj.DiemTX;
                     transcript.DiemCK = obj.DiemCK;
-                    transcript.DiemTB = obj.DiemTB;
-                    /*transcript.DiemTB = obj.DiemCC * 0.1 + obj.DiemTX * 0.3 + obj.DiemCK * 0.6;*/
+                    /*transcript.DiemTB = obj.DiemTB;*/
+                    transcript.DiemTB = obj.DiemCC.Value * (decimal)0.1 + obj.DiemTX.Value * (decimal)0.3 + obj.DiemCK.Value * (decimal)0.6;
                     db.Details.Add(transcript);
                     db.SaveChanges();
                 }
@@ -237,7 +237,8 @@ namespace QuanLyLopHoc.Models.DAO
                     transcript.DiemCC = obj.DiemCC;
                     transcript.DiemTX = obj.DiemTX;
                     transcript.DiemCK = obj.DiemCK;
-                    transcript.DiemTB = obj.DiemTB;
+                    transcript.DiemTB = obj.DiemCC.Value * (decimal)0.1 + obj.DiemTX.Value * (decimal)0.3 + obj.DiemCK.Value * (decimal)0.6;
+                    /*transcript.DiemTB = obj.DiemTB;*/
                     db.SaveChanges();
                 }
                 return true;
