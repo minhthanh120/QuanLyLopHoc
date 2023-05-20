@@ -1,0 +1,395 @@
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using QuanLyLopHoc.Models;
+using QuanLyLopHoc.Models.DAO;
+using QuanLyLopHoc.Models.Entities;
+using QuanLyLopHoc.Services;
+using QuanLyLopHoc.Services.FunctionSerives;
+using System;
+using System.Reflection.Metadata;
+using System.Security.Claims;
+
+namespace QuanLyLopHoc.Controllers
+{
+    public class SubjectController : Controller
+    {
+        private readonly SMContext _db;
+        private readonly SubjectDao _subjectDao; //inject dey
+        private readonly IFileService _fileService;
+        private readonly ISubjectService _subjectService;
+        public SubjectController(SMContext db, SubjectDao subjectDao, IFileService fileService, ISubjectService subjectService)
+        {
+            _db = db;
+            _subjectDao = subjectDao;
+            _fileService = fileService;
+            _subjectService = subjectService;
+        }
+
+        [Authorize]
+
+        public IActionResult Index()
+        {                    
+            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var subjectList = _subjectDao.GetListSubjects(id);
+            return View(subjectList);
+        }
+
+        [Authorize]
+        public IActionResult Details(string id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var isTeacher = _subjectService.IsTeacher(userId, id);
+            ViewData["isTeacher"] = isTeacher;
+            var isStudent = _subjectService.IsStudent(userId, id);
+            ViewData["isStudent"] = isStudent;
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var subjectFromDb = _db.Subjects.Find(id);
+            if (subjectFromDb == null)
+            {
+                return NotFound();
+            }
+            _db.Entry(subjectFromDb)
+            .Reference(b => b.Creator)
+            .Load();
+            ViewData["subjectFromDb"] = subjectFromDb;
+            //pass to detail-> partial view
+
+            var studentList = _subjectDao.GetTranscript(subjectFromDb.Id);
+            ViewData["studentList"] = studentList;
+
+            var listTeacher = _subjectDao.GetListTeacher(subjectFromDb.Id);
+            ViewData["listTeacher"] = listTeacher;
+
+            var listTranscript = _subjectDao.GetListTranscript(subjectFromDb.Id);
+            ViewData["listTranscript"] = listTranscript;            
+
+            var listPost = _subjectDao.GetListPost(subjectFromDb.Id);
+            ViewData["listPost"] = listPost;
+
+            TempData["subjectId"] = subjectFromDb.Id;
+
+            return View();
+        }
+
+        [Authorize]
+        // GET
+        [HttpGet]
+        public IActionResult Create()
+        {        
+            return View();
+        }
+
+        // POST
+        [HttpPost]
+        [Authorize]
+        public IActionResult Create(Subject obj)
+        {
+            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            obj.CreatorId = id;
+                         
+            var result = _subjectDao.Create(obj);
+            if(result)
+            {
+                return RedirectToAction("Index", "Subject");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Không tạo được lớp môn học !");
+            }
+          
+            return View();
+        }
+        // GET
+        [HttpGet]
+        [Authorize]
+        public IActionResult Edit(string? id)
+        {
+            if (id==null)
+            {
+                return NotFound();
+            }
+            var subjectFromDb = _db.Subjects.Find(id);
+            if (subjectFromDb == null)
+            {
+                return NotFound();
+            }
+
+            return View(subjectFromDb);
+        }
+
+        // POST
+        [HttpPost]
+        [Authorize]
+        public IActionResult Edit(Subject obj)
+        {
+            var result = _subjectDao.Edit(obj);
+            if (result)
+            {
+                return RedirectToAction("Index", "Subject");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Không cập nhật được !");
+            }
+            return View();
+        }
+
+        // GET
+        [Authorize]
+        public IActionResult Delete(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var subjectFromDb = _db.Subjects.Find(id);
+            if (subjectFromDb == null)
+            {
+                return NotFound();
+            }
+
+            return View(subjectFromDb);
+        }
+
+        // POST
+        [Authorize]
+        [HttpPost,ActionName("Delete")]
+        public IActionResult DeletePOST(string? id)
+        {
+            var obj = _db.Subjects.Find(id);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            
+            _db.Subjects.Remove(obj);
+            _db.SaveChanges();
+            return RedirectToAction("Index", "Subject");                     
+        }
+
+        public IActionResult ListStudent ()
+        {          
+            return PartialView();
+        }
+
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult AddStudent() 
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult AddStudent(User user)
+        {
+            string sbId = TempData["subjectId"].ToString();
+            TempData.Keep("subjectId");
+
+            var result = _subjectDao.AddStudent(user, sbId);
+            if (result)
+            {
+                return RedirectToAction("Details", "Subject", new { id = sbId }); 
+            }
+            else
+            {
+                ModelState.AddModelError("", "Không thêm được học sinh !");
+            }
+            return View();
+        }
+
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult DeleteStudent(User user)
+        {
+            string sbId = TempData["subjectId"].ToString();
+            TempData.Keep("subjectId");
+            StudentSubject stu = _db.StudentSubjects.Where(x => x.UserId == user.Id && x.SubjectId == sbId).FirstOrDefault();
+            _db.Entry(stu)
+            .Reference(b => b.Users)
+            .Load();
+            return View(stu);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult DeleteStudent(StudentSubject obj)
+        {
+            string sbId = TempData["subjectId"].ToString();
+            TempData.Keep("subjectId");
+            _subjectDao.DeleteStudent(obj, sbId);
+            return RedirectToAction("Details", "Subject", new { id = sbId });
+        }
+
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult AddTeacher()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult AddTeacher(User user)
+        {
+            string sbId = TempData["subjectId"].ToString();
+            TempData.Keep("subjectId");
+
+            var result = _subjectDao.AddTeacher(user, sbId);
+            if (result)
+            {
+                return RedirectToAction("Details", "Subject", new { id = sbId });
+            }
+            else
+            {
+                ModelState.AddModelError("", "Không thêm được giáo viên !");
+            }
+            return View();
+        }
+
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult DeleteTeacher(User user)
+        {
+            string sbId = TempData["subjectId"].ToString();
+            TempData.Keep("subjectId");
+            TeacherSubject teacher = _db.TeacherSubjects.Where(x => x.UserId == user.Id && x.SubjectId == sbId).FirstOrDefault();
+            _db.Entry(teacher)
+            .Reference(b => b.User)
+            .Load();
+            return View(teacher);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult DeleteTeacher(TeacherSubject obj)
+        {
+            string sbId = TempData["subjectId"].ToString();
+            TempData.Keep("subjectId");
+
+            _subjectDao.DeleteTeacher(obj, sbId);
+            return RedirectToAction("Details", "Subject", new { id = sbId });
+        }
+
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult EditTranscript ()
+        {
+            return PartialView();
+        }
+        [HttpPost]
+        [Authorize]
+        public IActionResult EditTranscript(List<DetailTranscript> transcripts) 
+        {
+            string sbId = TempData["subjectId"].ToString();
+            TempData.Keep("subjectId");
+
+            foreach (DetailTranscript item in transcripts)
+            {
+                _subjectDao.EditTranscript(item);
+            }
+            return RedirectToAction("Details", "Subject", new { id = sbId });
+        }
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult CreatePost()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult CreatePost(UploadPost obj) 
+        {
+            string sbId = TempData["subjectId"].ToString();
+            TempData.Keep("subjectId");
+
+            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            obj.CreatorId = id;
+
+            var post = _subjectDao.CreatePost(obj, sbId);
+           
+            var listFile = UploadFile(sbId, post.Id, obj.Files);
+                    
+            var result = _subjectDao.UpdateCreatePost(obj, sbId, listFile);
+            if (result)
+            {
+                return RedirectToAction("Details", "Subject", new { id = sbId });
+            }
+            else
+            {
+                ModelState.AddModelError("", "Không tạo được bài đăng !");
+            }
+            
+            return View();
+        }
+
+        [Authorize]
+        public IActionResult DetailsPost(string id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+            var post = _db.Posts.Find(id);
+            _db.Entry(post).Collection(x => x.Contents).Load();
+            _db.Entry(post).Reference(x => x.Creator).Load();
+            return View(post);
+        }
+
+
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult DeletePost(string id) 
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var post = _db.Posts.Find(id);
+            _db.Entry(post).Collection(x => x.Contents).Load();
+            _db.Entry(post).Reference(x => x.Creator).Load();
+            return View(post);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult DeletePost() 
+        {
+            return View();
+        }
+
+        public IList<String> UploadFile(string subId, string ObjectId, IList<IFormFile> model)
+        {
+            IList<String> fileUploaded = new List<String>();
+            foreach (var file in model)
+            {
+
+                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadedFiles/" + subId + "/" + ObjectId);
+
+                //create folder if not exist
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
+
+
+                string fileNameWithPath = Path.Combine(path, file.FileName);
+                fileUploaded.Add(fileNameWithPath);
+                using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                {
+                    file.CopyTo(stream);
+                }
+            }
+            return fileUploaded;
+        }
+    }
+}

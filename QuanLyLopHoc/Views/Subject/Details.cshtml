@@ -1,0 +1,122 @@
+﻿@using QuanLyLopHoc.Models.Entities;
+@{
+    var subjectFromDb = ViewData["subjectFromDb"] as QuanLyLopHoc.Models.Entities.Subject;
+    var studentList = ViewData["studentList"] as QuanLyLopHoc.Models.Entities.Transcript;
+    var listTeacher = ViewData["listTeacher"] as List<QuanLyLopHoc.Models.Entities.TeacherSubject>;
+    var listTranscript = ViewData["listTranscript"] as List<QuanLyLopHoc.Models.Entities.DetailTranscript>;
+    var listPost = ViewData["listPost"] as List<QuanLyLopHoc.Models.Entities.Post>;
+    var isTeacher = ViewData["isTeacher"];
+    var isStudent = ViewData["isStudent"];
+}
+
+<head>
+    <style>
+        .tab-item.active {
+            opacity: 1;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+    </style>
+</head>
+<div class="">
+    <main class="m-4">
+        <div class="bg-purple-400 bg-opacity-70">
+
+   
+        <h1 class="text-center text-3xl font-medium my-4">@subjectFromDb.SubjectName</h1>
+        <div class="flex justify-evenly">
+            <p>
+                <span class="font-medium">
+                    Người tạo:
+                </span>
+                 @subjectFromDb.Creator.FirstName @subjectFromDb.Creator.LastName</p>
+            <p>
+                <span class="font-medium">
+                    Ngày tạo:
+                </span> 
+                @subjectFromDb.CreatedDate
+            </p>
+            <p>
+                <span class="font-medium">
+                    Số tín chỉ:
+                </span>
+                 @subjectFromDb.Credit
+             </p>
+             <div>
+                <p class="p-2 border rounded-lg border-gray-500 ">
+                    <span class="font-medium">Mã lớp:</span>
+                    3f1g3gf
+                 </p>               
+             </div>
+        </div>
+        <div class="text-left my-4 w-3/4 mx-auto">
+            <span class="text-xl font-medium">Mô tả:</span> <br />
+            <p class="p-2 my-2 border rounded-lg border-gray-500">
+                @subjectFromDb.Description
+            </p>
+        </div>
+        </div>
+        <div class="w-full h-full">
+            <!-- Tab items -->
+            <div class="tabs flex justify-center relative gap-2">
+                <div class="tab-item px-5 pt-4 pb-5 text-lg text-center text-purple-700 bg-white rounded-t-md border-b-4 border-transparent opacity-60 cursor-pointer transition-all duration-500 hover:opacity-100 hover:bg-purple-100 hover:border-purple-400 active @(ViewData["isTeacher"].ToString().ToLower() == " false"?"hidden":"") ">
+                    Bài đăng
+                </div>
+                <div class="tab-item px-5 pt-4 pb-5 text-lg text-center text-purple-700 bg-white rounded-t-md border-b-4 border-transparent opacity-60 cursor-pointer transition-all duration-500 hover:opacity-100 hover:bg-purple-100 hover:border-purple-400 ">
+                    Danh sách lớp
+                </div>
+                <div class="tab-item px-5 pt-4 pb-5 text-lg text-center text-purple-700 bg-white rounded-t-md border-b-4 border-transparent opacity-60 cursor-pointer transition-all duration-500 hover:opacity-100 hover:bg-purple-100 hover:border-purple-400 @(ViewData["isTeacher"].ToString().ToLower() == "false"?"hidden":"") ">
+                    Danh sách điểm
+                </div>
+                <div class="line absolute left-0 bottom-0 w-0 h-1 bg-purple-700 transition-all duration-200"></div>
+            </div>
+
+            <!-- Tab content -->
+            <div class="tab-content m-4">
+                <div class="tab-pane hidden active">
+                    @await Html.PartialAsync("ListPost", listPost)
+                </div>
+                <div class="tab-pane hidden ">                 
+                    @await Html.PartialAsync("ListStudent", studentList) 
+                    @await Html.PartialAsync("ListTeacher", listTeacher)
+                </div>
+                <div class="tab-pane hidden">
+                    @await Html.PartialAsync("EditTranscript", listTranscript)
+                </div>
+            </div>
+        </div>
+        <script>
+            console.log('@ViewData["isTeacher"].ToString().ToLower()')
+            const $ = document.querySelector.bind(document);
+            const $$ = document.querySelectorAll.bind(document);
+
+            const tabs = $$(".tab-item");
+            const panes = $$(".tab-pane");
+
+            const tabActive = $(".tab-item.active");
+            const line = $(".tabs .line");
+
+            requestIdleCallback(function () {
+                line.style.left = tabActive.offsetLeft + "px";
+                line.style.width = tabActive.offsetWidth + "px";
+            });
+
+            tabs.forEach((tab, index) => {
+                const pane = panes[index];
+
+                tab.onclick = function () {
+                    $(".tab-item.active").classList.remove("active");
+                    $(".tab-pane.active").classList.remove("active");
+
+                    line.style.left = this.offsetLeft + "px";
+                    line.style.width = this.offsetWidth + "px";
+
+                    this.classList.add("active");
+                    pane.classList.add("active");
+                };
+            });
+        </script>
+    </main>
+</div>

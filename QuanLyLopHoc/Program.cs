@@ -9,6 +9,7 @@ using QuanLyLopHoc.Repository;
 using QuanLyLopHoc.Repositories;
 using QuanLyLopHoc.Services;
 using QuanLyLopHoc.Hubs;
+using QuanLyLopHoc.Models.DAO;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using QuanLyLopHoc.Services.FunctionSerives;
 using AspNetCoreHero.ToastNotification;
@@ -28,14 +29,15 @@ builder.Services.Configure<MailSettings>(mailsetting);
 builder.Services.AddControllersWithViews();
 builder.Services.AddSignalR(e => e.MaximumReceiveMessageSize = 102400000);
 builder.Services.AddTransient<SMContext>();
+builder.Services.AddTransient<SubjectDao>(); 
 builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IMessageSevice, MessageService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddSingleton<IFileService, FileService>();
 builder.Services.AddScoped<ISubjectService, SubjectService>();
 builder.Services.AddSingleton<IEmailSender, SendMailService>();
-builder.Services.AddSingleton<IFileService, FileService>();
 builder.Services.ConfigureApplicationCookie(
     options=>{
         options.LoginPath = "/Login";

@@ -1,0 +1,40 @@
+﻿@using QuanLyLopHoc.Models.Entities;
+@model StudentSubject
+
+<h1 class="text-2xl py-5 font-medium text-center">Xóa học sinh khỏi lớp</h1>
+<form method="post" asp-action="DeleteStudent">
+    <fieldset class="max-w-2xl mx-4 sm:mx-auto my-4 border-solid p-3 border-2 shadow">
+        <input asp-for="UserId" hidden />
+        <div class="mx-6 my-6">
+            <input type="hidden" value="UserId" asp-for="UserId">
+            <label for="a"
+                   class="block mb-2 text-sm font-medium text-gray-900 ">Họ tên</label>
+            <input type="text
+                   id="a"
+                   class="text-gray-900 bg-gray-50 rounded-lg border border-gray-300 placeholder-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                   placeholder="" value="@Model.Users.FirstName @Model.Users.LastName"
+                   disabled />       
+        </div>
+        <div class="mx-6 my-6">
+            <label asp-for="Users.Email"
+                   class="block mb-2 text-sm font-medium text-gray-900 ">Email</label>
+            <input type="text"
+                   asp-for="Users.Email"
+                   class="text-gray-900 bg-gray-50 rounded-lg border border-gray-300 placeholder-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                   placeholder="Nhập tên lớp môn học muốn tạo"
+                   disabled />
+        </div>
+        <div class="mx-auto max-w-sm sm:w-full sm:mx-0 my-10">
+            <button type="submit"
+                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-2/5 sm:w-auto px-5 py-2.5 sm:ml-6 text-center">
+                Xác nhận
+            </button>
+            <a asp-controller="Subject" asp-action="Details" asp-route-id="@TempData["subjectId"] @{TempData.Keep("subjectId");}"
+               class="text-white bg-red-600 hover:bg-red-700 font-medium rounded-lg text-sm w-2/5 sm:w-3/12 px-5 py-2.5 sm:ml-6 mx-2.5 text-center">
+                Hủy
+            </a>
+        </div>
+    </fieldset>
+</form>
+
+
