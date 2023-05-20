@@ -274,28 +274,11 @@ namespace QuanLyLopHoc.Models.DAO
                 return false;
             }
         }
-
-        public bool EditPost(UploadPost obj) 
+        public bool DeletePost(Post obj)
         {
             try
             {
-                var post = db.Posts.Find(obj.Id);
-                post.Title = obj.Title;
-                post.Comment = obj.Comment; 
-                post.Type = obj.Type;
-                db.SaveChanges();
-                return true;
-            }
-            catch(Exception ex)
-            {
-                return false;
-            }
-        }
 
-        public bool DeletePost(UploadPost obj)
-        {
-            try
-            {
                 var post = db.Posts.Find(obj.Id);
                 db.Remove(post);
                 db.SaveChanges();
