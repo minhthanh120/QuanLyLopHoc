@@ -1,6 +1,7 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OfficeOpenXml;
 using QuanLyLopHoc.Models;
 using QuanLyLopHoc.Models.DAO;
 using QuanLyLopHoc.Models.Entities;
@@ -9,6 +10,7 @@ using QuanLyLopHoc.Services.FunctionSerives;
 using System;
 using System.Reflection.Metadata;
 using System.Security.Claims;
+using System.Text.Json;
 
 namespace QuanLyLopHoc.Controllers
 {
@@ -77,6 +79,58 @@ namespace QuanLyLopHoc.Controllers
             TempData["subjectId"] = subjectFromDb.Id;
 
             return View();
+        }
+        public IActionResult Download(string id)
+        {
+            if (id == null || !_db.Subjects.Any(i => i.Id == id))
+            {
+                return NotFound();
+            }
+            var listTranscript = _subjectDao.GetListTranscript(id);
+            var list = listTranscript.OrderBy(i => string.Join(" ", (i.Student.FirstName + i.Student.LastName).Split(" ").Reverse())).ToList();
+            try
+            {
+                var file = DownloadExcel(list);
+                _notyf.Information("Đang trong tiến trình tải xuống bảng điểm lớp học");
+                return File(file, "application/force-download", "Report.xlsx");
+            }
+            catch(Exception ex)
+            {
+                _notyf.Error("Rất tiếc! Đã xảy ra sự cố");
+            }
+            return View();
+        }
+
+        public byte[] DownloadExcel(List<DetailTranscript> detailTranscripts)
+        {
+            
+
+            ExcelPackage Ep = new ExcelPackage();
+            ExcelWorksheet Sheet = Ep.Workbook.Worksheets.Add("Report");
+            Sheet.Cells["A1"].Value = "Họ và tên";
+            Sheet.Cells["B1"].Value = "Email";
+            Sheet.Cells["C1"].Value = "Điểm Chuyên cần";
+            Sheet.Cells["D1"].Value = "Điểm thường xuyên";
+            Sheet.Cells["E1"].Value = "Điểm thi cuối kỳ";
+            Sheet.Cells["F1"].Value = "Điểm thi Trung bình";
+            int row = 2;
+            foreach (var item in detailTranscripts)
+            {
+
+                Sheet.Cells[string.Format("A{0}", row)].Value = item.Student.FirstName+" "+item.Student.LastName;
+                Sheet.Cells[string.Format("B{0}", row)].Value = item.Student.Email;
+                Sheet.Cells[string.Format("C{0}", row)].Value = item.DiemCC;
+                Sheet.Cells[string.Format("D{0}", row)].Value = item.DiemTX;
+                Sheet.Cells[string.Format("E{0}", row)].Value = item.DiemCK;
+                Sheet.Cells[string.Format("F{0}", row)].Value = item.DiemTB;
+                row++;
+            }
+
+
+            Sheet.Cells["A:AZ"].AutoFitColumns();
+            Response.Clear();
+
+            return Ep.GetAsByteArray();
         }
 
         [Authorize]
