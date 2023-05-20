@@ -1,9 +1,7 @@
 ﻿using System.Xml.Xsl;
 using System.Xml;
 using QuanLyLopHoc.Models.DAO;
-using iTextSharp.text.html.simpleparser;
-using iTextSharp.text.pdf;
-using iTextSharp.text;
+
 using QuanLyLopHoc.Models.Entities;
 
 namespace QuanLyLopHoc.Services.FunctionSerives
@@ -68,22 +66,22 @@ namespace QuanLyLopHoc.Services.FunctionSerives
 
             return htmlStyle + table;
         }
-        public static void Transform(string fileHtml)
-        {
-            StringReader sr = new StringReader(fileHtml.ToString());
-            Document pdfDoc = new Document(PageSize.A4, 10f, 10f, 10f, 0f);
-            HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
-            using (MemoryStream memoryStream = new MemoryStream())
-            {
-                PdfWriter writer = PdfWriter.GetInstance(pdfDoc, memoryStream);
-                pdfDoc.Open();
+        //public static void Transform(string fileHtml)
+        //{
+        //    StringReader sr = new StringReader(fileHtml.ToString());
+        //    Document pdfDoc = new Document(PageSize.A4, 10f, 10f, 10f, 0f);
+        //    HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
+        //    using (MemoryStream memoryStream = new MemoryStream())
+        //    {
+        //        PdfWriter writer = PdfWriter.GetInstance(pdfDoc, memoryStream);
+        //        pdfDoc.Open();
 
-                htmlparser.Parse(sr);
-                pdfDoc.Close();
+        //        htmlparser.Parse(sr);
+        //        pdfDoc.Close();
 
-                byte[] bytes = memoryStream.ToArray();
-                memoryStream.Close();
-            }
-        }
+        //        byte[] bytes = memoryStream.ToArray();
+        //        memoryStream.Close();
+        //    }
+        //}
     }
 }

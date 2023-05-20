@@ -74,7 +74,7 @@ namespace QuanLyLopHoc.Controllers
             ViewData["listTranscript"] = listTranscript;
 
             var listPost = _subjectDao.GetListPost(subjectFromDb.Id);
-            ViewData["listPost"] = listPost;
+            ViewData["listPost"] = listPost.OrderByDescending(i=>i.PostTime).ToList();
 
             TempData["subjectId"] = subjectFromDb.Id;
 
