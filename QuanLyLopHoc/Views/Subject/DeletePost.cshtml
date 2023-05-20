@@ -1,0 +1,77 @@
+﻿
+@{
+    ViewData["Title"] = "DeletePost";
+}
+
+@model QuanLyLopHoc.Models.Entities.Post;
+
+<div class="max-w-3xl mx-auto border border-gray-400 rounded-lg px-4 py-3 mt-6 backdrop-blur-sm bg-gray-600/30">
+    <form method="post" asp-action="DeletePost" asp-controller="Subject">
+        <fieldset class="mx-4 sm:mx-auto my-4 p-3">
+            <h2 class="text-2xl text-center font-medium my-2">
+                 Xóa bài đăng
+            </h2>
+            <div class="mx-6 my-6">
+                <label for="typepost"
+                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Loại bài đăng
+                </label>
+                <input asp-for="Type"
+                       type="text"
+                       id="username-success"
+                       class="bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-300 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-100 dark:border-green-400"
+                       placeholder="Loại bài đăng" />
+            </div>
+            <div class="mx-6 my-6">
+                <label for="username-success"
+                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Chủ đề
+                </label>
+                <input asp-for="Title"
+                       type="text"
+                       id="username-success"
+                       class="bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-300 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-100 dark:border-green-400"
+                       placeholder="Chủ đề của tài liệu" />
+            </div>
+
+            <div class="mx-6 my-6">
+                <label for="message"
+                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mô tả</label>
+                <textarea asp-for="Comment"
+                          id="message"
+                          rows="4"
+                          class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                          placeholder=""></textarea>
+            </div>
+            <div>
+                <h3 class="font-medium">Danh sách tài liệu:</h3>
+                <ol class="ml-6 mt-4">
+                    @foreach (var item in Model.Contents)
+                    {
+                        <li class="mb-2">
+                            <a href="@item.Content">
+                                @item.Content.Split("\\").Last()
+                            </a>
+                        </li>
+                    }
+                </ol>
+            </div>
+            <div class="mx-auto max-w-sm sm:w-full sm:mx-0 my-10">
+                <button type="submit"
+                        id="submitForm"
+                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 sm:ml-6 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    Xác nhận
+                </button>
+                <a asp-controller="Subject" asp-action="Details" asp-route-id="@TempData["subjectId"] @{TempData.Keep("subjectId");}"
+                   type="submit"
+                   class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-2/5 sm:w-3/12 px-5 py-2.5 sm:ml-6 text-center">
+                    Hủy
+                </a>
+            </div>
+           
+        </fieldset>
+    </form>
+</div>
+
+
+

@@ -280,6 +280,12 @@ namespace QuanLyLopHoc.Models.DAO
             {
 
                 var post = db.Posts.Find(obj.Id);
+                var content = db.ContentPosts.Where(x => x.PostId == post.Id).FirstOrDefault();
+                if(content != null)
+                {
+                    var path = Path.GetDirectoryName(content.Content);
+                    Directory.Delete(path, true);
+                }               
                 db.Remove(post);
                 db.SaveChanges();
                 return true;

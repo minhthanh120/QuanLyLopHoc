@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using QuanLyLopHoc.Models;
 using QuanLyLopHoc.Models.DAO;
 using QuanLyLopHoc.Models.Entities;
@@ -352,20 +353,34 @@ namespace QuanLyLopHoc.Controllers
         [Authorize]
         public IActionResult DeletePost(string id) 
         {
+            string sbId = TempData["subjectId"].ToString();
+            TempData.Keep("subjectId");
             if (id == null)
             {
                 return NotFound();
             }
             var post = _db.Posts.Find(id);
             _db.Entry(post).Collection(x => x.Contents).Load();
-            _db.Entry(post).Reference(x => x.Creator).Load();
+            _db.Entry(post).Reference(x => x.Creator).Load();       
             return View(post);
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("DeletePost")]
         [Authorize]
-        public IActionResult DeletePost() 
+        public IActionResult DeletePostP(string id) 
         {
+            string sbId = TempData["subjectId"].ToString();
+            TempData.Keep("subjectId");
+            var post = _db.Posts.Find(id);
+            var result = _subjectDao.DeletePost(post);
+            if (result == true)
+            {
+                return RedirectToAction("Details", "Subject", new { id = sbId });
+            }
+            else
+            {
+                ModelState.AddModelError("", "Không xóa được bài đăng !");
+            }
             return View();
         }
 
