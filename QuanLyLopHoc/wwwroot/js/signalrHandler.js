@@ -34,12 +34,11 @@ function addMessageToChat(user, message, time, Avatar, AlterAvatar) {
     avtdiv.className = "w-6 h-6 rounded-full";
     if (user == document.getElementById('currentUser').textContent) {
         div3.className = "flex flex-col space-y-2 text-xs max-w-xs mx-2 order-1 items-end";
-        div4.className = "px-4 py-2 rounded-lg inline-block rounded-br-none bg-blue-600 text-white";
+        div4.className = "px-4 py-2 rounded-lg inline-block rounded-br-none bg-blue-600 text-white w-96";
         div2.className = "flex items-end justify-end";
-        
     }
     else {
-        div3.className = "flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start";
+        div3.className = "flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start w-96";
         div4.className = "px-4 py-2 rounded-lg inline-block rounded-bl-none bg-gray-300 text-gray-600";
         div2.className = "flex items-end";
         

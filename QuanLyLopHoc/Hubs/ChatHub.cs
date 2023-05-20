@@ -26,7 +26,7 @@ namespace QuanLyLopHoc.Hubs
             var currentUser = _context.Users.FirstOrDefault(s => s.Id == user);
             //var receiveUser = _userManager.Users.FirstOrDefault(s => s.Email == receiver);
             var mess =_messageSevice.Create(user, receiver, message);
-            var time = mess.SendTime.ToString();
+            var time = mess.SendTime.ToString("HH:mm:ss dd/MM/yyyy");
             var Avatar = currentUser.Avatar==null? "":currentUser.Avatar;
             var AlterAvatar = currentUser.LastName.Split(" ").Last()[0];
             await Clients.Users(receiver, user).SendAsync("ReceiveMessage", user, message, time, Avatar, AlterAvatar);

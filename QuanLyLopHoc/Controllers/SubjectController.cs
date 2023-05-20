@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QuanLyLopHoc.Models;
 using QuanLyLopHoc.Models.DAO;
@@ -17,18 +18,22 @@ namespace QuanLyLopHoc.Controllers
         private readonly SubjectDao _subjectDao; //inject dey
         private readonly IFileService _fileService;
         private readonly ISubjectService _subjectService;
-        public SubjectController(SMContext db, SubjectDao subjectDao, IFileService fileService, ISubjectService subjectService)
+        private readonly INotyfService _notyf;
+        public SubjectController(SMContext db, SubjectDao subjectDao, IFileService fileService, ISubjectService subjectService,
+            INotyfService notyf
+            )
         {
             _db = db;
             _subjectDao = subjectDao;
             _fileService = fileService;
             _subjectService = subjectService;
+            _notyf = notyf;
         }
 
         [Authorize]
 
         public IActionResult Index()
-        {                    
+        {
             var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var subjectList = _subjectDao.GetListSubjects(id);
             return View(subjectList);
@@ -64,7 +69,7 @@ namespace QuanLyLopHoc.Controllers
             ViewData["listTeacher"] = listTeacher;
 
             var listTranscript = _subjectDao.GetListTranscript(subjectFromDb.Id);
-            ViewData["listTranscript"] = listTranscript;            
+            ViewData["listTranscript"] = listTranscript;
 
             var listPost = _subjectDao.GetListPost(subjectFromDb.Id);
             ViewData["listPost"] = listPost;
@@ -78,7 +83,7 @@ namespace QuanLyLopHoc.Controllers
         // GET
         [HttpGet]
         public IActionResult Create()
-        {        
+        {
             return View();
         }
 
@@ -89,17 +94,19 @@ namespace QuanLyLopHoc.Controllers
         {
             var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
             obj.CreatorId = id;
-                         
+
             var result = _subjectDao.Create(obj);
-            if(result)
+            if (result)
             {
+                _notyf.Success("Tạo lớp môn học thành công");
                 return RedirectToAction("Index", "Subject");
             }
             else
             {
+                _notyf.Error("Không tạo được lớp môn học !");
                 ModelState.AddModelError("", "Không tạo được lớp môn học !");
             }
-          
+
             return View();
         }
         // GET
@@ -107,7 +114,7 @@ namespace QuanLyLopHoc.Controllers
         [Authorize]
         public IActionResult Edit(string? id)
         {
-            if (id==null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -128,10 +135,12 @@ namespace QuanLyLopHoc.Controllers
             var result = _subjectDao.Edit(obj);
             if (result)
             {
+                _notyf.Success("Chỉnh sửa lớp môn học thành công");
                 return RedirectToAction("Index", "Subject");
             }
             else
             {
+                _notyf.Error("Đã xảy ra lỗi");
                 ModelState.AddModelError("", "Không cập nhật được !");
             }
             return View();
@@ -156,7 +165,7 @@ namespace QuanLyLopHoc.Controllers
 
         // POST
         [Authorize]
-        [HttpPost,ActionName("Delete")]
+        [HttpPost, ActionName("Delete")]
         public IActionResult DeletePOST(string? id)
         {
             var obj = _db.Subjects.Find(id);
@@ -164,21 +173,21 @@ namespace QuanLyLopHoc.Controllers
             {
                 return NotFound();
             }
-            
+
             _db.Subjects.Remove(obj);
             _db.SaveChanges();
-            return RedirectToAction("Index", "Subject");                     
+            return RedirectToAction("Index", "Subject");
         }
 
-        public IActionResult ListStudent ()
-        {          
+        public IActionResult ListStudent()
+        {
             return PartialView();
         }
 
 
         [HttpGet]
         [Authorize]
-        public IActionResult AddStudent() 
+        public IActionResult AddStudent()
         {
             return View();
         }
@@ -193,10 +202,12 @@ namespace QuanLyLopHoc.Controllers
             var result = _subjectDao.AddStudent(user, sbId);
             if (result)
             {
-                return RedirectToAction("Details", "Subject", new { id = sbId }); 
+                _notyf.Success("Thêm sinh viên thành công");
+                return RedirectToAction("Details", "Subject", new { id = sbId });
             }
             else
             {
+                _notyf.Error("Đã xảy ra lỗi");
                 ModelState.AddModelError("", "Không thêm được học sinh !");
             }
             return View();
@@ -223,6 +234,7 @@ namespace QuanLyLopHoc.Controllers
             string sbId = TempData["subjectId"].ToString();
             TempData.Keep("subjectId");
             _subjectDao.DeleteStudent(obj, sbId);
+            _notyf.Success("Xóa sinh viên thành công");
             return RedirectToAction("Details", "Subject", new { id = sbId });
         }
 
@@ -275,19 +287,20 @@ namespace QuanLyLopHoc.Controllers
             TempData.Keep("subjectId");
 
             _subjectDao.DeleteTeacher(obj, sbId);
+            _notyf.Success("Xóa giáo viên thành công");
             return RedirectToAction("Details", "Subject", new { id = sbId });
         }
 
 
         [HttpGet]
         [Authorize]
-        public IActionResult EditTranscript ()
+        public IActionResult EditTranscript()
         {
             return PartialView();
         }
         [HttpPost]
         [Authorize]
-        public IActionResult EditTranscript(List<DetailTranscript> transcripts) 
+        public IActionResult EditTranscript(List<DetailTranscript> transcripts)
         {
             string sbId = TempData["subjectId"].ToString();
             TempData.Keep("subjectId");
@@ -308,7 +321,7 @@ namespace QuanLyLopHoc.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult CreatePost(UploadPost obj) 
+        public IActionResult CreatePost(UploadPost obj)
         {
             string sbId = TempData["subjectId"].ToString();
             TempData.Keep("subjectId");
@@ -317,26 +330,24 @@ namespace QuanLyLopHoc.Controllers
             obj.CreatorId = id;
 
             var post = _subjectDao.CreatePost(obj, sbId);
-           
-            var listFile = UploadFile(sbId, post.Id, obj.Files);
-                    
-            var result = _subjectDao.UpdateCreatePost(obj, sbId, listFile);
-            if (result)
+            if (obj.Files != null)
             {
-                return RedirectToAction("Details", "Subject", new { id = sbId });
+                var listFile = UploadFile(sbId, post.Id, obj.Files);
+                var result = _subjectDao.UpdateCreatePost(obj, sbId, listFile);
+                if (!result)
+                {
+                    _notyf.Error("Đã xảy ra lỗi");
+                    ModelState.AddModelError("", "Không tạo được bài đăng !");
+                }
             }
-            else
-            {
-                ModelState.AddModelError("", "Không tạo được bài đăng !");
-            }
-            
-            return View();
+            _notyf.Success("Đã tạo bài đăng mới");
+            return RedirectToAction("Details", "Subject", new { id = sbId });
         }
 
         [Authorize]
         public IActionResult DetailsPost(string id)
         {
-            if(id == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -350,7 +361,7 @@ namespace QuanLyLopHoc.Controllers
 
         [HttpGet]
         [Authorize]
-        public IActionResult DeletePost(string id) 
+        public IActionResult DeletePost(string id)
         {
             if (id == null)
             {
@@ -359,12 +370,23 @@ namespace QuanLyLopHoc.Controllers
             var post = _db.Posts.Find(id);
             _db.Entry(post).Collection(x => x.Contents).Load();
             _db.Entry(post).Reference(x => x.Creator).Load();
-            return View(post);
+            var subjectId = post.SubjectId;
+            try
+            {
+                _db.Remove(post);
+                _db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                _notyf.Error("Đã xảy ra lỗi");
+            }
+            _notyf.Success("Xóa bài đăng thành công");
+            return RedirectToAction("Details", "Subject", new { id = subjectId });
         }
 
         [HttpPost]
         [Authorize]
-        public IActionResult DeletePost() 
+        public IActionResult DeletePost()
         {
             return View();
         }
