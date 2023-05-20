@@ -6,7 +6,7 @@
         Danh sách điểm
     </h1>
 </div>
-<div class="bg-white p-5 flex justify-between items-center">
+<div class="p-5 flex justify-between items-center">
     <label for="table-search" class="sr-only">Search</label>
     <div class="relative mt-1">
         <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -22,14 +22,21 @@
         </div>
         <input type="text"
                id="table-search"
-               class="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+               class="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 "
                placeholder="Tìm kiếm sinh viên" />
     </div>
+    <a asp-action="Download" asp-controller="Subject" asp-route-id="@TempData["subjectId"] @{TempData.Keep("subjectId");}"     
+        class="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 font-medium rounded-lg text-sm px-3 py-2 w-50 flex items-center @(ViewData["isTeacher"].ToString().ToLower() == "false"?"hidden":"")">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+        </svg>
+        Tải xuống danh sách điểm 
+    </a>
 </div>
 <form method="post" asp-action="EditTranscript" asp-controller="Subject">
     <fieldset class="max-w-full mx-4 sm:mx-auto my-4 p-3">
-        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
+        <table class="w-full text-sm text-left text-gray-900 ">
+            <thead class="text-xs text-gray-900 uppercase ">
                 <tr>
                     <th scope="col" class="px-6 py-3">
                         Tên sinh viên
@@ -82,7 +89,7 @@
                         <td class="px-6 py-4">
                             <input type="text"
                                    id="website-admin"
-                                   class="text-gray-900 block flex-1 min-w-0 max-w-full text-sm p-2.5"
+                                   class="text-gray-900 block flex-1 min-w-0 max-w-full text-sm p-2.5 bg-gray-300"
                                    placeholder=""
                                value="@Model[i].DiemCC"
                                asp-for="@Model[i].DiemCC" />
@@ -90,7 +97,7 @@
                         <td class="px-6 py-4">
                             <input type="text"
                                    id="website-admin"
-                                   class="text-gray-900 block flex-1 min-w-0 max-w-full text-sm p-2.5"
+                                   class="text-gray-900 block flex-1 min-w-0 max-w-full text-sm p-2.5 bg-gray-300"
                                    placeholder=""
                                    value="@Model[i].DiemTX"
                                    asp-for="@Model[i].DiemTX" />
@@ -98,7 +105,7 @@
                         <td class="px-6 py-4">
                             <input type="text"
                                    id="website-admin"
-                                   class="text-gray-900 block flex-1 min-w-0 max-w-full text-sm p-2.5"
+                                   class="text-gray-900 block flex-1 min-w-0 max-w-full text-sm p-2.5 bg-gray-300"
                                    placeholder=""
                                    value="@Model[i].DiemCK"
                                    asp-for="@Model[i].DiemCK" />
@@ -106,7 +113,7 @@
                         <td class="px-6 py-4">
                             <input type="text"
                                    id="website-admin"
-                                   class="text-gray-900 block flex-1 min-w-0 max-w-full text-sm p-2.5"
+                                   class="text-gray-900 block flex-1 min-w-0 max-w-full text-sm p-2.5 "
                                    placeholder=""
                                    disabled
                                    value="@Model[i].DiemTB"

@@ -65,13 +65,15 @@ namespace QuanLyLopHoc.Controllers
             //pass to detail-> partial view
 
             var studentList = _subjectDao.GetTranscript(subjectFromDb.Id);
-            ViewData["studentList"] = studentList;
+            var lstStu = studentList.Details.OrderBy(i => string.Join(" ", (i.Student.FirstName + i.Student.LastName).Split(" ").Reverse())).ToList();
+            ViewData["studentList"] = lstStu;
 
             var listTeacher = _subjectDao.GetListTeacher(subjectFromDb.Id);
             ViewData["listTeacher"] = listTeacher;
 
             var listTranscript = _subjectDao.GetListTranscript(subjectFromDb.Id);
-            ViewData["listTranscript"] = listTranscript;
+            var lstTransSX = listTranscript.OrderBy(i => string.Join(" ", (i.Student.FirstName + i.Student.LastName).Split(" ").Reverse())).ToList();
+            ViewData["listTranscript"] = lstTransSX;
 
             var listPost = _subjectDao.GetListPost(subjectFromDb.Id);
             ViewData["listPost"] = listPost;
@@ -247,6 +249,7 @@ namespace QuanLyLopHoc.Controllers
 
             _db.Subjects.Remove(obj);
             _db.SaveChanges();
+            _notyf.Success("Xóa lớp môn học thành công");
             return RedirectToAction("Index", "Subject");
         }
 

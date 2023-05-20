@@ -1,14 +1,15 @@
-﻿@model QuanLyLopHoc.Models.Entities.Transcript;  
+﻿@using QuanLyLopHoc.Models.Entities;
+@model List<DetailTranscript>
 
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg my-6">
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg my-6">
         <h1 class="py-6 px-6 text-2xl font-medium">
             Danh sách sinh viên
         </h1>
-        <div class="bg-white dark:bg-gray-900 p-5 flex justify-between items-center">
+        <div class="p-5 flex justify-between items-center">
             <label for="table-search" class="sr-only">Search</label>
             <div class="relative mt-1">
                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    <svg class="w-5 h-5 text-gray-500 dark:text-gray-400"
+                    <svg class="w-5 h-5 text-gray-500 "
                          aria-hidden="true"
                          fill="currentColor"
                          viewBox="0 0 20 20"
@@ -20,12 +21,12 @@
                 </div>
                 <input type="text"
                        id="table-search"
-                       class="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                       class="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 "
                        placeholder="Tìm kiếm sinh viên" />
             </div>
             <a  asp-controller="Subject" asp-action="AddStudent"
                 type="button"
-           class="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 font-medium rounded-lg text-sm px-3 py-1 w-50 flex items-center @(ViewData["isTeacher"].ToString().ToLower() == "false"?"hidden":"")">
+                class="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 font-medium rounded-lg text-sm px-3 py-1 w-50 flex items-center @(ViewData["isTeacher"].ToString().ToLower() == "false"?"hidden":"")">
                 <svg xmlns="http://www.w3.org/2000/svg"
                      fill="none" viewBox="0 0 24 24"
                      stroke-width="1.5"
@@ -39,8 +40,8 @@
                 Thêm học sinh vào lớp học
             </a>
         </div>
-            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
+            <table class="w-full text-sm text-left text-gray-900 ">
+                <thead class="text-xs text-gray-900 uppercase ">
                     <tr>
                         <th scope="col" class="px-6 py-3">
                             Tên sinh viên
@@ -54,7 +55,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model.Details)
+                    @foreach (var item in Model)
                     {
                         <tr class="border-b border-gray-200 dark:border-gray-700">
                             <td scope="row"
