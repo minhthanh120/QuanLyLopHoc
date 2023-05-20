@@ -42,7 +42,7 @@ namespace QuanLyLopHoc.Controllers
         }
 
         [Authorize]
-        public IActionResult Details(string id)
+        public IActionResult Details(string id, string StuName, string StuNameTrans)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var isTeacher = _subjectService.IsTeacher(userId, id);
@@ -66,6 +66,10 @@ namespace QuanLyLopHoc.Controllers
 
             var studentList = _subjectDao.GetTranscript(subjectFromDb.Id);
             var lstStu = studentList.Details.OrderBy(i => string.Join(" ", (i.Student.FirstName + i.Student.LastName).Split(" ").Reverse())).ToList();
+            if(!string.IsNullOrEmpty(StuName))
+            {
+                lstStu = lstStu.Where(i => string.Join(" ", (i.Student.FirstName + i.Student.LastName)).ToUpper().Contains(StuName.ToUpper())).ToList();
+            }
             ViewData["studentList"] = lstStu;
 
             var listTeacher = _subjectDao.GetListTeacher(subjectFromDb.Id);
@@ -73,6 +77,10 @@ namespace QuanLyLopHoc.Controllers
 
             var listTranscript = _subjectDao.GetListTranscript(subjectFromDb.Id);
             var lstTransSX = listTranscript.OrderBy(i => string.Join(" ", (i.Student.FirstName + i.Student.LastName).Split(" ").Reverse())).ToList();
+            if (!string.IsNullOrEmpty(StuNameTrans))
+            {
+                lstTransSX = lstTransSX.Where(i => string.Join(" ", (i.Student.FirstName + i.Student.LastName)).ToUpper().Contains(StuNameTrans.ToUpper())).ToList();
+            }
             ViewData["listTranscript"] = lstTransSX;
 
             var listPost = _subjectDao.GetListPost(subjectFromDb.Id);
