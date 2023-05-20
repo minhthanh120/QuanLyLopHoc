@@ -340,7 +340,7 @@ namespace QuanLyLopHoc.Controllers
                     ModelState.AddModelError("", "Không tạo được bài đăng !");
                 }
             }
-            _notyf.Success("Đã tạo bài đăng mới");
+            _notyf.Success("Đã tạo bài đăng mới", 10);
             return RedirectToAction("Details", "Subject", new { id = sbId });
         }
 
@@ -380,7 +380,7 @@ namespace QuanLyLopHoc.Controllers
             {
                 _notyf.Error("Đã xảy ra lỗi");
             }
-            _notyf.Success("Xóa bài đăng thành công");
+            _notyf.Success("Xóa bài đăng thành công", 10);
             return RedirectToAction("Details", "Subject", new { id = subjectId });
         }
 
