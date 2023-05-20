@@ -123,8 +123,17 @@ namespace QuanLyLopHoc.Controllers
             {
                 return NotFound();
             }
-
-            return View(subjectFromDb);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var isTeacher = _subjectService.IsTeacher(userId, id);
+            if(isTeacher == true)
+            {
+                return View(subjectFromDb);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Subject");
+            }
+            
         }
 
         // POST
@@ -159,8 +168,16 @@ namespace QuanLyLopHoc.Controllers
             {
                 return NotFound();
             }
-
-            return View(subjectFromDb);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var isTeacher = _subjectService.IsTeacher(userId, id);
+            if (isTeacher == true)
+            {
+                return View(subjectFromDb);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Subject");
+            }    
         }
 
         // POST
@@ -312,6 +329,12 @@ namespace QuanLyLopHoc.Controllers
             return RedirectToAction("Details", "Subject", new { id = sbId });
         }
 
+        [Authorize]
+        public IActionResult SumaryTranscript()
+        {
+            return View();
+        }
+
         [HttpGet]
         [Authorize]
         public IActionResult CreatePost()
@@ -373,8 +396,7 @@ namespace QuanLyLopHoc.Controllers
             var subjectId = post.SubjectId;
             try
             {
-                _db.Remove(post);
-                _db.SaveChanges();
+                var result = _subjectDao.DeletePost(post);
             }
             catch (Exception ex)
             {
