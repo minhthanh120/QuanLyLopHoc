@@ -2,7 +2,6 @@
     $("#loading").hide();
     $("#messageloading").show();
     var subjectId = document.getElementById('subjectId');
-    console.log(subjectId.val);
     $("#emailkey").keyup(function () {
         $("#loading").show();
         if ($(this).val().length > 2) {
@@ -20,3 +19,5 @@
         };
     });
 });
+
+

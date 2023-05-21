@@ -1,7 +1,8 @@
 ﻿@using QuanLyLopHoc.Models.Entities;
 @model User
 @{
-    ViewData["Title"] = "Thêm thành viên";
+    ViewData["Title"] = "Thêm thành viên"; 
+    var subjectId = ViewData["subjectId"] as string;
 }
 <style>
     .scrollbar-w-2::-webkit-scrollbar {
@@ -26,22 +27,22 @@
 <h1 class="text-2xl py-5 font-medium text-center">
     Thêm người vào lớp học
 </h1>
-<form method="post" asp-action="AddStudent">
+<div>
     <fieldset class="max-w-2xl mx-4 sm:mx-auto my-4 border-solid p-3 border-2 shadow">
         <div class="m-5 backdrop-blur-sm bg-white/30">
             <label for="input-group-1"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
             <div class="relative mb-6">
                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                     <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor"
-                        viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                         viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
                         <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
                     </svg>
                 </div>
                 <input type="text" asp-for="Email" id="emailkey"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="name@gmail.com" />
+                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                       placeholder="name@gmail.com" />
             </div>
             <div id="loading" class="py-3">
                 <div aria-label="Loading..." role="status"
@@ -80,11 +81,51 @@
         </div>
 
         <div class="m-5">
-            <input type="hidden" id="subjectId" value="@ViewData["subjectId"]">
+            <input type="hidden" id="subjectId" value="@subjectId">
         </div>
 
     </fieldset>
-</form>
+</div>
 @section Scripts {
     <script src="~/js/addmember.js"></script>
+    <script>
+        function join(id1, id2, lb1, lb2, id, as) {
+            var elm1 = document.getElementById(id1);
+            var elm2 = document.getElementById(id2);
+            var lb1 = document.getElementById(lb1);
+            var lb2 = document.getElementById(lb2);
+            elm2.classList.add('hidden');
+            elm1.classList.add('hidden');
+            lb1.classList.toggle('hidden');
+            lb2.classList.add('hidden');
+            var subjectId = document.getElementById('subjectId');
+            console.log(subjectId.value);
+            if (as == 'gv') {
+                console.log("123");
+                $.ajax({
+                    type: "POST",
+                    url: "/Subject/JoinasTeacher",
+                    data: { userId: id, subjectId: subjectId.value },
+                    datatype: "html",
+                    success: function () {
+                        console.log("is student now");
+                    }
+                });
+            }
+            else if (as == 'sv') {
+                console.log("123");
+                $.ajax({
+                    type: "POST",
+                    url: "/Subject/JoinClass",
+                    data: { userId: id, subjectId: subjectId.value },
+                    datatype: "html",
+                    success: function () {
+                        console.log("is student now");
+                    }
+                });
+            }
+        }
+
+    </script>
+
 }

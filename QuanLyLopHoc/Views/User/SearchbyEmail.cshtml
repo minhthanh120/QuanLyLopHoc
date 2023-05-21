@@ -1,7 +1,7 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@model ICollection<QuanLyLopHoc.Models.Entities.User>
+@model ICollection<QuanLyLopHoc.Models.DAO.UserRole>
 @{
     Layout = null;
 }
@@ -9,18 +9,40 @@
     @foreach( var user in Model)
     {
         <div class="flex flex-row m-2">
-            <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-                <span class="font-medium text-gray-600 dark:text-gray-300">@user.LastName.Split(" ").Last()[0]</span>
-            </div>
+            @if (user.User.Avatar == null)
+            {
+                <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                    <span class="font-medium text-gray-600 dark:text-gray-300">@user.User.LastName.Split(" ").Last()[0]</span>
+                </div>
+            }
+            else
+            {
+                <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                    <img src="@user.User.Avatar"></img>
+                </div>
+            }
             <div class="pl-1">
-                <p class="text-base text-gray-950">@user.FirstName @user.LastName</p>
+                <p class="text-base text-gray-950">@user.User.FirstName @user.User.LastName</p>
                 <p class="text-sm text-gray-500">
-                    <span class="mr-1">Email:</span>@user.Email
+                    <span class="mr-1">Email:</span>@user.User.Email
                 </p>
             </div>
             <div class="ml-auto flex items-center">
-                <button type="button" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Sinh viên</button>
-                <button type="button" class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Giáo viên</button>
+                @if (!user.IsJoined)
+                {
+                    <button id="sv-@user.User.Id" onclick="join('sv-@user.User.Id', 'gv-@user.User.Id','lbsv-@user.User.Id', 'lbgv-@user.User.Id', '@user.User.Id', 'sv')" type="button" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Sinh viên</button>
+                    <button id="gv-@user.User.Id" onclick="join('sv-@user.User.Id', 'gv-@user.User.Id', 'lbgv-@user.User.Id','lbsv-@user.User.Id', '@user.User.Id', 'gv')" type="button" class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Giáo viên</button>
+                }
+                else if (user.IsStudent)
+                {
+                    <p class = "text-base">Sinh viên</p>
+                }
+                else
+                {
+                    <p class="text-base">Giáo viên</p>
+                }
+                <p id="lbsv-@user.User.Id" class="text-base hidden">Sinh viên</p>
+                <p id="lbgv-@user.User.Id" class="text-base hidden">Giáo viên</p>
             </div>
         </div>
     }

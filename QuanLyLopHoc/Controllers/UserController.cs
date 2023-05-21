@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using QuanLyLopHoc.Areas.Identity.Data;
+using QuanLyLopHoc.Models.DAO;
 using QuanLyLopHoc.Models.Entities;
 using QuanLyLopHoc.Services;
 using System.Security.Claims;
@@ -18,13 +19,15 @@ namespace QuanLyLopHoc.Controllers
         private readonly UserManager<ApplicationUser> userManager;
         private readonly INotyfService _notyf;
         private readonly ILogger<UserController> _logger;
+        private readonly ISubjectService _subjectService;
         // GET: UserController
-        public UserController(IUserService userService, INotyfService notyf, UserManager<ApplicationUser> userManager, ILogger<UserController> logger)
+        public UserController(IUserService userService,ISubjectService subjectService, INotyfService notyf, UserManager<ApplicationUser> userManager, ILogger<UserController> logger)
         {
             _userService = userService;
             this.userManager = userManager;
             _notyf = notyf;
             _logger = logger;
+            _subjectService = subjectService;
         }
         public ActionResult Index()
         {
@@ -65,13 +68,36 @@ namespace QuanLyLopHoc.Controllers
         [Authorize]
         public async Task<ActionResult> SearchbyEmail(string emailkey, string subjectId)
         {
-            var model = _userService.SearchByEmail(emailkey);
+            var lstUser = _userService.SearchByEmail(emailkey);
             var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var currentUser = await _userService.GetUserbyId(id);
-            if (model.Any(i => i.Id == id))
+            if (lstUser.Any(i => i.Id == id))
             {
-                model.Remove(currentUser);
+                lstUser.Remove(currentUser);
             }
+            var model = new List<UserRole>();
+            foreach (var item in lstUser)
+            {
+                var role = new UserRole();
+                role.User = item;
+                if(_subjectService.IsTeacher(item.Id, subjectId))
+                {
+                    role.IsStudent = false;
+                    role.IsJoined = true;
+                }
+                else if (_subjectService.IsStudent(item.Id, subjectId))
+                {
+                    role.IsStudent = true;
+                    role.IsJoined = true;
+                }
+                else
+                {
+                    role.IsStudent = false;
+                    role.IsJoined = false;
+                }
+                model.Add(role);
+            }
+
             return View(model);
         }
         [HttpPost]

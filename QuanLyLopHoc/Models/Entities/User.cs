@@ -30,7 +30,6 @@ namespace QuanLyLopHoc.Models.Entities
         public string? City { get; set; }
         [Display(Name ="Ngày sinh")]
         [Column(TypeName = "date")]
-        [DateRange("1/1/1965", "01/01/2005", ErrorMessage = "{0} phải lớn hơn {1} và nhỏ hơn {2}")]
         public DateTime? BirthDay { get; set; }
         [Display(Name = "Số điện thoại")]
         [MaxLength(12)]
