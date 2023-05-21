@@ -1,43 +1,54 @@
 ﻿@model QuanLyLopHoc.Models.Entities.Post;
+@{
+    ViewData["Title"] = "Bài đăng";
+}
+<div class="flex flex-row h-fit">
+    <div class="z-0 max-w-3xl mx-auto border border-gray-400 rounded-lg px-4 py-3 mt-6 backdrop-blur-sm bg-gray-600/30">
+        <h1 class="text-3xl font-semibold text-center pt-6 pb-4">
+            @Model.Title
+        </h1>
+        <div class="flex justify-center py-4">
+            <p class="mx-4">
+                Người tạo:<span class="font-medium"> @Model.Creator.FirstName @Model.Creator.LastName </span>đã đăng <span class="font-medium"> @Model.Type </span>vào lúc<span class="font-medium"> @Model.PostTime.ToString(" HH:mm dd/MM/yyyy")</span>
+            </p>
+        </div>
+        <div class="mx-auto my-4">
+            <h2 class="font-medium">Mô tả</h2>
+            <p>
+                @Model.Comment
+            </p>
+        </div>
+        <div>
+            @if (Model.Contents != null && Model.Contents.Count > 0)
+            {
+                <h3 class="font-medium">Danh sách tài liệu:</h3>
+                <ol class="ml-6 mt-4 h-96 overflow-auto">
+                    @foreach (var item in Model.Contents)
+                    {
+                        <li class="mb-2">
+                            <a href="@item.Content">
+                                @item.Content.Split("\\").Last()
+                            </a>
+                        </li>
+                    }
+                </ol>
+            }
 
-<div class="max-w-3xl mx-auto border border-gray-400 rounded-lg px-4 py-3 mt-6 backdrop-blur-sm bg-gray-600/30">
-    <h1 class="text-3xl font-semibold text-center pt-6 pb-4">
-        @Model.Title
-    </h1>
-    <div class="flex justify-center py-4">
-        <p class="mx-4">Người tạo:<span class="font-medium"> @Model.Creator.FirstName @Model.Creator.LastName </span>đã đăng <span class="font-medium"> @Model.Type </span>vào lúc<span class="font-medium"> @Model.PostTime.ToString(" HH:mm dd/MM/yyyy")</span>
-        </p>
-    </div>
-    <div class="mx-auto my-4">
-        <h2 class="font-medium">Mô tả</h2>
-        <p>
-            @Model.Comment
-        </p>
-    </div>
-    <div>
-        @if (Model.Contents != null && Model.Contents.Count > 0)
-        {
-        <h3 class="font-medium">Danh sách tài liệu:</h3>
-            <ol class="ml-6 mt-4">
-                @foreach (var item in Model.Contents)
-                {
-                    <li class="mb-2">
-                        <a href="@item.Content">
-                            @item.Content.Split("\\").Last()
-                        </a>
-                    </li>
-                }
-            </ol>
-        }
-
-    </div>
-    <div class="my-4 flex justify-end">
-        <a asp-controller="Subject" asp-action="Details" asp-route-id="@TempData["subjectId"] @{
+        </div>
+        <div class="my-4 flex justify-end">
+            <a asp-controller="Subject" asp-action="Details" asp-route-id="@TempData["subjectId"] @{
             TempData.Keep("subjectId");
 }"
-           class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">
-            Trở về
-        </a>
+               class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">
+                Trở về
+            </a>
+            <a asp-controller="Student" asp-action="Reply" asp-route-id="@Model.Id"
+                   class="inline-flex text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">
+                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+                  </svg>
+                  Nộp bài
+                </a>
+        </div>
     </div>
 </div>
-

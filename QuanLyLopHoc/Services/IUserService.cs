@@ -10,5 +10,6 @@ namespace QuanLyLopHoc.Services
         public Task CreateUserInfo(User user);
         public Task<User> GetUserbyId(string id);
         public Task Edit(User user);
+        public ICollection<User> SearchByEmail(string emailkey);
     }
 }

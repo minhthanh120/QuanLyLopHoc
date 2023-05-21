@@ -20,7 +20,7 @@
     }
     else if (@user.Avatar == null)
     {
-         <a href="#" class="group flex items-center space-x-4 rounded-md px-2 py-3 text-gray-600">
+        <a "@Url.Action("Edit","User")" class="group flex items-center space-x-4 rounded-md px-2 py-3 text-gray-600">
             <div class="bg-gray-700 rounded-full h-8 w-8 inline-flex justify-center items-center">
                 <span class="font-bold text-sm text-white ">@user.LastName.Split(' ').Last()[0]</span>
             </div>
@@ -31,7 +31,7 @@
     }
     else
     {
-        <a href="#" class="group flex items-center space-x-4 rounded-md px-2 py-3 text-gray-600">
+        <a href=" @Url.Action("Edit","User")" class="group flex items-center space-x-4 rounded-md px-2 py-3 text-gray-600">
             <img class="rounded-full w-8 h-8" src="@user.Avatar" alt="image description">
             <span class="group-hover:text-gray-700">@user.FirstName @user.LastName</span>
         </a>

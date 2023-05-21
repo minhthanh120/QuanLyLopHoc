@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
+using Org.BouncyCastle.Asn1.Pkcs;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -27,7 +29,8 @@ namespace QuanLyLopHoc.Models.Entities
         [Column(TypeName = "NVARCHAR(20)")]
         public string? City { get; set; }
         [Display(Name ="Ngày sinh")]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [Column(TypeName = "date")]
+        [DateRange("1/1/1965", "01/01/2005", ErrorMessage = "{0} phải lớn hơn {1} và nhỏ hơn {2}")]
         public DateTime? BirthDay { get; set; }
         [Display(Name = "Số điện thoại")]
         [MaxLength(12)]
@@ -66,5 +69,25 @@ namespace QuanLyLopHoc.Models.Entities
         public virtual ICollection<Transcript> CreatedTranscript { get; set; }
         public virtual ICollection<Notification> Notifications { get; set; }
         public virtual ICollection<Reply> Replies { get; set; }
+    }
+    public class DateRange : ValidationAttribute
+    {
+        DateTime MinDate, MaxDate;
+
+        public DateRange(string minDate, string maxDate)
+        {
+            MinDate = DateTime.Parse(minDate);
+            MaxDate = DateTime.Parse(maxDate);
+            if (string.IsNullOrEmpty(ErrorMessage))
+                ErrorMessage = $"Ngày sinh phải lớn hơn {minDate} và nhỏ hơn {maxDate}";
+        }
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+            var d = (DateTime)value;
+            if (d < MinDate || d > MaxDate)
+                return new ValidationResult(ErrorMessage);
+            else
+                return ValidationResult.Success;
+        }
     }
 }

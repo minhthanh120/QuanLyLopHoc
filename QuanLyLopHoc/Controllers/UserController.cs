@@ -60,6 +60,20 @@ namespace QuanLyLopHoc.Controllers
             ViewData["listUser"] = model;
             return View();
         }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<ActionResult> SearchbyEmail(string emailkey, string subjectId)
+        {
+            var model = _userService.SearchByEmail(emailkey);
+            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var currentUser = await _userService.GetUserbyId(id);
+            if (model.Any(i => i.Id == id))
+            {
+                model.Remove(currentUser);
+            }
+            return View(model);
+        }
         [HttpPost]
         public async Task<IActionResult> SearchbyNameandEmail(string searchKey)
         {
@@ -110,10 +124,16 @@ namespace QuanLyLopHoc.Controllers
         // POST: UserController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(int id, [Bind("Id,FirstName, LastName,Class,School,Phone, BirthDay, City, Avatar")] User user)
+        public async Task<ActionResult> Edit(int id, [Bind("Id,FirstName,Gender, LastName,Class,School,Phone, BirthDay, City, Avatar")] User user)
         {
             try
             {
+                var MinDate = DateTime.Parse("1/1/1965");
+                var MaxDate = DateTime.Parse("1/1/2005");
+                if (user.BirthDay < MinDate || user.BirthDay > MaxDate || user.Gender == null){
+                    _notyf.Error("Chỉnh sửa thông tin ko thành công");
+                    return View(user);
+                }
                 await _userService.Edit(user);
                 _notyf.Success("Chỉnh sửa thông tin thành công");
                 return View(user);

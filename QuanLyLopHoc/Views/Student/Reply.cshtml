@@ -1,33 +1,37 @@
-﻿@model QuanLyLopHoc.Models.DAO.MultipleFilesModel
+﻿@model QuanLyLopHoc.Models.DAO.ReplywithContent
 
 @{
-ViewData["Title"] = "Multi File Upload";
+ViewData["Title"] = "Nộp bài tập";
 
 }
-<form id="post" class="h-full w-full" asp-action="Reply" method="post" enctype="multipart/form-data">
+<form id="post" class="w-full" asp-action="Reply" method="post" enctype="multipart/form-data">
     <div class="-z-10 absolute">
-        @if (Model.IsResponse)
-        {
-        if (Model.IsSuccess)
-        {
-        <div class="alert alert-success">
-            @Model.Message
-        </div>
-        }
-        else
-        {
-        <div class="alert alert-danger">
-            @Model.Message
-        </div>
-        }
-        }
         <div class="col-12">
+            <input asp-for="PostId" class="hidden" />
+            <span asp-validation-for="PostId" class="text-danger"></span>
             <input id="hidden-input" asp-for="Files" type="file" multiple class="hidden" />
             <span asp-validation-for="Files" class="text-danger"></span>
+            <input id="hidden-input" asp-for="StudentId" class="hidden" />
+            <span asp-validation-for="StudentId" class="text-danger"></span>
         </div>
         <button type="submit" class="hidden" id="formsubmit"></button>
+        <div>
+            @if (Model.Contents != null && Model.Contents.Count > 0)
+            {
+                <h3 class="font-medium">Bài tập của bạn:</h3>
+                <ol class="ml-6 mt-4 h-96 overflow-auto">
+                    @foreach (var item in Model.Contents)
+                    {
+                        <li class="mb-2">
+                            <a href="@item.Content">
+                                @item.Content.Split("\\").Last()
+                            </a>
+                        </li>
+                    }
+                </ol>
+            }
+        </div>
     </div>
-
 </form>
 <!-- component -->
 <div id="formUpload" class="bg-gray-500 h-full w-full sm:px-8 md:px-16 sm:py-8">
@@ -38,7 +42,7 @@ ViewData["Title"] = "Multi File Upload";
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
             </svg>
         </div>
-        <main class="container mx-auto max-w-screen-lg h-full">
+        <div class="container mx-auto max-w-screen-lg h-full">
             <!-- file upload modal -->
             <article aria-label="File Upload Modal"
                 class="relative h-full flex flex-col bg-white shadow-xl rounded-md" ondrop="dropHandler(event);"
@@ -59,7 +63,7 @@ ViewData["Title"] = "Multi File Upload";
 
                 <!-- scroll area -->
                 <section class="h-full overflow-auto p-8 w-full flex flex-col">
-                    <header
+                    <div
                         class="border-dashed border-2 border-gray-400 py-12 flex flex-col justify-center items-center">
                         <p class="mb-3 font-semibold text-gray-900 flex flex-wrap justify-center">
                             <span>Kéo và thả</span>&nbsp;<span>file của bạn tại đây</span>
@@ -68,7 +72,7 @@ ViewData["Title"] = "Multi File Upload";
                             class="mt-2 rounded-sm px-3 py-1 bg-gray-200 hover:bg-gray-300 focus:shadow-outline focus:outline-none">
                             Tải lên file
                         </button>
-                    </header>
+                    </div>
 
                     <h1 class="pt-8 pb-3 font-semibold sm:text-lg text-gray-900">
                         Danh sách file
@@ -86,7 +90,7 @@ ViewData["Title"] = "Multi File Upload";
                 </section>
 
                 <!-- sticky footer -->
-                <footer class="flex justify-end px-8 pb-8 pt-4">
+                <div class="flex justify-end px-8 pb-8 pt-4">
                     <button id="submit" 
                         class="rounded-sm px-3 py-1 bg-blue-700 hover:bg-blue-500 text-white focus:shadow-outline focus:outline-none">
                         Tải lên
@@ -95,9 +99,9 @@ ViewData["Title"] = "Multi File Upload";
                         class="ml-3 rounded-sm px-3 py-1 hover:bg-gray-300 focus:shadow-outline focus:outline-none">
                         Hủy
                     </button>
-                </footer>
+                </div>
             </article>
-        </main>
+        </div>
     </div>
 </div>
 

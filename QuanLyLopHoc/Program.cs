@@ -34,6 +34,7 @@ builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IMessageSevice, MessageService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IReplyService, ReplyService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddSingleton<IFileService, FileService>();
 builder.Services.AddScoped<ISubjectService, SubjectService>();

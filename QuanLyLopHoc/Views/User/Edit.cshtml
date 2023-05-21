@@ -91,8 +91,8 @@ Layout = "~/Views/Shared/_Layout.cshtml";
                 <select asp-for="Gender"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <option selected>Chọn giới tính</option>
-                    <option value=1>Nam</option>
-                    <option value=0>Nữ</option>
+                    <option value=false>Nam</option>
+                    <option value=true>Nữ</option>
                 </select>
                 <span asp-validation-for="Gender" class="text-danger"></span>
             </div>

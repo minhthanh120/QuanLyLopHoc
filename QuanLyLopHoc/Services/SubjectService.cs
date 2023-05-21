@@ -72,9 +72,16 @@ namespace QuanLyLopHoc.Services
             try
             {
                 var student = new StudentSubject();
+                var subject = _context.Subjects.Where(c => c.Id==subjectId)
+                    .Include(c=>c.Transcript)
+                    .FirstOrDefault();
                 student.UserId = userId;
                 student.SubjectId = subjectId;
+                var detailTranscript = new DetailTranscript();
+                detailTranscript.UserId = userId;
+                detailTranscript.TranscriptId = subject.Transcript.Id;
                 _context.Add(student);
+                _context.Add(detailTranscript);
                 _context.SaveChanges();
                 return true;
             }

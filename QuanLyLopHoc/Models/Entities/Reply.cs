@@ -9,7 +9,7 @@ namespace QuanLyLopHoc.Models.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public string Id { get;set; }
-        public string Comment { get;set; }
+        public string? Comment { get;set; }
         public string StudentId { get; set; }
         public DateTime SubmitTime { get; set; } = DateTime.Now;
         public string PostId { get; set; }

@@ -1,6 +1,28 @@
 ﻿@using QuanLyLopHoc.Models.Entities;
 @model User
+@{
+    ViewData["Title"] = "Thêm thành viên";
+}
+<style>
+    .scrollbar-w-2::-webkit-scrollbar {
+        width: 0.5rem;
+        height: 0.25rem;
+    }
 
+    .scrollbar-track-blue-lighter::-webkit-scrollbar-track {
+        --bg-opacity: 1;
+        background-color: #d8d8d8;
+    }
+
+    .scrollbar-thumb-blue::-webkit-scrollbar-thumb {
+        --bg-opacity: 1;
+        background-color: #5fafff;
+    }
+
+    .scrollbar-thumb-rounded::-webkit-scrollbar-thumb {
+        border-radius: 0.25rem;
+    }
+</style>
 <h1 class="text-2xl py-5 font-medium text-center">
     Thêm học sinh vào lớp học
 </h1>
@@ -17,64 +39,52 @@
                         <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
                     </svg>
                 </div>
-                <input type="text" asp-for="Email" id="input-group-1"
+                <input type="text" asp-for="Email" id="emailkey"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="name@gmail.com" />
             </div>
-            <div id="users">
-                <div class="flex flex-row m-2">
-                    <div
-                        class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-                        <span class="font-medium text-gray-600 dark:text-gray-300">A</span>
-                    </div>
-                    <div class="pl-1">
-                        <p class="text-base text-gray-950"> Nguyen Van A</p>
-                        <p class="text-sm text-gray-500">
-                            <span class="mr-1">Email:</span>ABC@cloudclass.software
-                        </p>
-                    </div>
-                    <div class="ml-auto flex items-center">
-                        <button type="button" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Sinh viên</button>
-                        <button type="button" class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Giáo viên</button>
-
-                    </div>
+            <div id="loading" class="py-3">
+                <div aria-label="Loading..." role="status"
+                     class="flex items-center space-x-2">
+                    <svg class="h-6 w-6 animate-spin stroke-gray-500"
+                         viewBox="0 0 256 256">
+                        <line x1="128" y1="32" x2="128" y2="64"
+                              stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="24"></line>
+                        <line x1="195.9" y1="60.1" x2="173.3" y2="82.7"
+                              stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="24"></line>
+                        <line x1="224" y1="128" x2="192" y2="128"
+                              stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="24"></line>
+                        <line x1="195.9" y1="195.9" x2="173.3" y2="173.3"
+                              stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="24"></line>
+                        <line x1="128" y1="224" x2="128" y2="192"
+                              stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="24"></line>
+                        <line x1="60.1" y1="195.9" x2="82.7" y2="173.3"
+                              stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="24"></line>
+                        <line x1="32" y1="128" x2="64" y2="128"
+                              stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="24"></line>
+                        <line x1="60.1" y1="60.1" x2="82.7" y2="82.7"
+                              stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="24"></line>
+                    </svg><span class="text-xs font-medium text-gray-500">Loading...</span>
                 </div>
-                <div class="flex flex-row m-2 ">
-                    <div
-                        class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-                        <span class="font-medium text-gray-600 dark:text-gray-300">A</span>
-                    </div>
-                    <div class="pl-1">
-                        <p class="text-base text-gray-950"> Nguyen Van A</p>
-                        <p class="text-sm text-gray-500">
-                            ABC@cloudclass.software
-                        </p>
-                    </div>
-                    <div class="ml-auto flex items-center">
-                        <p class="text-base text-gray-950">Sinh viên</p>
-                    </div>
-                </div>
-                <div class="flex flex-row m-2 ">
-                    <div
-                        class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-                        <span class="font-medium text-gray-600 dark:text-gray-300">C</span>
-                    </div>
-                    <div class="pl-1">
-                        <p class="text-base text-gray-950"> Nguyen Van C</p>
-                        <p class="text-sm text-gray-500">
-                            ABCÈGH@cloudclass.software
-                        </p>
-                    </div>
-                    <div class="ml-auto flex items-center">
-                        <p class="text-base text-gray-950">Giáo viên</p>
-                    </div>
-                </div>
+            </div>
+            <div id="users" class="max-h-96 overflow-auto overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch">
             </div>
         </div>
 
         <div class="m-5">
-            <input type="hidden" value="@TempData[" subjectId"] @{TempData.Keep("subjectId");}">
+            <input type="hidden" id="subjectId" value="@ViewData["subjectId"]">
         </div>
 
     </fieldset>
 </form>
+@section Scripts {
+    <script src="~/js/addmember.js"></script>
+}

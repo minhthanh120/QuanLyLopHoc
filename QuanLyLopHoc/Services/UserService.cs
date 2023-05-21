@@ -37,5 +37,10 @@ namespace QuanLyLopHoc.Services
         {
             await _userRepository.Update(user);
         }
+        public ICollection<User> SearchByEmail(string emailkey)
+        {
+            return _userRepository.FindListUserbyEmail(emailkey);
+        }
+
     }
 }

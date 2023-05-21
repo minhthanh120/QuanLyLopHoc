@@ -36,6 +36,7 @@ namespace QuanLyLopHoc.Controllers
         private readonly IFileService _fileService; //inject file upload service
         private readonly INotyfService _notyf;//inject toast notification
         private readonly ISubjectService _subjectService;
+        private readonly IReplyService _replyService;
         public StudentController(UserManager<ApplicationUser> userManager,
         IStudentService studentService,
         IUserService userService,
@@ -43,9 +44,11 @@ namespace QuanLyLopHoc.Controllers
         IFileService fileService,
         INotyfService notyf,
         ISubjectService subjectService,
-        IConfiguration config
+        IConfiguration config,
+        IReplyService replyService
         )
         {
+            _replyService = replyService;
             _config = config;
             _studentService = studentService;
             _userService = userService;
@@ -249,54 +252,114 @@ namespace QuanLyLopHoc.Controllers
             }
         }
         [Authorize]
-        public ActionResult Reply()
+        public ActionResult Reply(string PostId)
         {
-            MultipleFilesModel model = new MultipleFilesModel();
-            return View(model);
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var reply = _replyService.GetReply(userId, PostId);
+            if(reply.Id != null){
+                reply.StudentId = userId;
+                reply.PostId = PostId;
+            }
+            var replyContent = new ReplywithContent(reply);
+            return View(replyContent);
         }
         [HttpPost]
-        public ActionResult Reply(MultipleFilesModel model)//file minh post len kieu nay
+        [Authorize]
+        public ActionResult Reply(ReplywithContent reply)//file minh post len kieu nay
         {
-            string postId = "";
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            model.Files.Sum(i => i.Length);
-            model.IsResponse = true;
-            if (model.Files == null)
+            reply.Files.Sum(i => i.Length);
+            if (reply.Files == null)
             {
-                model.IsSuccess = false;
-                model.Message = "Mời bạn chọn file";
-                _notyf.Warning(model.Message);
+                _notyf.Warning("Mời bạn chọn file");
             }
-            else if (model.Files.Count > 0)
+            else if (reply.Files.Count > 0)
             {
-                //var result = _fileService.UploadFile(userId, postId, model);//ma nguoi dung, postId, file can tai len
-                model.IsSuccess = true;
-                model.Message = "Tải lên thành công";
-                _notyf.Success(model.Message);
+                var path = UploadFile(reply.PostId,reply.StudentId, reply.Files);//ma nguoi dung, postId, file can tai len
+
+                var result = _replyService.AddReply(reply, path);
+                if (result)
+                {
+                _notyf.Success("Tải lên thành công");
+                }
+                else
+                {
+                    _notyf.Error("Đã xảy ra lỗi");
+                }
             }
             else
             {
-                model.IsSuccess = false;
-                model.Message = "Mời bạn chọn file";
-                _notyf.Error(model.Message);
-
+                _notyf.Error("Mời bạn chọn file");
             }
-            return View("Reply", model);
+            return View("Reply", reply);
+        }
+        public IList<String> UploadFile(string Object1Id, string Object2Id, IList<IFormFile> model)
+        {
+            IList<String> fileUploaded = new List<String>();
+            foreach (var file in model)
+            {
+
+                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadedFiles/" + Object1Id + "/" + Object2Id);
+
+                //create folder if not exist
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
+
+
+                string fileNameWithPath = Path.Combine(path, file.FileName);
+                fileUploaded.Add(fileNameWithPath);
+                using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                {
+                    file.CopyTo(stream);
+                }
+            }
+            return fileUploaded;
         }
         [Authorize]
-        public IActionResult JoinClass(string subjectId)
+        public IActionResult DeleteReplyContent(string subjectId)
         {
             try
             {
                 var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 if (_subjectService.JoinClass(id, subjectId))
                 {
-                    _notyf.Success("is student");
+                    _notyf.Success("F");
                 }
                 return RedirectToAction("Index", "Home");
             }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, ex);
+            }
+            return RedirectToAction("WebError", "Home");
+        }
+
+        [Authorize]
+        public IActionResult JoinClass(string subjectId)
+        {
+            try
+            {
+                var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if(_subjectService.IsTeacher(id, subjectId) || _subjectService.IsStudent(id, subjectId))
+                {
+                    _notyf.Information("Bạn đã tham gia lớp học này rồi");
+                }
+                else
+                {
+                    if (_subjectService.JoinClass(id, subjectId))
+                    {
+                        _notyf.Success("Tham gia lớp học thành công");
+                    }
+                    else
+                    {
+                        _notyf.Error("Đã xảy ra lỗi");
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+                return RedirectToAction("Details", "Subject", new {id = subjectId});
+            }
             catch(Exception ex)
             {
+                _notyf.Error("Đã xảy ra lỗi");
                 _logger.LogError(ex.Message, ex);
             }
             return RedirectToAction("WebError", "Home");

@@ -260,6 +260,7 @@ namespace QuanLyLopHoc.Controllers
         [Authorize]
         public IActionResult AddStudent()
         {
+            ViewData["subjectId"] = TempData["subjectId"].ToString();
             return View();
         }
 
@@ -488,6 +489,11 @@ namespace QuanLyLopHoc.Controllers
                 }
             }
             return fileUploaded;
+        }
+
+        public IActionResult Reply()
+        {
+            return View();
         }
     }
 }

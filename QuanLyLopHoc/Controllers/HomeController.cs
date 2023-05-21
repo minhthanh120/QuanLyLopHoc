@@ -39,17 +39,15 @@ namespace QuanLyLopHoc.Controllers
                     var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
                     if (_subjectService.IsStudent(id, subject.Id))
                     {
-                        _notyf.Success("is student");
+                        _notyf.Information("Bạn đang là học sinh của lớp học này");
                     }
                     else if (_subjectService.IsTeacher(id, subject.Id))
                     {
-                        _notyf.Success("is teacher");
+                        _notyf.Information("Bạn đang là giáo viên của lớp học này");
                     }
                     else
                     {
-                        _notyf.Warning("is not student yet");
-                        // _subjectService.JoinClass(id, subject.Id);
-                        // _notyf.Success("now you are student");
+                        _notyf.Warning("Bạn chưa tham gia lớp học này");
                     }
                 }
                 ViewData["subject"] = subject;
