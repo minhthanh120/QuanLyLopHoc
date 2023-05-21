@@ -109,6 +109,7 @@ namespace QuanLyLopHoc.Models.DAO
             .Reference(b => b.Student)
             .Load();
             }
+            
             return transcript;
         }
 
@@ -116,7 +117,7 @@ namespace QuanLyLopHoc.Models.DAO
         {
             var transcript = db.Transcripts.Where(x => x.SubjectId == subjectId).FirstOrDefault();
             var listtranscript = db.Details.Where(fk => fk.TranscriptId == transcript.Id);               
-                
+            
             foreach (var item in listtranscript)
             {
                 db.Entry(item)
@@ -225,9 +226,9 @@ namespace QuanLyLopHoc.Models.DAO
                     transcript.UserId = obj.UserId;
                     transcript.DiemCC = obj.DiemCC;
                     transcript.DiemTX = obj.DiemTX;
-                    transcript.DiemCK = obj.DiemCK;
-                    /*transcript.DiemTB = obj.DiemTB;*/
+                    transcript.DiemCK = obj.DiemCK;                  
                     transcript.DiemTB = obj.DiemCC.Value * (decimal)0.1 + obj.DiemTX.Value * (decimal)0.3 + obj.DiemCK.Value * (decimal)0.6;
+                    transcript.DiemTB = Math.Round((decimal)transcript.DiemTB, 1);
                     db.Details.Add(transcript);
                     db.SaveChanges();
                 }
@@ -238,7 +239,7 @@ namespace QuanLyLopHoc.Models.DAO
                     transcript.DiemTX = obj.DiemTX;
                     transcript.DiemCK = obj.DiemCK;
                     transcript.DiemTB = obj.DiemCC.Value * (decimal)0.1 + obj.DiemTX.Value * (decimal)0.3 + obj.DiemCK.Value * (decimal)0.6;
-                    /*transcript.DiemTB = obj.DiemTB;*/
+                    transcript.DiemTB = Math.Round((decimal)transcript.DiemTB, 1);
                     db.SaveChanges();
                 }
                 return true;
@@ -252,14 +253,14 @@ namespace QuanLyLopHoc.Models.DAO
         public List<Post> GetListPost(string subjectId)
         {
             var lstpost = db.Posts.Where(x => x.SubjectId == subjectId).ToList();
-            lstpost.OrderByDescending(x => x.PostTime);
-            foreach(var post in lstpost)
+            var lstpostsx = lstpost.OrderByDescending(x => x.PostTime).ToList();
+            foreach (var post in lstpostsx)
             {
                 db.Entry(post)
                 .Reference(b => b.Creator)
                 .Load();
             }
-            return lstpost;
+            return lstpostsx;
         }
 
         public Post CreatePost(Post obj, string subjectId)

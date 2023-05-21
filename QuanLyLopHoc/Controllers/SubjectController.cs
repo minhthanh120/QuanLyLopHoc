@@ -42,7 +42,7 @@ namespace QuanLyLopHoc.Controllers
         }
 
         [Authorize]
-        public IActionResult Details(string id)
+        public IActionResult Details(string id, string StuName, string StuNameTrans)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var isTeacher = _subjectService.IsTeacher(userId, id);
@@ -65,13 +65,23 @@ namespace QuanLyLopHoc.Controllers
             //pass to detail-> partial view
 
             var studentList = _subjectDao.GetTranscript(subjectFromDb.Id);
-            ViewData["studentList"] = studentList;
+            var lstStu = studentList.Details.OrderBy(i => string.Join(" ", (i.Student.FirstName + i.Student.LastName).Split(" ").Reverse())).ToList();
+            if(!string.IsNullOrEmpty(StuName))
+            {
+                lstStu = lstStu.Where(i => string.Join(" ", (i.Student.FirstName + i.Student.LastName)).ToUpper().Contains(StuName.ToUpper())).ToList();
+            }
+            ViewData["studentList"] = lstStu;
 
             var listTeacher = _subjectDao.GetListTeacher(subjectFromDb.Id);
             ViewData["listTeacher"] = listTeacher;
 
             var listTranscript = _subjectDao.GetListTranscript(subjectFromDb.Id);
-            ViewData["listTranscript"] = listTranscript;
+            var lstTransSX = listTranscript.OrderBy(i => string.Join(" ", (i.Student.FirstName + i.Student.LastName).Split(" ").Reverse())).ToList();
+            if (!string.IsNullOrEmpty(StuNameTrans))
+            {
+                lstTransSX = lstTransSX.Where(i => string.Join(" ", (i.Student.FirstName + i.Student.LastName)).ToUpper().Contains(StuNameTrans.ToUpper())).ToList();
+            }
+            ViewData["listTranscript"] = lstTransSX;
 
             var listPost = _subjectDao.GetListPost(subjectFromDb.Id);
             ViewData["listPost"] = listPost.OrderByDescending(i=>i.PostTime).ToList();
@@ -247,6 +257,7 @@ namespace QuanLyLopHoc.Controllers
 
             _db.Subjects.Remove(obj);
             _db.SaveChanges();
+            _notyf.Success("Xóa lớp môn học thành công");
             return RedirectToAction("Index", "Subject");
         }
 

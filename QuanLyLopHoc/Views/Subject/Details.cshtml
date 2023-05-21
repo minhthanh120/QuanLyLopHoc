@@ -1,7 +1,7 @@
 ﻿@using QuanLyLopHoc.Models.Entities;
 @{
     var subjectFromDb = ViewData["subjectFromDb"] as QuanLyLopHoc.Models.Entities.Subject;
-    var studentList = ViewData["studentList"] as QuanLyLopHoc.Models.Entities.Transcript;
+    var studentList = ViewData["studentList"] as List<QuanLyLopHoc.Models.Entities.DetailTranscript>;
     var listTeacher = ViewData["listTeacher"] as List<QuanLyLopHoc.Models.Entities.TeacherSubject>;
     var listTranscript = ViewData["listTranscript"] as List<QuanLyLopHoc.Models.Entities.DetailTranscript>;
     var listPost = ViewData["listPost"] as List<QuanLyLopHoc.Models.Entities.Post>;
@@ -13,6 +13,7 @@
     <style>
         .tab-item.active {
             opacity: 1;
+            
         }
 
         .tab-pane.active {
@@ -21,8 +22,8 @@
     </style>
 </head>
 <div class="">
-    <main class="m-4">
-        <div class="bg-purple-400 bg-opacity-70">
+    <main class="m-4 backdrop-blur-sm bg-gray-600/30">
+        <div class="">
 
    
         <h1 class="text-center text-3xl font-medium my-4">@subjectFromDb.SubjectName</h1>
@@ -55,17 +56,17 @@
         </div>
         <div class="w-full h-full">
             <!-- Tab items -->
-            <div class="tabs flex justify-center relative gap-2">
-                <div class="tab-item px-5 pt-4 pb-5 text-lg text-center text-purple-700 bg-white rounded-t-md border-b-4 border-transparent opacity-60 cursor-pointer transition-all duration-500 hover:opacity-100 hover:bg-purple-100 hover:border-purple-400 active @(ViewData["isTeacher"].ToString().ToLower() == " false"?"hidden":"") ">
+            <div class="tabs flex justify-center relative gap-2 bg-gray-600/30">
+                <div class="tab-item px-5 pt-4 pb-5 text-lg text-center text-gray-700 rounded-t-md border-b-4 border-transparent opacity-60 cursor-pointer transition-all duration-500 hover:opacity-100  active @(ViewData["isTeacher"].ToString().ToLower() == " false"?"hidden":"") ">
                     Bài đăng
                 </div>
-                <div class="tab-item px-5 pt-4 pb-5 text-lg text-center text-purple-700 bg-white rounded-t-md border-b-4 border-transparent opacity-60 cursor-pointer transition-all duration-500 hover:opacity-100 hover:bg-purple-100 hover:border-purple-400 ">
+                <div class="tab-item px-5 pt-4 pb-5 text-lg text-center text-gray-700 rounded-t-md border-b-4 border-transparent opacity-60 cursor-pointer transition-all duration-500 hover:opacity-100  ">
                     Danh sách lớp
                 </div>
-                <div class="tab-item px-5 pt-4 pb-5 text-lg text-center text-purple-700 bg-white rounded-t-md border-b-4 border-transparent opacity-60 cursor-pointer transition-all duration-500 hover:opacity-100 hover:bg-purple-100 hover:border-purple-400 @(ViewData["isTeacher"].ToString().ToLower() == "false"?"hidden":"") ">
+                <div class="tab-item px-5 pt-4 pb-5 text-lg text-center text-gray-700 rounded-t-md border-b-4 border-transparent opacity-60 cursor-pointer transition-all duration-500 hover:opacity-100  @(ViewData["isTeacher"].ToString().ToLower() == "false"?"hidden":"") ">
                     Danh sách điểm
                 </div>
-                <div class="line absolute left-0 bottom-0 w-0 h-1 bg-purple-700 transition-all duration-200"></div>
+                <div class="line absolute left-0 bottom-0 w-0 h-1 bg-gray-700 transition-all duration-200"></div>
             </div>
 
             <!-- Tab content -->
