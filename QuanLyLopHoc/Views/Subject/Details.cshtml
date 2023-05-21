@@ -75,7 +75,7 @@
                     @await Html.PartialAsync("ListPost", listPost)
                 </div>
                 <div class="tab-pane hidden ">                 
-                    @await Html.PartialAsync("ListStudent", studentList) 
+                    @await Html.PartialAsync("ListStudent", studentList, new ViewDataDictionary(ViewData) { {"subjectId", subjectFromDb.Id}})
                     @await Html.PartialAsync("ListTeacher", listTeacher)
                 </div>
                 <div class="tab-pane hidden">

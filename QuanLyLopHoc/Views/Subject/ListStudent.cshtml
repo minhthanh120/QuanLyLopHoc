@@ -1,6 +1,8 @@
 ﻿@using QuanLyLopHoc.Models.Entities;
 @model List<DetailTranscript>
-
+@{
+    var subjectId = ViewData["subjectId"] as string;
+}
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg my-6">
         <h1 class="py-6 px-6 text-2xl font-medium">
             Danh sách sinh viên
@@ -25,8 +27,8 @@
                        class="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 "
                        placeholder="Tìm kiếm sinh viên" />
                 </div>
-            </form>           
-            <a  asp-controller="Subject" asp-action="AddStudent"
+            </form>
+        <a href="@Url.Action("AddStudent","Subject", new{subjectId = subjectId})"
                 type="button"
                 class="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 font-medium rounded-lg text-sm px-3 py-1 w-50 flex items-center @(ViewData["isTeacher"].ToString().ToLower() == "false"?"hidden":"")">
                 <svg xmlns="http://www.w3.org/2000/svg"

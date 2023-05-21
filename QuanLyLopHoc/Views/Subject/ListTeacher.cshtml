@@ -1,12 +1,14 @@
 ﻿@model List<QuanLyLopHoc.Models.Entities.TeacherSubject>;
-
+@{
+    
+}
 
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg my-6">
     <h2 class="py-6 px-6 text-2xl font-medium">
         Danh sách giáo viên
     </h2>
     <div class="p-5 flex justify-end items-center">
-        <a asp-action="AddTeacher" asp-controller="Subject"
+        <a href="@Url.Action("AddStudent","Subject", new{subjectId = ViewData["subjectId"]})"
            type="button"
            class="max-w-sm focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 font-medium rounded-lg text-sm px-3 py-1 w-50 flex items-center @(ViewData["isTeacher"].ToString().ToLower() == "false"?"hidden":"")">
             <svg xmlns="http://www.w3.org/2000/svg"

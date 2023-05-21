@@ -269,9 +269,9 @@ namespace QuanLyLopHoc.Controllers
 
         [HttpGet]
         [Authorize]
-        public IActionResult AddStudent()
+        public IActionResult AddStudent(string subjectId)
         {
-            ViewData["subjectId"] = TempData["subjectId"].ToString();
+            ViewData["subjectId"] = subjectId;
             return View();
         }
 
@@ -504,6 +504,18 @@ namespace QuanLyLopHoc.Controllers
 
         public IActionResult Reply()
         {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult JoinAsTeacher(string userId, string subjectId)
+        {
+            var iswork = _subjectService.JoinasTeacher(userId, subjectId);
+            return View();
+        }
+        [HttpPost]
+        public IActionResult JoinClass(string userId, string subjectId)
+        {
+            var iswork = _subjectService.JoinClass(userId, subjectId);
             return View();
         }
     }

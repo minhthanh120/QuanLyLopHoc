@@ -92,5 +92,23 @@ namespace QuanLyLopHoc.Services
             }
             return false;
         }
+        public bool JoinasTeacher(string userId, string subjectId)
+        {
+            try
+            {
+                var teacher = new TeacherSubject();
+                teacher.UserId = userId;
+                teacher.SubjectId = subjectId;
+                _context.Add(teacher);
+                _context.SaveChanges();
+                return true;
+            }
+            catch (System.Exception ex)
+            {
+
+                _logger.LogError(ex.Message);
+            }
+            return false;
+        }
     }
 }
