@@ -9,6 +9,7 @@ namespace QuanLyLopHoc.Services.FunctionSerives
         public IList<String> UploadFile(string userId, string ObjectId, MultipleFilesModel model);
         public IList<String> UploadFile(string userId, string ObjectId, IList<IFormFile> model);
         public ContentResult GetFormFileFromPath(string path);
+        public IFormFile GetFormFiles(string path);
 
     }
 }

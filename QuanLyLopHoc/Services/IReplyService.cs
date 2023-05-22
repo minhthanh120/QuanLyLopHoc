@@ -9,7 +9,11 @@ namespace QuanLyLopHoc.Services
         public bool AddReply(Reply reply); 
         public bool DeleteReply(Reply reply);
         public bool UpdateReply(Reply reply);
-        public bool AddReply(ReplywithContent reply, IList<String> path);
+        public bool UpdateReply(UploadReply reply, IList<String> path);
+        public bool AddReply(UploadReply reply, IList<String> path);
+
+        public bool DeleteContentReply(string contentId);
+        public ContentReply GetContentReply(string contentId);
 
     }
 }

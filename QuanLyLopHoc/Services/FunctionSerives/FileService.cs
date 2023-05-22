@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.FileProviders;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using QuanLyLopHoc.Models.DAO;
 
 namespace QuanLyLopHoc.Services.FunctionSerives
@@ -89,11 +90,29 @@ namespace QuanLyLopHoc.Services.FunctionSerives
             return contentType ?? "application/octet-stream";
         }
 
+        public IFormFile GetFormFiles(string path)
+        {
+            try
+            {
+                var absolutePath = Path.Combine(Directory.GetCurrentDirectory(), path);
+                using (var stream = System.IO.File.OpenRead(absolutePath))
+                {
+
+                    var file = new FormFile(stream, 0, stream.Length, null, Path.GetFileName(stream.Name));
+                    return file;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, ex);
+            }
+            return null;
+        }
     }
     public class ContentResult
     {
-        public byte[] File { get; set;}
-        public string FileName { get; set;}
-        public string ContentType { get; set;}
+        public byte[] File { get; set; }
+        public string FileName { get; set; }
+        public string ContentType { get; set; }
     }
 }

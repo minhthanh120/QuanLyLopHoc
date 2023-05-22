@@ -20,4 +20,8 @@ namespace QuanLyLopHoc.Models.DAO
             this.OriginPost = reply.OriginPost;
         }
     }
+    public class ReplyExce : ContentReply
+    {
+        public List<IFormFile> Files { get; set; }
+    }
 }

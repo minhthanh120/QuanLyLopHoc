@@ -98,18 +98,6 @@ namespace QuanLyLopHoc.Controllers
             }
             return null;
         }
-        public static IFormFile GetFormFileFromPath(string path)
-        {
-            try
-            {
-                var fileInfo = new PhysicalFileProvider(Path.GetDirectoryName(path)).GetFileInfo(Path.GetFileName(path));
-                return new FormFile(fileInfo.CreateReadStream(), 0, fileInfo.Length, null, fileInfo.Name);
-            }
-            catch (Exception ex)
-            {
-                
-            }
-            return null;
-        }
+        
     }
 }

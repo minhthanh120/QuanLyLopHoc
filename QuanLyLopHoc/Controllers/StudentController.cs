@@ -22,6 +22,9 @@ using Newtonsoft.Json.Linq;
 
 using Org.BouncyCastle.Utilities;
 using DocumentFormat.OpenXml.Office2010.Excel;
+using Newtonsoft.Json;
+using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml.Office2019.Word.Cid;
 
 namespace QuanLyLopHoc.Controllers
 {
@@ -257,64 +260,92 @@ namespace QuanLyLopHoc.Controllers
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var reply = _replyService.GetReply(userId, PostId);
-            if(reply.Id != null){
+            if(reply.Id == null){
                 reply.StudentId = userId;
                 reply.PostId = PostId;
+                var model = new UploadReply();
+                var serialized = JsonConvert.SerializeObject(reply);
+                model = JsonConvert.DeserializeObject<UploadReply>(serialized);
+                return View(model);
             }
-            var replyContent = new ReplywithContent(reply);
-            return View(replyContent);
+            else if(reply.Contents != null)
+            {
+                foreach (var item in reply.Contents)
+                {
+                    item.OriginalReply = null;
+                }
+                var model = new UploadReply();
+                var serialized = JsonConvert.SerializeObject(reply);
+                model = JsonConvert.DeserializeObject<UploadReply>(serialized);
+                model.Files = new List<IFormFile>();
+                foreach (var item in model.Contents)
+                {
+                    var file = _fileService.GetFormFiles(item.Content);
+                    model.Files.Add(file);
+                }
+                return View(model);
+            }
+            //var replyContent = new ReplywithContent(reply);
+            return View(reply);
         }
         [HttpPost]
         [Authorize]
-        public ActionResult Reply(ReplywithContent reply)//file minh post len kieu nay
+        public ActionResult Reply(UploadReply reply)
         {
-            reply.Files.Sum(i => i.Length);
-            if (reply.Files == null)
+            if (reply.Files == null|| reply.Files.Count==0)
             {
+                ViewBag.contentId = reply.Id;
                 _notyf.Warning("Mời bạn chọn file");
             }
-            else if (reply.Files.Count > 0)
+            else if (reply.Files.Count > 0&& reply.Files.Count <10)
             {
-                var path = UploadFile(reply.PostId,reply.StudentId, reply.Files);//ma nguoi dung, postId, file can tai len
 
-                var result = _replyService.AddReply(reply, path);
-                if (result)
-                {
-                _notyf.Success("Tải lên thành công");
+                var path = _fileService.UploadFile(reply.PostId,reply.StudentId, reply.Files);//ma nguoi dung, postId, file can tai len
+                //var model = reply as Reply;
+                if(reply.Id == null) { 
+                    var result = _replyService.AddReply(reply, path);
+                    if (result)
+                    {
+                        _notyf.Success("Tải lên thành công");
+                    }
+                    else
+                    {
+                        _notyf.Error("Đã xảy ra lỗi");
+                    }
                 }
                 else
                 {
-                    _notyf.Error("Đã xảy ra lỗi");
+                    var result = _replyService.UpdateReply(reply, path);
+                    if (result)
+                    {
+                        var replyEdited = _replyService.GetReply(reply.StudentId, reply.PostId);
+                        _notyf.Success("Đã cập nhật thành công");
+                        return RedirectToAction("Reply", new { PostId = reply.PostId });
+                    }
+                    else
+                    {
+                        _notyf.Error("Đã xảy ra lỗi");
+                    }
                 }
+                
+            }
+            else if(reply.Files.Count > 10 || reply.Files.Sum(i => i.Length) > 20000)
+            {
+                _notyf.Error("Số file bạn tải lên là quá nhiều");
             }
             else
             {
                 _notyf.Error("Mời bạn chọn file");
             }
-            return View("Reply", reply);
+            return RedirectToAction("Reply", new { PostId = reply.PostId});
         }
-        public IList<String> UploadFile(string Object1Id, string Object2Id, IList<IFormFile> model)
+        public IActionResult DeleteContentReply(string contentId)
         {
-            IList<String> fileUploaded = new List<String>();
-            foreach (var file in model)
-            {
-
-                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadedFiles/" + Object1Id + "/" + Object2Id);
-
-                //create folder if not exist
-                if (!Directory.Exists(path))
-                    Directory.CreateDirectory(path);
-
-
-                string fileNameWithPath = Path.Combine(path, file.FileName);
-                fileUploaded.Add(fileNameWithPath);
-                using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
-                {
-                    file.CopyTo(stream);
-                }
-            }
-            return fileUploaded;
+            var content = _replyService.GetContentReply(contentId);
+            var isDeleted = _replyService.DeleteContentReply(contentId);
+            return RedirectToAction("Reply", new { PostId = content.OriginalReply.PostId });
         }
+        
         [Authorize]
         public IActionResult DeleteReplyContent(string subjectId)
         {

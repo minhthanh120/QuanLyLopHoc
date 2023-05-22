@@ -9,4 +9,8 @@ namespace QuanLyLopHoc.Models.DAO
         [Required(ErrorMessage = "Please select files")]
         public List<IFormFile> Files { get; set; }
     }
+    public class UploadReply : Reply
+    {
+        public List<IFormFile> Files { get; set; }
+    }
 }

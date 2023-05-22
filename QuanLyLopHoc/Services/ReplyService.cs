@@ -28,7 +28,7 @@ namespace QuanLyLopHoc.Services
             }
             return false;
         }
-        public bool AddReply(ReplywithContent reply, IList<String> path)
+        public bool AddReply(UploadReply reply, IList<String> path)
         {
             _context.Add(reply);
             if (path != null)
@@ -43,6 +43,37 @@ namespace QuanLyLopHoc.Services
             }
             _context.SaveChanges();
             return true;
+        }
+        public ContentReply GetContentReply(string contentId)
+        {
+            try
+            {
+                var content = _context.ContentReplies.Where(i => i.Id == contentId)
+                    .Include(i=>i.OriginalReply)
+                    .FirstOrDefault();
+                return content;
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return null;
+        }
+
+        public bool DeleteContentReply(string contentId)
+        {
+            try
+            {
+                var content = _context.ContentReplies.Where(i => i.Id == contentId).FirstOrDefault();
+                _context.Remove(content);
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return false;
         }
 
         public bool DeleteReply(Reply reply)
@@ -65,6 +96,35 @@ namespace QuanLyLopHoc.Services
         public bool UpdateReply(Reply reply)
         {
             throw new NotImplementedException();
+        }
+
+        public bool UpdateReply(UploadReply reply, IList<string> path)
+        {
+            try
+            {
+                var currentReply = _context.Replies.Where(i => i.Id == reply.Id).FirstOrDefault();
+                currentReply.SubmitTime = DateTime.Now;
+                currentReply.Comment = reply.Comment;
+                if (path != null || path.Count() > 0)
+                {
+                    foreach (var item in path)
+                    {
+                        var content = new ContentReply();
+                        content.ReplyId = reply.Id;
+                        content.Content = item;
+                        _context.Add(content);
+                    }
+                }
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+
+            return false;
         }
     }
 }

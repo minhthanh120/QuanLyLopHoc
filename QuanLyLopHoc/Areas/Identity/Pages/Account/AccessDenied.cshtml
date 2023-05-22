@@ -1,10 +1,14 @@
-﻿@page
+﻿@page "/AccessDenied/"
 @model AccessDeniedModel
 @{
     ViewData["Title"] = "Truy cập bị từ chối";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
 }
 
 <header>
-    <h1 class="text-danger">@ViewData["Title"]</h1>
-    <p class="text-danger">Bạn không có quyền truy cập danh mục này</p>
+    <div class="flex flex-col h-screen justify-center items-center backdrop-blur-sm bg-slate-300/30">
+        <h1 class="text-4xl font-extrabold">Truy cập bị từ chối</h1>
+        <p class="block mb-2 text-xl font-medium text-gray-900">Bạn không có quyền truy cập danh mục này</p>
+        <img class="max-w-2xl" src="~/images/accessdenied-removebg-preview.png" alt="" srcset="">
+    </div>
 </header>
