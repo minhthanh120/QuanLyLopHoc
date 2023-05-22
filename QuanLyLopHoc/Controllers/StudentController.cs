@@ -25,6 +25,8 @@ using DocumentFormat.OpenXml.Office2010.Excel;
 using Newtonsoft.Json;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Office2019.Word.Cid;
+using QuanLyLopHoc.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace QuanLyLopHoc.Controllers
 {
@@ -41,6 +43,7 @@ namespace QuanLyLopHoc.Controllers
         private readonly INotyfService _notyf;//inject toast notification
         private readonly ISubjectService _subjectService;
         private readonly IReplyService _replyService;
+        private readonly SMContext _context;
         public StudentController(UserManager<ApplicationUser> userManager,
         IStudentService studentService,
         IUserService userService,
@@ -49,9 +52,11 @@ namespace QuanLyLopHoc.Controllers
         INotyfService notyf,
         ISubjectService subjectService,
         IConfiguration config,
+        SMContext context,
         IReplyService replyService
         )
         {
+            _context = context;
             _replyService = replyService;
             _config = config;
             _studentService = studentService;
@@ -63,13 +68,18 @@ namespace QuanLyLopHoc.Controllers
             _subjectService = subjectService;
         }
         [Authorize]
-        public ActionResult Index(int page = 1)
+        public ActionResult Index(int page = 1, string search ="")
         {
             try
             {
                 int size = 9;
                 var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 var subjects = _studentService.GetListSubject(id);
+                if (search != null&& search != "")
+                {
+                    var model = (from item in subjects where item.SubjectName.ToLower().Contains(search.ToLower()) select item).ToList();
+                    return View(model.ToPagedList(page, size));
+                }
                 return View(subjects.ToPagedList(page, size));
             }
             catch (Exception ex)
@@ -90,7 +100,7 @@ namespace QuanLyLopHoc.Controllers
         {
             var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var user = await _userService.GetUserbyId(id);
-            if(user!=null)
+            if (user != null)
             {
                 var subjects = _studentService.GetListSubjectandTranscript(id);
                 var completeList = subjects.Where(d => d.Transcript.Details.FirstOrDefault().DiemTB >= 4).ToList();
@@ -110,12 +120,12 @@ namespace QuanLyLopHoc.Controllers
                 var publicKey = _config["Jwt:Key"];
                 id += ":" + publicKey;
                 var token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(id));
-                
+
                 ViewData["complete"] = completeListConverted;
                 ViewData["notcomplete"] = notcompleteListConverted;
                 ViewData["willcomplete"] = willcompleteList;
                 ViewData["token"] = token;
-                ViewData["ShareMyTranscript"] = Request.GetDisplayUrl() +"/?token="+ token;
+                ViewData["ShareMyTranscript"] = Request.GetDisplayUrl() + "/?token=" + token;
             }
             return View();
         }
@@ -137,11 +147,11 @@ namespace QuanLyLopHoc.Controllers
 
                     using (MemoryStream memoryStream = new MemoryStream())
                     {
-                        
+
                         byte[] bytes = Renderer.RenderHtmlAsPdf(html).Stream.ToArray();
                         memoryStream.Close();
-                    _notyf.Information("Đang trong tiến trình tải xuống bảng điểm");
-                    return File(bytes, "application/force-download", "MyTranscript.pdf");
+                        _notyf.Information("Đang trong tiến trình tải xuống bảng điểm");
+                        return File(bytes, "application/force-download", "MyTranscript.pdf");
                     }
                     // Clears all content output from the buffer stream
 
@@ -168,14 +178,14 @@ namespace QuanLyLopHoc.Controllers
             return new JwtSecurityTokenHandler().WriteToken(token);
 
         }
-        
+
 
         public async Task<IActionResult> ShareMyTranscript(string token)
         {
             var userId = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token)).Split(":").First();
             var user = await _userService.GetUserbyId(userId);
             Summary completeListConverted = new Summary();
-            if(user != null)
+            if (user != null)
             {
                 var subjects = _studentService.GetListSubjectandTranscript(userId);
                 var completeList = subjects.Where(d => d.Transcript.Details.FirstOrDefault().DiemTB >= 4).ToList();
@@ -260,7 +270,7 @@ namespace QuanLyLopHoc.Controllers
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var reply = _replyService.GetReply(userId, PostId);
-            if(reply.Id == null){
+            if (reply.Id == null) {
                 reply.StudentId = userId;
                 reply.PostId = PostId;
                 var model = new UploadReply();
@@ -268,7 +278,7 @@ namespace QuanLyLopHoc.Controllers
                 model = JsonConvert.DeserializeObject<UploadReply>(serialized);
                 return View(model);
             }
-            else if(reply.Contents != null)
+            else if (reply.Contents != null)
             {
                 foreach (var item in reply.Contents)
                 {
@@ -292,17 +302,17 @@ namespace QuanLyLopHoc.Controllers
         [Authorize]
         public ActionResult Reply(UploadReply reply)
         {
-            if (reply.Files == null|| reply.Files.Count==0)
+            if (reply.Files == null || reply.Files.Count == 0)
             {
                 ViewBag.contentId = reply.Id;
                 _notyf.Warning("Mời bạn chọn file");
             }
-            else if (reply.Files.Count > 0&& reply.Files.Count <10)
+            else if (reply.Files.Count > 0 && reply.Files.Count < 10)
             {
 
-                var path = _fileService.UploadFile(reply.PostId,reply.StudentId, reply.Files);//ma nguoi dung, postId, file can tai len
+                var path = _fileService.UploadFile(reply.PostId, reply.StudentId, reply.Files);//ma nguoi dung, postId, file can tai len
                 //var model = reply as Reply;
-                if(reply.Id == null) { 
+                if (reply.Id == null) {
                     var result = _replyService.AddReply(reply, path);
                     if (result)
                     {
@@ -327,9 +337,9 @@ namespace QuanLyLopHoc.Controllers
                         _notyf.Error("Đã xảy ra lỗi");
                     }
                 }
-                
+
             }
-            else if(reply.Files.Count > 10 || reply.Files.Sum(i => i.Length) > 20000)
+            else if (reply.Files.Count > 10 || reply.Files.Sum(i => i.Length) > 20000)
             {
                 _notyf.Error("Số file bạn tải lên là quá nhiều");
             }
@@ -337,7 +347,7 @@ namespace QuanLyLopHoc.Controllers
             {
                 _notyf.Error("Mời bạn chọn file");
             }
-            return RedirectToAction("Reply", new { PostId = reply.PostId});
+            return RedirectToAction("Reply", new { PostId = reply.PostId });
         }
         public IActionResult DeleteContentReply(string contentId)
         {
@@ -345,7 +355,7 @@ namespace QuanLyLopHoc.Controllers
             var isDeleted = _replyService.DeleteContentReply(contentId);
             return RedirectToAction("Reply", new { PostId = content.OriginalReply.PostId });
         }
-        
+
         [Authorize]
         public IActionResult DeleteReplyContent(string subjectId)
         {
@@ -371,7 +381,7 @@ namespace QuanLyLopHoc.Controllers
             try
             {
                 var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                if(_subjectService.IsTeacher(id, subjectId) || _subjectService.IsStudent(id, subjectId))
+                if (_subjectService.IsTeacher(id, subjectId) || _subjectService.IsStudent(id, subjectId))
                 {
                     _notyf.Information("Bạn đã tham gia lớp học này rồi");
                 }
@@ -387,15 +397,30 @@ namespace QuanLyLopHoc.Controllers
                         return RedirectToAction("Index", "Home");
                     }
                 }
-                return RedirectToAction("Details", "Subject", new {id = subjectId});
+                return RedirectToAction("Details", "Subject", new { id = subjectId });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _notyf.Error("Đã xảy ra lỗi");
                 _logger.LogError(ex.Message, ex);
             }
             return RedirectToAction("WebError", "Home");
         }
-        
+
+        public IActionResult ReplyHere(string replyId)
+        {
+            try
+            {
+                var reply = _context.Replies.Where(i => i.Id == replyId)
+                    .Include(i => i.Contents).FirstOrDefault();                    ;
+                return View(reply);
+                
+            }
+            catch { }
+            return NotFound();
+
+        }
+
+
     }
 }

@@ -11,9 +11,10 @@ namespace QuanLyLopHoc.Services
         public bool UpdateReply(Reply reply);
         public bool UpdateReply(UploadReply reply, IList<String> path);
         public bool AddReply(UploadReply reply, IList<String> path);
-
         public bool DeleteContentReply(string contentId);
         public ContentReply GetContentReply(string contentId);
-
+        public IList<Reply> GetAllReply(string postId);
+        public IList<ClassReply> GetAllClassReply(string postId, IList<User> students);
+        public IList<ClassReply> GetAllClassReply(string postId, IList<DetailTranscript> students);
     }
 }

@@ -49,7 +49,7 @@ namespace QuanLyLopHoc.Services
             try
             {
                 var content = _context.ContentReplies.Where(i => i.Id == contentId)
-                    .Include(i=>i.OriginalReply)
+                    .Include(i => i.OriginalReply)
                     .FirstOrDefault();
                 return content;
             }
@@ -125,6 +125,54 @@ namespace QuanLyLopHoc.Services
 
 
             return false;
+        }
+
+        public IList<Reply> GetAllReply(string postId)
+        {
+            return _context.Replies.Where(i => i.PostId == postId).ToList();
+        }
+        public IList<ClassReply> GetAllClassReply(string postId, IList<User> students)
+        {
+            if (_context.Posts.Where(i => i.Id == postId).ToList() == null)
+            {
+                return null;
+            }
+
+            var model = new List<ClassReply>();
+            foreach (var item in students)
+            {
+                var temp = new ClassReply();
+                temp.Student = item;
+                temp.Reply = GetReplybyUserId(item.Id, postId);
+                model.Add(temp);
+            }
+            return model;
+        }
+        public Reply GetReplybyUserId(string userId, string postId)
+        {
+            return _context.Replies.Where(i => i.StudentId == userId && i.PostId == postId).FirstOrDefault();
+        }
+
+        public IList<ClassReply> GetAllClassReply(string postId)
+        {
+            throw new NotImplementedException();
+        }
+        public IList<ClassReply> GetAllClassReply(string postId, IList<DetailTranscript> students)
+        {
+            if (_context.Posts.Where(i => i.Id == postId).ToList() == null)
+            {
+                return null;
+            }
+
+            var model = new List<ClassReply>();
+            foreach (var item in students)
+            {
+                var temp = new ClassReply();
+                temp.Student = item.Student;
+                temp.Reply = GetReplybyUserId(item.Student.Id, postId);
+                model.Add(temp);
+            }
+            return model;
         }
     }
 }

@@ -21,10 +21,12 @@ namespace QuanLyLopHoc.Controllers
         private readonly IFileService _fileService;
         private readonly ISubjectService _subjectService;
         private readonly INotyfService _notyf;
-        public SubjectController(SMContext db, SubjectDao subjectDao, IFileService fileService, ISubjectService subjectService,
+        private readonly IReplyService _replyService;
+        public SubjectController(SMContext db, SubjectDao subjectDao, IFileService fileService, ISubjectService subjectService, IReplyService replyService,
             INotyfService notyf
             )
         {
+            _replyService = replyService;
             _db = db;
             _subjectDao = subjectDao;
             _fileService = fileService;
@@ -440,7 +442,15 @@ namespace QuanLyLopHoc.Controllers
             {
                 return NotFound();
             }
+
             var post = _db.Posts.Find(id);
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var isTeacher = _subjectService.IsTeacher(userId, post.SubjectId);
+            ViewData["isTeacher"] = isTeacher;
+            var isStudent = _subjectService.IsStudent(userId, post.SubjectId);
+            ViewData["isStudent"] = isStudent;
+
             _db.Entry(post).Collection(x => x.Contents).Load();
             _db.Entry(post).Reference(x => x.Creator).Load();
             return View(post);
@@ -496,5 +506,51 @@ namespace QuanLyLopHoc.Controllers
             var iswork = _subjectService.JoinClass(userId, subjectId);
             return View();
         }
+        public IActionResult CollectHomeworks(string PostId){
+            var post = _db.Posts.Where(i => i.Id == PostId).FirstOrDefault();
+            var studentList = _subjectDao.GetTranscript(post.SubjectId);
+            var lstStu = studentList.Details.OrderBy(i => string.Join(" ", (i.Student.FirstName + i.Student.LastName).Split(" ").Reverse())).ToList();
+
+            
+            var lstReply = _replyService.GetAllClassReply(PostId, lstStu);
+            if(lstReply == null){
+                return RedirectToAction("WebError", "Home");
+            }
+            ViewData["PostId"] = PostId;
+            return View(lstReply);
+        }
+        [HttpPost]
+        public IActionResult CollectHomeworks([Bind("PostId,sort, date")] Filter filter)
+        {
+            var PostId = filter.PostId;
+            var post = _db.Posts.Where(i => i.Id == PostId).FirstOrDefault();
+            var studentList = _subjectDao.GetTranscript(post.SubjectId);
+            var lstStu = studentList.Details.OrderBy(i => string.Join(" ", (i.Student.FirstName + i.Student.LastName).Split(" ").Reverse())).ToList();
+
+
+            var lstReply = _replyService.GetAllClassReply(PostId, lstStu);
+            if (lstReply == null)
+            {
+                return RedirectToAction("WebError", "Home");
+            }
+            ViewData["PostId"] = PostId;
+            if (filter.date != null)
+            {
+                ViewData["deadline"] = filter.date;
+            }
+            if(filter.sort == "time")
+            {
+                var model = (from item in lstReply orderby item.Reply.Id descending select item).ToList();
+                return View(model);
+            }
+            
+            return View(lstReply);
+        }
+    }
+    public class Filter
+    {
+        public string? PostId { get; set; }
+        public string? sort { get; set; }
+        public DateTime? date { get; set; }
     }
 }
