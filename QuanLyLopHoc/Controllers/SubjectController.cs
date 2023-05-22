@@ -421,7 +421,7 @@ namespace QuanLyLopHoc.Controllers
             var post = _subjectDao.CreatePost(obj, sbId);
             if (obj.Files != null)
             {
-                var listFile = UploadFile(sbId, post.Id, obj.Files);
+                var listFile = _fileService.UploadFile(sbId, post.Id, obj.Files);
                 var result = _subjectDao.UpdateCreatePost(obj, sbId, listFile);
                 if (!result)
                 {
@@ -479,28 +479,6 @@ namespace QuanLyLopHoc.Controllers
             return View();
         }
 
-        public IList<String> UploadFile(string subId, string ObjectId, IList<IFormFile> model)
-        {
-            IList<String> fileUploaded = new List<String>();
-            foreach (var file in model)
-            {
-
-                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UploadedFiles/" + subId + "/" + ObjectId);
-
-                //create folder if not exist
-                if (!Directory.Exists(path))
-                    Directory.CreateDirectory(path);
-
-
-                string fileNameWithPath = Path.Combine(path, file.FileName);
-                fileUploaded.Add(fileNameWithPath);
-                using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
-                {
-                    file.CopyTo(stream);
-                }
-            }
-            return fileUploaded;
-        }
 
         public IActionResult Reply()
         {

@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.FileProviders;
 using QuanLyLopHoc.Areas.Identity.Data;
 using QuanLyLopHoc.Models;
 using QuanLyLopHoc.Services;
+using QuanLyLopHoc.Services.FunctionSerives;
 using System.Diagnostics;
 using System.Security.Claims;
 
@@ -16,12 +18,14 @@ namespace QuanLyLopHoc.Controllers
         private readonly INotyfService _notyf;//inject toast notification
         private readonly ISubjectService _subjectService;
         private readonly UserManager<ApplicationUser> _userManager;
-
+        private readonly IFileService _fileService;
         public HomeController(ILogger<HomeController> logger,
         INotyfService notyf,
+        IFileService fileService,
         UserManager<ApplicationUser> userManager,
         ISubjectService subjectService)
         {
+            _fileService = fileService;
             _userManager = userManager;
             _logger = logger;
             _notyf = notyf;
@@ -34,7 +38,7 @@ namespace QuanLyLopHoc.Controllers
             if (inviteCode != null && inviteCode.Length > 0)
             {
                 var subject = _subjectService.FindSubjectByInviteCode(inviteCode);
-                if(subject != null && subject.Id != null)
+                if (subject != null && subject.Id != null)
                 {
                     var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
                     if (_subjectService.IsStudent(id, subject.Id))
@@ -76,6 +80,36 @@ namespace QuanLyLopHoc.Controllers
         public IActionResult Join()
         {
             return PartialView();
+        }
+        public IActionResult DownloadFile(string path = "")
+        {
+            if (path != null || path != "")
+            {
+                var file = _fileService.GetFormFileFromPath(path);
+                if (file != null)
+                {
+                    _notyf.Information("Đang trong quá tải xuống tài liệu");
+                    return File(file.File, file.ContentType, file.FileName);
+                }
+                else
+                {
+                    _notyf.Error("Không tìm thấy tài liệu mà bạn chọn");
+                }
+            }
+            return null;
+        }
+        public static IFormFile GetFormFileFromPath(string path)
+        {
+            try
+            {
+                var fileInfo = new PhysicalFileProvider(Path.GetDirectoryName(path)).GetFileInfo(Path.GetFileName(path));
+                return new FormFile(fileInfo.CreateReadStream(), 0, fileInfo.Length, null, fileInfo.Name);
+            }
+            catch (Exception ex)
+            {
+                
+            }
+            return null;
         }
     }
 }

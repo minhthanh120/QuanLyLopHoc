@@ -26,7 +26,7 @@
                     @foreach (var item in Model.Contents)
                     {
                         <li class="mb-2">
-                            <a href="@item.Content">
+                            <a href="@Url.Action("DownloadFile", "Home", new {path = item.Content })">
                                 @item.Content.Split("\\").Last()
                             </a>
                         </li>
