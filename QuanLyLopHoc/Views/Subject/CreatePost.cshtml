@@ -10,10 +10,10 @@
                 </h2>
                 <div class="mx-6 my-6">
                     <label for="typepost"
-                           class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                           class="block mb-2 text-sm font-medium text-gray-900">
                         Loại bài đăng
                     </label>
-                    <select asp-for="Type" id="typepost" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <select asp-for="Type" id="typepost" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                         <option selected>Chọn loại bài đăng</option>
                         <option value="Bài tập">Bài tập</option>
                         <option value="Thông báo">Thông báo</option>
@@ -22,30 +22,30 @@
                 </div>
                 <div class="mx-6 my-6">
                     <label for="username-success"
-                           class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                           class="block mb-2 text-sm font-medium text-gray-900 ">
                         Chủ đề
                     </label>
                     <input asp-for="Title"
                            type="text"
                            id="username-success"
-                           class="bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-300 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-100 dark:border-green-400"
+                           class="bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-300 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 "
                            placeholder="Chủ đề của tài liệu" />
                 </div>
 
                 <div class="mx-6 my-6">
                     <label for="message"
-                           class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mô tả</label>
+                           class="block mb-2 text-sm font-medium text-gray-900 ">Mô tả</label>
                     <textarea asp-for="Comment"
                               id="message"
                               rows="4"
-                              class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                              class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 "
                               placeholder=""></textarea>
                 </div>
                 <input id="hidden-input" asp-for="Files" type="file" multiple class="hidden" />
                 <span asp-validation-for="Files" class="text-danger"></span>
                 <button type="submit"
                         id="submitForm"
-                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 sm:ml-6 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 hidden">
+                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 sm:ml-6 text-center  hidden">
                     
                 </button>
                 <a asp-controller="Subject" asp-action="Details" asp-route-id="@TempData["subjectId"] @{TempData.Keep("subjectId");}"
